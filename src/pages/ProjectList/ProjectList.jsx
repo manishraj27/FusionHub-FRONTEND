@@ -100,7 +100,7 @@ const ProjectList = () => {
         </section>
 
         <section className="projectListSection w-full lg:w-[48rem]">
-          <div className="sticky top-20 z-50 bg-background flex gap-2 items-center pb-5 justify-between">
+          <div className="sticky top-20 bg-background flex gap-2 items-center pb-5 justify-between">
             <div className="relative p-0 w-full">
               <Input
                 onChange={handleSearchChange}
