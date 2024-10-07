@@ -135,22 +135,34 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden fixed inset-0 bg-background z-40 flex flex-col">
-          <div className="flex-grow overflow-y-auto pt-20 px-5">
-            <div className="flex flex-col items-center gap-6">
-              <p className="text-lg font-serif font-semibold">Hello, Manish</p>
+          <div className="flex-grow overflow-y-auto pt-16 px-6">
+            <div className="flex flex-col gap-10">
+              {/* Greeting Section */}
+              <div className="text-left">
+                <p className="text-3xl italic font-light">Hello!</p>
+                <p className="text-4xl font-semibold italic">Manish</p>
+              </div>
+
+              {/* Navigation Links */}
               <Button
                 variant="ghost"
                 onClick={() => {
                   navigate("/project-mangement");
                   toggleMenu();
                 }}
+                className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
               >
                 Project Management
               </Button>
 
               <Dialog>
                 <DialogTrigger>
-                  <Button variant="ghost">New Project</Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
+                  >
+                    New Project
+                  </Button>
                 </DialogTrigger>
 
                 <DialogContent>
@@ -165,35 +177,42 @@ const Navbar = () => {
                   navigate("portfolio");
                   toggleMenu();
                 }}
+                className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
               >
                 Portfolio
               </Button>
+
               <Button
                 variant="ghost"
                 onClick={() => {
                   navigate("about");
                   toggleMenu();
                 }}
+                className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
               >
                 About
               </Button>
+
               <Button
                 variant="ghost"
                 onClick={() => {
                   /* Handle profile click */ toggleMenu();
                 }}
+                className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
               >
                 Profile
               </Button>
             </div>
           </div>
-          <div className="p-5">
+
+          {/* Logout Button */}
+          <div className="p-6 border-t border-gray-200">
             <Button
               variant="ghost"
               onClick={() => {
                 /* Handle logout */ toggleMenu();
               }}
-              className="w-full"
+              className="w-full text-lg font-medium tracking-wide hover:bg-red-100 hover:text-red-600 rounded-lg transition-all duration-300"
             >
               Logout
             </Button>
