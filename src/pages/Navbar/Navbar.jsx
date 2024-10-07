@@ -38,6 +38,9 @@ const Navbar = () => {
             />
           </svg>
         </a>
+      </div>
+
+      <div className="flex items-center gap-4 justify-center">
         <Button variant="ghost" onClick={() => navigate("/project-mangement")}>
           Project Management
         </Button>
@@ -57,6 +60,10 @@ const Navbar = () => {
 
         <Button variant="ghost" onClick={() => navigate("portfolio")}>
           Portfolio
+        </Button>
+
+        <Button variant="ghost" onClick={() => navigate("portfolio")}>
+          About
         </Button>
       </div>
 
