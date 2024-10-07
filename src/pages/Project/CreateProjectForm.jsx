@@ -1,9 +1,21 @@
 /* eslint-disable no-constant-condition */
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { tags } from "../ProjectList/ProjectList";
 import { Cross1Icon } from "@radix-ui/react-icons";
@@ -24,15 +36,13 @@ const CreateProjectForm = () => {
   };
 
   const handleTagsChange = (newValue) => {
-
-    const currentTags= form.getValues("tags");
+    const currentTags = form.getValues("tags");
 
     const updatedTags = currentTags.includes(newValue)
-    ? currentTags.filter(tag=>tag !== newValue)
-    : [...currentTags, newValue];
+      ? currentTags.filter((tag) => tag !== newValue)
+      : [...currentTags, newValue];
     form.setValue("tags", updatedTags);
-  }
-
+  };
 
   return (
     <div>
@@ -82,7 +92,7 @@ const CreateProjectForm = () => {
                     defaultValue="fullstack"
                     value={field.value}
                     onValueChange={(value) => {
-                      field.onChange(value)
+                      field.onChange(value);
                     }}
                     //className="border w-full border-gray-700 py-5 px-5"
                   >
@@ -96,12 +106,12 @@ const CreateProjectForm = () => {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage/>
+                <FormMessage />
               </FormItem>
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
             name="tags"
             render={({ field }) => (
@@ -109,7 +119,7 @@ const CreateProjectForm = () => {
                 <FormControl>
                   <Select
                     onValueChange={(value) => {
-                      handleTagsChange(value)
+                      handleTagsChange(value);
                     }}
 
                     //className="border w-full border-gray-700 py-5 px-5"
@@ -118,25 +128,27 @@ const CreateProjectForm = () => {
                       <SelectValue placeholder="Tags" />
                     </SelectTrigger>
                     <SelectContent>
-                     {tags.map((item) => (
-                      <SelectItem key={item} value={item}>
-                        {item}
-                      </SelectItem>
-                    ))}
+                      {tags.map((item) => (
+                        <SelectItem key={item} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </FormControl>
                 <div className="flex gap-1 flex-wrap">
-                   {field.value.map((item)=>  <div key={item}
-                    onClick={()=> handleTagsChange(item)}
-                    className="cursor-pointer flex rounded-full items-center border gap-2 py-1 px-4"> 
-                      <span className="text-sm ">
-                        {item}
-                      </span>
-                      <Cross1Icon className="w-3 h-3"/>
-                    </div> )}
+                  {field.value.map((item) => (
+                    <div
+                      key={item}
+                      onClick={() => handleTagsChange(item)}
+                      className="cursor-pointer flex rounded-full items-center border gap-2 py-1 px-4"
+                    >
+                      <span className="text-sm ">{item}</span>
+                      <Cross1Icon className="w-3 h-3" />
+                    </div>
+                  ))}
                 </div>
-                <FormMessage/>
+                <FormMessage />
               </FormItem>
             )}
           />
