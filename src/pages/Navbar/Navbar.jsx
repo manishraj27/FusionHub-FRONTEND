@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,13 +14,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { PersonIcon } from "@radix-ui/react-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { gsap } from 'gsap';
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const hamburgerRef = useRef(null);
+
+  useEffect(() => {
+    if (hamburgerRef.current) {
+      gsap.to(hamburgerRef.current.children[0], {
+        duration: 0.3,
+        rotation: isMenuOpen ? 45 : 0,
+        y: isMenuOpen ? 8 : 0,
+      });
+      gsap.to(hamburgerRef.current.children[1], {
+        duration: 0.3,
+        opacity: isMenuOpen ? 0 : 1,
+      });
+      gsap.to(hamburgerRef.current.children[2], {
+        duration: 0.3,
+        rotation: isMenuOpen ? -45 : 0,
+        y: isMenuOpen ? -8 : 0,
+      });
+    }
+  }, [isMenuOpen]);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
-    <div className="sticky top-0 z-50 bg-background border-b py-4 px-5 flex items-center justify-between">
-      <div className="flex items-center gap-3">
+    <div className="sticky top-0 z-50 bg-background">
+      <div className="border-b py-4 px-5 flex items-center justify-between">
         <a href="/" aria-label="Logo" className="z-50">
           <svg
             width="135"
@@ -28,7 +55,7 @@ const Navbar = () => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path
+             <path
               d="M126 2H123V8.00001H126C124.343 8.00001 123 9.34317 123 11V14H129V11C129 12.6568 130.343 14 132 14H135V8.00001H132C133.657 8.00001 135 6.65686 135 5V2H129V5C129 3.34315 127.657 2 126 2ZM129 8.00001H126C127.657 8.00001 129 9.34317 129 11V8.00001ZM129 8.00001V5C129 6.65686 130.343 8.00001 132 8.00001H129Z"
               fill="#DCFF50"
             />
@@ -38,53 +65,94 @@ const Navbar = () => {
             />
           </svg>
         </a>
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-4 justify-center">
+          <Button variant="ghost" onClick={() => navigate("/project-mangement")}>
+            Project Management
+          </Button>
+
+          {location.pathname === "/project-mangement" && (
+            <Dialog>
+              <DialogTrigger>
+                <Button variant="ghost">New Project</Button>
+              </DialogTrigger>
+
+              <DialogContent>
+                <DialogHeader>New Project</DialogHeader>
+                <CreateProjectForm />
+              </DialogContent>
+            </Dialog>
+          )}
+
+          <Button variant="ghost" onClick={() => navigate("portfolio")}>
+            Portfolio
+          </Button>
+
+          <Button variant="ghost" onClick={() => navigate("about")}>
+            About
+          </Button>
+        </div>
+
+        {/* Desktop User Menu */}
+        <div className="hidden md:flex gap-3 items-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Button
+                className="rounded-full border-2 border-gray-500"
+                size="icon"
+                variant="outline"
+              >
+                <PersonIcon />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <p>Manish Raj</p>
+        </div>
+
+        {/* Mobile Hamburger Menu */}
+        <div className="md:hidden z-50">
+          <Button variant="ghost" onClick={toggleMenu} className="p-2">
+            <div ref={hamburgerRef} className="w-6 h-6 flex flex-col justify-between">
+              <span className="w-full h-0.5 bg-foreground block transition-all"></span>
+              <span className="w-full h-0.5 bg-foreground block transition-all"></span>
+              <span className="w-full h-0.5 bg-foreground block transition-all"></span>
+            </div>
+          </Button>
+        </div>
       </div>
 
-      <div className="flex items-center gap-4 justify-center">
-        <Button variant="ghost" onClick={() => navigate("/project-mangement")}>
-          Project Management
-        </Button>
-
-        {location.pathname === "/project-mangement" && (
-          <Dialog>
-            <DialogTrigger>
-              <Button variant="ghost">New Project</Button>
-            </DialogTrigger>
-
-            <DialogContent>
-              <DialogHeader>New Project</DialogHeader>
-              <CreateProjectForm />
-            </DialogContent>
-          </Dialog>
-        )}
-
-        <Button variant="ghost" onClick={() => navigate("portfolio")}>
-          Portfolio
-        </Button>
-
-        <Button variant="ghost" onClick={() => navigate("portfolio")}>
-          About
-        </Button>
-      </div>
-
-      <div className="flex gap-3 items-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button
-              className="rounded-full border-2 border-gray-500"
-              size="icon"
-              variant="outrline"
-            >
-              <PersonIcon />
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden fixed inset-0 bg-background z-40 flex flex-col">
+          <div className="flex-grow overflow-y-auto pt-20 px-5">
+            <div className="flex flex-col items-center gap-6">
+              <p className="text-lg font-semibold">Hello, Manish</p>
+              <Button variant="ghost" onClick={() => { navigate("/project-mangement"); toggleMenu(); }}>
+                Project Management
+              </Button>
+              <Button variant="ghost" onClick={() => { navigate("portfolio"); toggleMenu(); }}>
+                Portfolio
+              </Button>
+              <Button variant="ghost" onClick={() => { navigate("about"); toggleMenu(); }}>
+                About
+              </Button>
+              <Button variant="ghost" onClick={() => { /* Handle profile click */ toggleMenu(); }}>
+                Profile
+              </Button>
+            </div>
+          </div>
+          <div className="p-5">
+            <Button variant="ghost" onClick={() => { /* Handle logout */ toggleMenu(); }} className="w-full">
+              Logout
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <p>Manish Raj</p>
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
