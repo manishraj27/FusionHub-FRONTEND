@@ -150,7 +150,7 @@ const Navbar = () => {
                   navigate("/project-mangement");
                   toggleMenu();
                 }}
-                className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
+                className="w-full text-lg font-medium tracking-wide"
               >
                 Project Management
               </Button>
@@ -159,7 +159,7 @@ const Navbar = () => {
                 <DialogTrigger>
                   <Button
                     variant="ghost"
-                    className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
+                    className="w-full text-lg font-medium tracking-wide"
                   >
                     New Project
                   </Button>
@@ -177,7 +177,7 @@ const Navbar = () => {
                   navigate("portfolio");
                   toggleMenu();
                 }}
-                className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
+               className="w-full text-lg font-medium tracking-wide"
               >
                 Portfolio
               </Button>
@@ -188,7 +188,7 @@ const Navbar = () => {
                   navigate("about");
                   toggleMenu();
                 }}
-                className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
+                className="w-full text-lg font-medium tracking-wide"
               >
                 About
               </Button>
@@ -198,7 +198,7 @@ const Navbar = () => {
                 onClick={() => {
                   /* Handle profile click */ toggleMenu();
                 }}
-                className="w-full text-lg font-medium tracking-wide hover:bg-gray-100 rounded-lg transition-all duration-300"
+                className="w-full text-lg font-medium tracking-wide"
               >
                 Profile
               </Button>
