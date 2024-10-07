@@ -34,7 +34,7 @@ const ProjectList = () => {
 
   return (
     <>
-      <div className="relative px-5 lg:flex gap-5 justify-center py-5">
+      <div className=" isolate relative px-5 lg:flex gap-5 justify-center py-5">
         <section className="filter section">
           <Card className="p-5 sticky top-20">
             <div className="flex justify-between lg:w-[20rem]">
@@ -100,7 +100,7 @@ const ProjectList = () => {
         </section>
 
         <section className="projectListSection w-full lg:w-[48rem]">
-          <div className="sticky top-20 bg-background flex gap-2 items-center pb-5 justify-between">
+          <div className="sticky top-20 z-50 bg-background flex gap-2 items-center  justify-between">
             <div className="relative p-0 w-full">
               <Input
                 onChange={handleSearchChange}
@@ -111,7 +111,7 @@ const ProjectList = () => {
             </div>
           </div>
 
-          <div>
+          <div className="pt-4 overflow-y-auto">
             <div className="space-y-5 min-h-[74vh]">
               {keyword
                 ? [1, 1, 1].map((item) => <ProjectCard key={item} />)
