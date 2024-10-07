@@ -36,7 +36,7 @@ const ProjectList = () => {
     <>
       <div className="relative px-5 lg:flex gap-5 justify-center py-5">
         <section className="filter section">
-          <Card className="p-5 sticky top-10">
+          <Card className="p-5 sticky top-20">
             <div className="flex justify-between lg:w-[20rem]">
               <p className="text-xl -tracking-wider">filters</p>
               <Button variant="ghost" size="icon">
@@ -100,7 +100,7 @@ const ProjectList = () => {
         </section>
 
         <section className="projectListSection w-full lg:w-[48rem]">
-          <div className="flex gap-2 items-center pb-5 justify-between">
+          <div className="sticky top-20 z-50 bg-background flex gap-2 items-center pb-5 justify-between">
             <div className="relative p-0 w-full">
               <Input
                 onChange={handleSearchChange}
