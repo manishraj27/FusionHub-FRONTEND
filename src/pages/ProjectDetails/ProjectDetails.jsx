@@ -5,6 +5,8 @@ import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTrigger } from 
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { PlusIcon } from "lucide-react";
 import InviteUserForm from "./InviteUserForm";
+import IssueList from "./IssueList";
+import ChatBox from "./ChatBox";
 
 const ProjectDetails = () => {
   const handleProjectInvitation = () => {
@@ -20,6 +22,7 @@ const ProjectDetails = () => {
               <h1 className="text-lg font-semibold pb-5">
                 Create Music Streaming App Using React
               </h1>
+
               <div className="space-y-5 pb-10 text-sm">
                 <p className="w-full md:max-w-lg lg:max-w-xl ">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -66,9 +69,23 @@ const ProjectDetails = () => {
                   <p className="w-36">Status :</p>
                  <Badge>In Progress</Badge>
                 </div>
+
               </div>
+
+              <section>
+                <p className="py-5 border-b text-lg -tracking-wider">Tasks</p>
+                <div className="lg:flex md:flex gap-3 justify-between py-5">
+                    <IssueList status="pending" tite="Todo List"/>
+                    <IssueList status="in_progress" tite="In Progress"/>
+                    <IssueList status="done" tite="Done"/>
+
+                </div>
+              </section>
             </div>
           </ScrollArea>
+          <div>
+            <ChatBox/>
+          </div>
         </div>
       </div>
     </>
