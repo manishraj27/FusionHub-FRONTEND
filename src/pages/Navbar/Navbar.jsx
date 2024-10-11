@@ -17,7 +17,7 @@ import { PersonIcon } from "@radix-ui/react-icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { gsap } from "gsap";
 import navbarlogo from "/src/assets/navbarlogo.svg";
-
+import { ModeToggle } from "@/components/ui/ModeToggle";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const Navbar = () => {
     <div className="sticky top-0 z-50 bg-background">
       <div className="border-b py-4 px-5 flex items-center justify-between">
         <a href="/" aria-label="Logo" className="z-50">
-          <img src={navbarlogo} alt="Logo"/>
+          <img src={navbarlogo} alt="Logo" />
         </a>
 
         {/* Desktop Menu */}
@@ -86,6 +86,7 @@ const Navbar = () => {
 
         {/* Desktop User Menu */}
         <div className="hidden md:flex gap-3 items-center">
+          <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Button
@@ -105,7 +106,10 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Hamburger Menu */}
-        <div className="md:hidden z-50">
+        <div className="md:hidden z-50 flex items-center space-x-4">
+          
+            <ModeToggle />
+
           <Button variant="ghost" onClick={toggleMenu} className="p-2">
             <div
               ref={hamburgerRef}
@@ -121,7 +125,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-background z-40 flex flex-col">
+        <div className="md:hidden fixed inset-0 bg-background z-40 flex flex-col pt-10">
           <div className="flex-grow overflow-y-auto pt-16 px-6">
             <div className="flex flex-col gap-10">
               {/* Greeting Section */}
@@ -164,7 +168,7 @@ const Navbar = () => {
                   navigate("portfolio");
                   toggleMenu();
                 }}
-               className="w-full text-lg font-medium tracking-wide"
+                className="w-full text-lg font-medium tracking-wide"
               >
                 Portfolio
               </Button>
