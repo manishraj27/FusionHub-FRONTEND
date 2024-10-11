@@ -125,7 +125,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-background z-40 flex flex-col pt-10">
+        <div className="md:hidden fixed inset-0 bg-background z-40 flex flex-col pt-4">
           <div className="flex-grow overflow-y-auto pt-16 px-6">
             <div className="flex flex-col gap-10">
               {/* Greeting Section */}
