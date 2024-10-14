@@ -4,6 +4,7 @@ import Navbar from "./pages/Navbar/Navbar";
 import PortfolioPage from "./pages/Portfolio/PortfolioPage";
 import ProjectDetails from "./pages/ProjectDetails/ProjectDetails";
 import { ThemeProvider } from "./components/ThemeProvider";
+import Profile from "./pages/Profile/Profile";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/project-mangement" element={<Home />} />
       <Route path="/portfolio" element={<PortfolioPage />} />
       <Route path="/project/:id" element={<ProjectDetails />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
     </ThemeProvider>
   );
