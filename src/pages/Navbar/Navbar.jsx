@@ -79,8 +79,8 @@ const Navbar = () => {
             Portfolio
           </Button>
 
-          <Button variant="ghost" onClick={() => navigate("about")}>
-            About
+          <Button variant="ghost" onClick={() => navigate("contact")}>
+            Contact
           </Button>
         </div>
 
@@ -98,8 +98,13 @@ const Navbar = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem  
+                onClick={() => {navigate("profile"); toggleMenu()}}
+              >Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => {
+                /* Handle logout */ toggleMenu();
+              }}>Logout</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <p>Manish Raj</p>
@@ -175,20 +180,15 @@ const Navbar = () => {
 
               <Button
                 variant="ghost"
-                onClick={() => {
-                  navigate("about");
-                  toggleMenu();
-                }}
+                onClick={() => navigate("/contact")}
                 className="w-full text-lg font-medium tracking-wide"
               >
-                About
+                Contact
               </Button>
 
               <Button
                 variant="ghost"
-                onClick={() => {
-                  /* Handle profile click */ toggleMenu();
-                }}
+                onClick={() => {navigate("profile"); toggleMenu()}}
                 className="w-full text-lg font-medium tracking-wide"
               >
                 Profile
