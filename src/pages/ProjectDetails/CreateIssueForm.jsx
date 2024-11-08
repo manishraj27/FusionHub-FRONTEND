@@ -1,9 +1,5 @@
-
-
 const CreateIssueForm = () => {
-  return (
-    <div>CreateIssueForm</div>
-  )
-}
+  return <div>CreateIssueForm</div>;
+};
 
-export default CreateIssueForm
+export default CreateIssueForm;

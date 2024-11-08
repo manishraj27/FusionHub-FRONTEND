@@ -86,6 +86,7 @@ const Navbar = () => {
 
         {/* Desktop User Menu */}
         <div className="hidden md:flex gap-3 items-center">
+          {/* mode toggle */}
           <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -98,13 +99,21 @@ const Navbar = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem  
-                onClick={() => {navigate("profile"); toggleMenu()}}
-              >Profile
+              <DropdownMenuItem
+                onClick={() => {
+                  navigate("profile");
+                  toggleMenu();
+                }}
+              >
+                Profile
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => {
-                /* Handle logout */ toggleMenu();
-              }}>Logout</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  /* Handle logout */ toggleMenu();
+                }}
+              >
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <p>Manish Raj</p>
@@ -112,8 +121,7 @@ const Navbar = () => {
 
         {/* Mobile Hamburger Menu */}
         <div className="md:hidden z-50 flex items-center space-x-4">
-          
-            <ModeToggle />
+          <ModeToggle />
 
           <Button variant="ghost" onClick={toggleMenu} className="p-2">
             <div
@@ -188,7 +196,10 @@ const Navbar = () => {
 
               <Button
                 variant="ghost"
-                onClick={() => {navigate("profile"); toggleMenu()}}
+                onClick={() => {
+                  navigate("profile");
+                  toggleMenu();
+                }}
                 className="w-full text-lg font-medium tracking-wide"
               >
                 Profile

@@ -1,7 +1,19 @@
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -139,7 +151,7 @@ const CreatePortfolioForm = () => {
             ))}
           </div>
 
-        <Button type="submit">Create Portfolio</Button>
+          <Button type="submit">Create Portfolio</Button>
         </form>
       </Form>
     </div>

@@ -1,9 +1,25 @@
-import { useState } from 'react';
-import { Camera, Github, Linkedin, Mail, MapPin, Twitter, Briefcase, Calendar } from 'lucide-react';
+import { useState } from "react";
+import {
+  Camera,
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Twitter,
+  Briefcase,
+  Calendar,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
@@ -39,7 +55,9 @@ const Profile = () => {
               <div className="flex justify-between items-center">
                 <CardTitle className="text-2xl font-bold">Profile</CardTitle>
                 <div className="flex items-center space-x-2">
-                  <Label htmlFor="edit-mode" className="text-sm">Edit</Label>
+                  <Label htmlFor="edit-mode" className="text-sm">
+                    Edit
+                  </Label>
                   <Switch
                     id="edit-mode"
                     checked={isEditing}
@@ -68,9 +86,15 @@ const Profile = () => {
             </CardContent>
             <Separator />
             <CardFooter className="flex justify-between pt-6">
-              <Button variant="outline" size="sm"><Github className="mr-2 h-4 w-4" /> GitHub</Button>
-              <Button variant="outline" size="sm"><Linkedin className="mr-2 h-4 w-4" /> LinkedIn</Button>
-              <Button variant="outline" size="sm"><Twitter className="mr-2 h-4 w-4" /> Twitter</Button>
+              <Button variant="outline" size="sm">
+                <Github className="mr-2 h-4 w-4" /> GitHub
+              </Button>
+              <Button variant="outline" size="sm">
+                <Linkedin className="mr-2 h-4 w-4" /> LinkedIn
+              </Button>
+              <Button variant="outline" size="sm">
+                <Twitter className="mr-2 h-4 w-4" /> Twitter
+              </Button>
             </CardFooter>
           </Card>
 
@@ -81,8 +105,18 @@ const Profile = () => {
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {['React', 'Node.js', 'TypeScript', 'Python', 'GraphQL', 'Docker'].map((skill) => (
-                  <span key={skill} className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded">
+                {[
+                  "React",
+                  "Node.js",
+                  "TypeScript",
+                  "Python",
+                  "GraphQL",
+                  "Docker",
+                ].map((skill) => (
+                  <span
+                    key={skill}
+                    className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded"
+                  >
                     {skill}
                   </span>
                 ))}
@@ -100,9 +134,11 @@ const Profile = () => {
             </CardHeader>
             <CardContent>
               <p className="text-gray-700">
-                Passionate full-stack developer with 5+ years of experience building scalable web applications.
-                Committed to writing clean, maintainable code and constantly learning new technologies.
-                Enjoy collaborating with cross-functional teams to deliver high-quality software solutions.
+                Passionate full-stack developer with 5+ years of experience
+                building scalable web applications. Committed to writing clean,
+                maintainable code and constantly learning new technologies.
+                Enjoy collaborating with cross-functional teams to deliver
+                high-quality software solutions.
               </p>
             </CardContent>
           </Card>
@@ -115,11 +151,23 @@ const Profile = () => {
             <CardContent>
               <ul className="space-y-4">
                 {[
-                  { name: 'E-commerce Platform', desc: 'Built a full-stack e-commerce solution using MERN stack' },
-                  { name: 'Task Management App', desc: 'Developed a React Native mobile app for task management' },
-                  { name: 'Data Visualization Dashboard', desc: 'Created an interactive dashboard using D3.js and React' }
+                  {
+                    name: "E-commerce Platform",
+                    desc: "Built a full-stack e-commerce solution using MERN stack",
+                  },
+                  {
+                    name: "Task Management App",
+                    desc: "Developed a React Native mobile app for task management",
+                  },
+                  {
+                    name: "Data Visualization Dashboard",
+                    desc: "Created an interactive dashboard using D3.js and React",
+                  },
                 ].map((project, index) => (
-                  <li key={index} className="border-b pb-4 last:border-b-0 last:pb-0">
+                  <li
+                    key={index}
+                    className="border-b pb-4 last:border-b-0 last:pb-0"
+                  >
                     <h3 className="font-semibold text-lg">{project.name}</h3>
                     <p className="text-gray-600">{project.desc}</p>
                   </li>
@@ -132,8 +180,12 @@ const Profile = () => {
           {isEditing && (
             <Card className="shadow-md">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold">Edit Profile</CardTitle>
-                <CardDescription>Update your profile information</CardDescription>
+                <CardTitle className="text-2xl font-bold">
+                  Edit Profile
+                </CardTitle>
+                <CardDescription>
+                  Update your profile information
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <form className="space-y-4">
@@ -144,11 +196,18 @@ const Profile = () => {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input id="email" type="email" placeholder="john.doe@example.com" />
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="john.doe@example.com"
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="university">University</Label>
-                      <Input id="university" placeholder="University of Technology" />
+                      <Input
+                        id="university"
+                        placeholder="University of Technology"
+                      />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="company">Company</Label>
@@ -169,7 +228,9 @@ const Profile = () => {
                       <Button type="button" variant="outline">
                         <Camera className="mr-2 h-4 w-4" /> Upload Photo
                       </Button>
-                      <span className="text-sm text-gray-500">No file chosen</span>
+                      <span className="text-sm text-gray-500">
+                        No file chosen
+                      </span>
                     </div>
                   </div>
                 </form>

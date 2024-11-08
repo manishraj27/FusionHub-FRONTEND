@@ -5,7 +5,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import IssueCard from "./IssueCard";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
@@ -30,7 +36,7 @@ const IssueList = ({ title, status }) => {
                 variant="outline"
                 className="w-full border items-center gap-2"
               >
-                <PlusIcon/>
+                <PlusIcon />
                 Create Issue
               </Button>
             </DialogTrigger>

@@ -1,7 +1,13 @@
-import { Avatar, AvatarFallback} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { PlusIcon } from "lucide-react";
 import InviteUserForm from "./InviteUserForm";
@@ -35,19 +41,22 @@ const ProjectDetails = () => {
                 <div className="flex">
                   <p className="w-36">Members :</p>
                   <div className="flex items-center gap-2">
-                    {[1,1,1,1].map((item)=><Avatar key={item}>
-                      <AvatarFallback>MR</AvatarFallback>
-                    </Avatar>
-                    )}
-
+                    {[1, 1, 1, 1].map((item) => (
+                      <Avatar key={item}>
+                        <AvatarFallback>MR</AvatarFallback>
+                      </Avatar>
+                    ))}
                   </div>
 
                   <Dialog>
                     <DialogTrigger>
                       <DialogClose>
-                        <Button size="sm" variant="outline" 
-                        onClick={handleProjectInvitation}
-                        className="ml-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={handleProjectInvitation}
+                          className="ml-2"
+                        >
                           <span>invite</span>
                           <PlusIcon className="w-3 h-3" />
                         </Button>
@@ -55,7 +64,7 @@ const ProjectDetails = () => {
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>Invite User</DialogHeader>
-                      <InviteUserForm/>
+                      <InviteUserForm />
                     </DialogContent>
                   </Dialog>
                 </div>
@@ -67,24 +76,22 @@ const ProjectDetails = () => {
 
                 <div className="flex">
                   <p className="w-36">Status :</p>
-                 <Badge>In Progress</Badge>
+                  <Badge>In Progress</Badge>
                 </div>
-
               </div>
 
               <section>
                 <p className="py-5 border-b text-lg -tracking-wider">Tasks</p>
                 <div className="lg:flex md:flex gap-3 justify-between py-5">
-                    <IssueList status="pending" title="Todo List"/>
-                    <IssueList status="in_progress" title="In Progress"/>
-                    <IssueList status="done" title="Done"/>
-
+                  <IssueList status="pending" title="Todo List" />
+                  <IssueList status="in_progress" title="In Progress" />
+                  <IssueList status="done" title="Done" />
                 </div>
               </section>
             </div>
           </ScrollArea>
           <div>
-            <ChatBox/>
+            <ChatBox />
           </div>
         </div>
       </div>

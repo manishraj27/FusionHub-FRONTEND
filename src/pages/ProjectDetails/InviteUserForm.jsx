@@ -1,24 +1,23 @@
-import { Button } from "@/components/ui/button"
-import { DialogClose } from "@/components/ui/dialog"
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useForm } from "react-hook-form"
-
+import { Button } from "@/components/ui/button";
+import { DialogClose } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
 
 const InviteUserForm = () => {
-    const form = useForm({
-        defaultValues: {
-           email: "",
-        }
-    })
+  const form = useForm({
+    defaultValues: {
+      email: "",
+    },
+  });
 
-    const onSubmit = (data) => {
-        console.log("invite user: ", data)
-    }
+  const onSubmit = (data) => {
+    console.log("invite user: ", data);
+  };
 
   return (
     <div>
-          <Form {...form}>
+      <Form {...form}>
         <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
@@ -37,16 +36,15 @@ const InviteUserForm = () => {
             )}
           />
 
-    
           <DialogClose>
-              <Button type="submit" className="w-full mt-5">
-                Invite User
-                </Button>
+            <Button type="submit" className="w-full mt-5">
+              Invite User
+            </Button>
           </DialogClose>
         </form>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default InviteUserForm
+export default InviteUserForm;

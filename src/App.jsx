@@ -9,14 +9,14 @@ import Profile from "./pages/Profile/Profile";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-    <Navbar />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/project-mangement" element={<Home />} />
-      <Route path="/portfolio" element={<PortfolioPage />} />
-      <Route path="/project/:id" element={<ProjectDetails />} />
-      <Route path="/profile" element={<Profile />} />
-    </Routes>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/project-mangement" element={<Home />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/project/:id" element={<ProjectDetails />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
     </ThemeProvider>
   );
 }

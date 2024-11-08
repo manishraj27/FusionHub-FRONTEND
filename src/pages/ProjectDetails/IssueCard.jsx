@@ -32,9 +32,7 @@ const IssueCard = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <div>
-            
-        </div>
+        <div></div>
       </CardContent>
     </Card>
   );
