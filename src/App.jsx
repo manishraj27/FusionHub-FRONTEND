@@ -1,19 +1,22 @@
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Navbar from "./pages/Navbar/Navbar";
 import PortfolioPage from "./pages/Portfolio/PortfolioPage";
 import ProjectDetails from "./pages/ProjectDetails/ProjectDetails";
-// import { ThemeProvider } from "./components/ThemeProvider";
 import Profile from "./pages/Profile/Profile";
 import Auth from "./pages/Auth/Auth";
 
 function App() {
-  const isAuthenticated = false; // Replace with your actual authentication logic
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleLogin = (token) => {
+    localStorage.setItem('token', token);
+    setIsAuthenticated(true);
+  };
 
   return (
     <>
-   {/* <ThemeProvider > */}
-    {/* defaultTheme="light" storageKey="vite-ui-theme" */}
       {isAuthenticated ? (
         <div>
           <Navbar />
@@ -27,11 +30,9 @@ function App() {
         </div>
       ) : (
         <div>
-          <Auth />
-          {/* for all hoemee  */}
-      </div>
+          <Auth onLogin={handleLogin} />
+        </div>
       )}
-    {/* </ThemeProvider> */}
     </>
   );
 }
