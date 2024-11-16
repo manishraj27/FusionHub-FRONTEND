@@ -35,7 +35,7 @@ export default [
         "warn",
         { allowConstantExport: true },
       ],
-      "prettier/prettier": "warn", // Enable Prettier as an ESLint rule
+      // "prettier/prettier": "warn", // Enable Prettier as an ESLint rule
     },
   },
 ];
