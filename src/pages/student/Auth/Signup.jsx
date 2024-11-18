@@ -1,17 +1,20 @@
+
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Mail, Lock, User } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Signup = () => {
+const Signup = ({ onLogin }) => {
     const navigate = useNavigate();
     const form = useForm({
         defaultValues: {
             email: '',
             password: '',
-            fullName: ''  // Changed from fullname to fullName to match backend
+            fullName: ''
         },
     });
 
@@ -25,23 +28,20 @@ const Signup = () => {
             };
 
             const response = await axios.post(
-                'http://localhost:2004/auth/signup',
+                'http://localhost:2004/api/auth/signup',
                 {
                     email: data.email,
                     password: data.password,
-                    fullName: data.fullName  // Match the backend field name
+                    fullName: data.fullName
                 },
                 config
             );
 
-            if (response.data && response.data.jwt) {  // Changed from token to jwt based on your AuthResponse
+            if (response.data && response.data.jwt) {
                 localStorage.setItem('authToken', response.data.jwt);
-                console.log(response.data.message); // Will show "signup success"
-                navigate('/login'); // Redirect to login page after successful signup
+                navigate('/login');
             }
         } catch (error) {
-            console.error('Error during signup:', error.response?.data || error.message);
-            // Handle specific error cases
             if (error.response?.data?.message?.includes('email already exist')) {
                 form.setError('email', {
                     type: 'manual',
@@ -57,75 +57,87 @@ const Signup = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-6 text-center">Register</h1>
-            
-            {/* Display form-level errors */}
+        <div className="space-y-4">
             {form.formState.errors.root && (
-                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
-                    {form.formState.errors.root.message}
-                </div>
+                <Alert variant="destructive">
+                    <AlertDescription>{form.formState.errors.root.message}</AlertDescription>
+                </Alert>
             )}
             
             <Form {...form}>
-                <form className="space-y-5" onSubmit={form.handleSubmit(onSubmit)}>
+                <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
                         control={form.control}
-                        name="fullName"  // Changed from fullname to fullName
+                        name="fullName"
                         render={({ field }) => (
                             <FormItem>
+                                <FormLabel>Full Name</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        {...field}
-                                        type="text"
-                                        placeholder="Full Name"
-                                        className="w-full border rounded py-2 px-3"
-                                    />
+                                    <div className="relative">
+                                        <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                                        <Input
+                                            {...field}
+                                            type="text"
+                                            placeholder="John Doe"
+                                            className="pl-10"
+                                        />
+                                    </div>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
+                    
                     <FormField
                         control={form.control}
                         name="email"
                         render={({ field }) => (
                             <FormItem>
+                                <FormLabel>Email</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        {...field}
-                                        type="email"
-                                        placeholder="Email"
-                                        className="w-full border rounded py-2 px-3"
-                                    />
+                                    <div className="relative">
+                                        <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                                        <Input
+                                            {...field}
+                                            type="email"
+                                            placeholder="name@example.com"
+                                            className="pl-10"
+                                        />
+                                    </div>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
+                    
                     <FormField
                         control={form.control}
                         name="password"
                         render={({ field }) => (
                             <FormItem>
+                                <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        {...field}
-                                        type="password"
-                                        placeholder="Password"
-                                        className="w-full border rounded py-2 px-3"
-                                    />
+                                    <div className="relative">
+                                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                                        <Input
+                                            {...field}
+                                            type="password"
+                                            placeholder="••••••••"
+                                            className="pl-10"
+                                        />
+                                    </div>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <Button 
-                        type="submit" 
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+                    
+                    <Button
+                        type="submit"
+                        className="w-full"
                         disabled={form.formState.isSubmitting}
                     >
-                        {form.formState.isSubmitting ? 'Registering...' : 'Register'}
+                        {form.formState.isSubmitting ? "Creating account..." : "Create account"}
                     </Button>
                 </form>
             </Form>

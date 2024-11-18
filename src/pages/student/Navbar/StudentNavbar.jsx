@@ -19,7 +19,7 @@ import { gsap } from "gsap";
 import navbarlogo from "/src/assets/navbarlogo.svg";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 
-const Navbar = () => {
+const StudentNavbar = ({ onLogout }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -57,12 +57,12 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4 justify-center">
           <Button
             variant="ghost"
-            onClick={() => navigate("/project-mangement")}
+            onClick={() => navigate("project-management")}
           >
             Project Management
           </Button>
 
-          {location.pathname === "/project-mangement" && (
+          {location.pathname === "project-mangement" && (
             <Dialog>
               <DialogTrigger>
                 <Button variant="ghost">New Project</Button>
@@ -109,7 +109,8 @@ const Navbar = () => {
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  /* Handle logout */ toggleMenu();
+                  onLogout(); // Calling the passed onLogout function here
+                  navigate("/admin-login"); // Redirect to login after logout
                 }}
               >
                 Logout
@@ -212,7 +213,8 @@ const Navbar = () => {
             <Button
               variant="ghost"
               onClick={() => {
-                /* Handle logout */ toggleMenu();
+                onLogout(); // Calling the passed onLogout function here
+                navigate("/admin-login"); // Redirect to login after logout
               }}
               className="w-full text-lg font-medium tracking-wide hover:bg-red-100 hover:text-red-600 rounded-lg transition-all duration-300"
             >
@@ -225,4 +227,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default StudentNavbar;
