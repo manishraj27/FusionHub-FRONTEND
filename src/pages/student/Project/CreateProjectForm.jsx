@@ -199,7 +199,7 @@ const CreateProjectForm = () => {
             <div className="text-red-500 text-sm">{error}</div>
           )}
 
-          <DialogClose>
+
             <Button 
               type="submit" 
               className="w-full mt-5"
@@ -207,7 +207,6 @@ const CreateProjectForm = () => {
             >
               {isSubmitting ? "Creating..." : "Create Project"}
             </Button>
-          </DialogClose>
         </form>
       </Form>
     </div>
