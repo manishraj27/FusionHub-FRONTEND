@@ -1,4 +1,3 @@
-/* eslint-disable no-constant-condition */
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
 import {
@@ -19,20 +18,61 @@ import {
 import { useForm } from "react-hook-form";
 import { tags } from "../ProjectList/ProjectList";
 import { Cross1Icon } from "@radix-ui/react-icons";
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const projectSchema = z.object({
+  name: z.string().min(1, "Project name is required"),
+  description: z.string().min(1, "Project description is required"),
+  category: z.string().min(1, "Category is required"),
+  tags: z.array(z.string()).min(1, "At least one tag is required"),
+});
 
 const CreateProjectForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+
   const form = useForm({
-    // resolver:
+    resolver: zodResolver(projectSchema),
     defaultValues: {
       name: "",
       description: "",
       category: "",
-      tags: ["javascript", "react"],
+      tags: [],
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("create project: ", data);
+  const onSubmit = async (data) => {
+    try {
+      setIsSubmitting(true);
+      setError(null);
+
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:2000/api/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create project');
+      }
+
+      // Reset form and close dialog
+      form.reset();
+      // You might want to refresh the projects list or navigate somewhere
+      window.location.reload();
+      
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleTagsChange = (newValue) => {
@@ -59,15 +99,17 @@ const CreateProjectForm = () => {
                     type="text"
                     className="border w-full border-gray-700 py-5 px-5"
                     placeholder="Project Name..."
+                    disabled={isSubmitting}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
 
           <FormField
             control={form.control}
-            name="descriptions"
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -76,8 +118,10 @@ const CreateProjectForm = () => {
                     type="text"
                     className="border w-full border-gray-700 py-5 px-5"
                     placeholder="Project Description..."
+                    disabled={isSubmitting}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -89,12 +133,11 @@ const CreateProjectForm = () => {
               <FormItem>
                 <FormControl>
                   <Select
-                    defaultValue="fullstack"
+                    disabled={isSubmitting}
                     value={field.value}
                     onValueChange={(value) => {
                       field.onChange(value);
                     }}
-                    //className="border w-full border-gray-700 py-5 px-5"
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select Category" />
@@ -118,11 +161,10 @@ const CreateProjectForm = () => {
               <FormItem>
                 <FormControl>
                   <Select
+                    disabled={isSubmitting}
                     onValueChange={(value) => {
                       handleTagsChange(value);
                     }}
-
-                    //className="border w-full border-gray-700 py-5 px-5"
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Tags" />
@@ -152,20 +194,19 @@ const CreateProjectForm = () => {
               </FormItem>
             )}
           />
+
+          {error && (
+            <div className="text-red-500 text-sm">{error}</div>
+          )}
+
           <DialogClose>
-            {false ? (
-              <div>
-                <p>
-                  you can create only 3 projects with three plan, please upgrade
-                  your plan to create more projects
-                </p>
-              </div>
-            ) : (
-              <Button type="submit" className="w-full mt-5">
-                {" "}
-                Create Project
-              </Button>
-            )}
+            <Button 
+              type="submit" 
+              className="w-full mt-5"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Creating..." : "Create Project"}
+            </Button>
           </DialogClose>
         </form>
       </Form>

@@ -12,8 +12,33 @@ import {
 import { DotFilledIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
 
-const ProjectCard = () => {
+const ProjectCard = ({ project }) => {
   const navigate = useNavigate();
+
+  const handleUpdate = () => {
+    navigate(`/project/edit/${project.id}`);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`http://localhost:2000/api/projects/${project.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete project');
+      }
+
+      // Refresh the page or update the project list
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting project:', error);
+    }
+  };
 
   return (
     <Card className="p-5 w-full lg:max-w-3xl">
@@ -22,13 +47,13 @@ const ProjectCard = () => {
           <div className="flex justify-between">
             <div className="flex items-center gap-5">
               <h1
-                onClick={() => navigate("/project/3")}
+                onClick={() => navigate(`/project/${project.id}`)}
                 className="cursor-pointer font-bold text-lg"
               >
-                Create Music Streaming App
+                {project.name}
               </h1>
               <DotFilledIcon />
-              <p className="text-sm text-gray-400">fullstack</p>
+              <p className="text-sm text-gray-400">{project.category}</p>
             </div>
 
             <div>
@@ -40,22 +65,26 @@ const ProjectCard = () => {
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent>
-                  <DropdownMenuItem>Update</DropdownMenuItem>
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleUpdate}>Update</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
 
-          <p className="text-gray-500 text-sm">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-          </p>
+          <p className="text-gray-500 text-sm">{project.description}</p>
+          
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <span>Owner: {project.owner.fullName}</span>
+            <DotFilledIcon />
+            <span>Team Size: {project.team.length}</span>
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2 items-center">
-          {[1, 1, 1].map((item) => (
-            <Badge key={item} variant="outline">
-              {"frontend"}
+          {project.tags.map((tag, index) => (
+            <Badge key={index} variant="outline">
+              {tag.trim()}
             </Badge>
           ))}
         </div>
