@@ -29,7 +29,7 @@ const Signup = ({ onLogin }) => {
 
             console.log(data); // Debugging
             const response = await axios.post(
-                'http://localhost:2004/api/auth/signup',
+                'http://localhost:2000/api/auth/signup',
                 {
                     email: data.email,
                     password: data.password, // Ensure this value is not empty or null

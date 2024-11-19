@@ -17,7 +17,7 @@ const DeleteStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("http://localhost:2005/admin/students", {
+        const response = await fetch("http://localhost:2000/admin/students", {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -43,7 +43,7 @@ const DeleteStudents = () => {
   
   const handleDelete = async (studentId) => {
     try {
-      const response = await fetch(`http://localhost:2005/admin/students/${studentId}`, {
+      const response = await fetch(`http://localhost:2000/admin/students/${studentId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

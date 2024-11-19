@@ -18,7 +18,7 @@ const Login = ({ onLogin }) => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:2004/api/auth/signin', {
+            const response = await fetch('http://localhost:2000/api/auth/signin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

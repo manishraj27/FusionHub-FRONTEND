@@ -30,7 +30,7 @@ const UpdateStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("http://localhost:2005/admin/students", {
+        const response = await fetch("http://localhost:2000/admin/students", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ const UpdateStudents = () => {
   const handleStatusChange = async (studentId, newStatus) => {
     try {
       const response = await fetch(
-        `http://localhost:2005/admin/students/${studentId}/status?status=${newStatus}`,
+        `http://localhost:2000/admin/students/${studentId}/status?status=${newStatus}`,
         {
           method: "PUT",
           headers: {

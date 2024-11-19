@@ -16,7 +16,7 @@ const ViewAllStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("http://localhost:2005/admin/students", {
+        const response = await fetch("http://localhost:2000/admin/students", {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
