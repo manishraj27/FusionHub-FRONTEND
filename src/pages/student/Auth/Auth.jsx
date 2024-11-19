@@ -12,27 +12,27 @@ const Auth = ({ onLogin }) => {
             <Card className="max-w-md w-full">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl font-bold text-center">
-                        {active ? "Create an Account" : "Welcome Back"}
+                        {active ? "Welcome Back" : "Create an Account" }
                     </CardTitle>
                     <CardDescription className="text-center">
                         {active
-                            ? "Enter your details to create your account"
-                            : "Enter your credentials to access your account"
+                            ? "Enter your credentials to access your account" : "Enter your details to create your account"
+                            
                         }
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {active ? <Signup onLogin={onLogin} /> : <Login onLogin={onLogin} />}
+                    {active ? <Login onLogin={onLogin} /> :  <Signup onLogin={onLogin} /> }
                     <div className="mt-6 text-center">
                         <span className="text-sm text-gray-500">
-                            {active ? "Already have an account?" : "Don't have an account?"}
+                            {active ?  "Don't have an account?" : "Already have an account?" }
                         </span>
                         <Button
                             variant="link"
                             className="text-blue-600 hover:text-blue-700 ml-1"
                             onClick={() => setActive(!active)}
                         >
-                            {active ? "Sign in" : "Sign up"}
+                            {active ? "Sign up" :  "Sign in" }
                         </Button>
                     </div>
                 </CardContent>

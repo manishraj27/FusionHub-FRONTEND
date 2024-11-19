@@ -18,7 +18,7 @@ const AdminLogin = ({ onLogin }) => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:2005/admin/auth/signin', {
+            const response = await fetch('http://localhost:2000/admin/auth/signin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
