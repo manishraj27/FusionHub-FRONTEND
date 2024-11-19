@@ -14,14 +14,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { PersonIcon } from "@radix-ui/react-icons";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import navbarlogo from "/src/assets/navbarlogo.svg";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 
 const StudentNavbar = ({ onLogout }) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const hamburgerRef = useRef(null);
 
@@ -62,7 +61,7 @@ const StudentNavbar = ({ onLogout }) => {
             Project Management
           </Button>
 
-          {location.pathname === "project-mangement" && (
+        
             <Dialog>
               <DialogTrigger>
                 <Button variant="ghost">New Project</Button>
@@ -73,7 +72,7 @@ const StudentNavbar = ({ onLogout }) => {
                 <CreateProjectForm />
               </DialogContent>
             </Dialog>
-          )}
+          
 
           <Button variant="ghost" onClick={() => navigate("portfolio")}>
             Portfolio

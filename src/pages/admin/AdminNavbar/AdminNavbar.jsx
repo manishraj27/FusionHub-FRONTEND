@@ -56,7 +56,7 @@ const AdminNavbar = ({ onLogout }) => {
           </Button>
 
 
-          <Button variant="ghost" onClick={() => navigate("viewall-student")}>
+          <Button variant="ghost" onClick={() => navigate("viewall-students")}>
            View All Students
           </Button>
 

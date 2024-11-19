@@ -27,15 +27,17 @@ const Signup = ({ onLogin }) => {
                 withCredentials: true
             };
 
+            console.log(data); // Debugging
             const response = await axios.post(
                 'http://localhost:2004/api/auth/signup',
                 {
                     email: data.email,
-                    password: data.password,
+                    password: data.password, // Ensure this value is not empty or null
                     fullName: data.fullName
                 },
                 config
             );
+
 
             if (response.data && response.data.jwt) {
                 localStorage.setItem('authToken', response.data.jwt);
@@ -63,7 +65,7 @@ const Signup = ({ onLogin }) => {
                     <AlertDescription>{form.formState.errors.root.message}</AlertDescription>
                 </Alert>
             )}
-            
+
             <Form {...form}>
                 <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
@@ -78,7 +80,7 @@ const Signup = ({ onLogin }) => {
                                         <Input
                                             {...field}
                                             type="text"
-                                            placeholder="John Doe"
+                                            placeholder="Shahrukh Khan"
                                             className="pl-10"
                                         />
                                     </div>
@@ -87,7 +89,7 @@ const Signup = ({ onLogin }) => {
                             </FormItem>
                         )}
                     />
-                    
+
                     <FormField
                         control={form.control}
                         name="email"
@@ -109,7 +111,7 @@ const Signup = ({ onLogin }) => {
                             </FormItem>
                         )}
                     />
-                    
+
                     <FormField
                         control={form.control}
                         name="password"
@@ -131,7 +133,7 @@ const Signup = ({ onLogin }) => {
                             </FormItem>
                         )}
                     />
-                    
+
                     <Button
                         type="submit"
                         className="w-full"
