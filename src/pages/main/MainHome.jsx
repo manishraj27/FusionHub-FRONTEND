@@ -22,8 +22,8 @@ const MainHome = () => {
           {/* Main Content */}
           <div className="relative z-10 mx-auto max-w-5xl pt-8 pb-24 text-center">
             <h1 className="bg-gradient-to-r from-neutral-900 to-neutral-600 bg-clip-text text-transparent dark:from-neutral-100 dark:to-neutral-400 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
-              FusionHub : Project and Portfolio Management{" "}
-              <SparklesText className="text-red-400" text="SYSTEM" />
+              FusionHub : Project and Portfolio Management System{" "}
+              <SparklesText className="text-red-400" text="FusionHub" />
             </h1>
 
             <p className="mx-auto mt-8 max-w-2xl text-base sm:text-lg text-neutral-600 dark:text-neutral-400 font-semibold">
