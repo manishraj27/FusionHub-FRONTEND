@@ -52,6 +52,8 @@ const ViewAllStudents = () => {
             <TableHead className="w-[100px]">ID</TableHead>
             <TableHead>Full Name</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Skills</TableHead>
+            <TableHead>University</TableHead>
             <TableHead>Status</TableHead>
             {/* <TableHead>Project Size</TableHead> */}
           </TableRow>
@@ -62,6 +64,8 @@ const ViewAllStudents = () => {
               <TableCell className="font-medium">{student.id}</TableCell>
               <TableCell>{student.fullName}</TableCell>
               <TableCell>{student.email}</TableCell>
+              <TableCell>{student.skills}</TableCell>
+              <TableCell>{student.university}</TableCell>
               <TableCell>{student.status || "PENDING"}</TableCell>
               {/* <TableCell>{student.projectSize}</TableCell> */}
             </TableRow>
