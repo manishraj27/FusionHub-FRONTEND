@@ -1,13 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  Camera,
-  Github,
   Linkedin,
   Mail,
   MapPin,
-  Twitter,
   Briefcase,
-  Calendar,
+
+  
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,25 +21,164 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { GitHubLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState(null);
+  const [notification, setNotification] = useState(null);
+
+  const [formData, setFormData] = useState({
+    university: "",
+    company: "",
+    aboutMe: "",
+    githubLink: "",
+    linkedinLink: "",
+    twitterLink: "",
+    skills: []
+  });
+
+  const getAuthHeader = () => {
+    const token = localStorage.getItem('token');
+    return token ? `Bearer ${token}` : '';
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  useEffect(() => {
+    if (profileData && !profileData.university) {
+      setIsEditing(true);
+    }
+  }, [profileData]);
+
+  // Clear notification after 5 seconds
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch('http://localhost:2000/api/self/profile', {
+        method: 'GET',
+        headers: {
+          'Authorization': getAuthHeader(),
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setProfileData(data);
+      setFormData({
+        university: data.university || "",
+        company: data.company || "",
+        aboutMe: data.aboutMe || "",
+        githubLink: data.githubLink || "",
+        linkedinLink: data.linkedinLink || "",
+        twitterLink: data.twitterLink || "",
+        skills: data.skills || []
+      });
+    } catch (error) {
+      console.error('Failed to fetch profile:', error);
+      setNotification({
+        type: 'error',
+        title: 'Error',
+        message: 'Failed to fetch profile data. Please try again later.'
+      });
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSkillsChange = (e) => {
+    const skills = e.target.value.split(',').map(skill => skill.trim());
+    setFormData(prev => ({
+      ...prev,
+      skills
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:2000/api/self/profile', {
+        method: 'PUT',
+        headers: {
+          'Authorization': getAuthHeader(),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const updatedProfile = await response.json();
+      setProfileData(updatedProfile);
+      setIsEditing(false);
+
+      setNotification({
+        type: 'success',
+        title: 'Success',
+        message: 'Your profile has been successfully updated.'
+      });
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+      setNotification({
+        type: 'error',
+        title: 'Update Failed',
+        message: 'There was a problem updating your profile. Please try again.'
+      });
+    }
+  };
+
+  if (!profileData) return <div>Loading...</div>;
 
   return (
     <div className="container mx-auto p-8 max-w-7xl">
+      {/* Notification Alert */}
+      {notification && (
+        <Alert
+          variant={notification.type === 'error' ? "destructive" : "default"}
+          className="mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg"
+        >
+          <AlertTitle>{notification.title}</AlertTitle>
+          <AlertDescription>{notification.message}</AlertDescription>
+        </Alert>
+      )}
+
       {/* Banner */}
       <div className="relative h-64 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl mb-16 overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-20"></div>
       </div>
 
+      {/* Rest of the component remains the same... */}
       {/* Avatar and Name */}
       <div className="relative -mt-32 ml-8 flex items-end mb-8">
         <Avatar className="h-40 w-40 border-4 border-white shadow-lg">
           <AvatarImage src="/api/placeholder/160/160" alt="Profile" />
-          <AvatarFallback>MR</AvatarFallback>
+          <AvatarFallback>{profileData.fullName?.substring(0, 2).toUpperCase()}</AvatarFallback>
         </Avatar>
         <div className="ml-6 mb-4">
-          <h1 className="text-4xl font-bold ">Manish Raj</h1>
+          <h1 className="text-4xl font-bold">{profileData.fullName}</h1>
         </div>
       </div>
 
@@ -54,9 +191,7 @@ const Profile = () => {
               <div className="flex justify-between items-center">
                 <CardTitle className="text-2xl font-bold">Profile</CardTitle>
                 <div className="flex items-center space-x-2">
-                  <Label htmlFor="edit-mode" className="text-sm">
-                    Edit
-                  </Label>
+                  <Label htmlFor="edit-mode" className="text-sm">Edit</Label>
                   <Switch
                     id="edit-mode"
                     checked={isEditing}
@@ -68,31 +203,42 @@ const Profile = () => {
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-gray-500" />
-                <span>john.doe@example.com</span>
+                <span>{profileData.email}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-gray-500" />
-                <span>University of Technology</span>
+                <span>{profileData.university || "Not specified"}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Briefcase className="h-5 w-5 text-gray-500" />
-                <span>Software Engineer at Tech Co.</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Calendar className="h-5 w-5 text-gray-500" />
-                <span>Joined January 2022</span>
+                <span>{profileData.company || "Not specified"}</span>
               </div>
             </CardContent>
             <Separator />
             <CardFooter className="flex justify-between pt-6">
-              <Button variant="outline" size="sm">
-                <Github className="mr-2 h-4 w-4" /> GitHub
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.open(profileData.githubLink, '_blank')}
+                disabled={!profileData.githubLink}
+              >
+                <GitHubLogoIcon className="mr-2 h-4 w-4" /> GitHub
               </Button>
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.open(profileData.linkedinLink, '_blank')}
+                disabled={!profileData.linkedinLink}
+              >
                 <Linkedin className="mr-2 h-4 w-4" /> LinkedIn
               </Button>
-              <Button variant="outline" size="sm">
-                <Twitter className="mr-2 h-4 w-4" /> Twitter
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.open(profileData.twitterLink, '_blank')}
+                disabled={!profileData.twitterLink}
+              >
+                <TwitterLogoIcon className="mr-2 h-4 w-4" /> Twitter
               </Button>
             </CardFooter>
           </Card>
@@ -104,14 +250,7 @@ const Profile = () => {
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {[
-                  "React",
-                  "Node.js",
-                  "TypeScript",
-                  "Python",
-                  "GraphQL",
-                  "Docker",
-                ].map((skill) => (
+                {profileData.skills?.map((skill) => (
                   <span
                     key={skill}
                     className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded"
@@ -133,116 +272,89 @@ const Profile = () => {
             </CardHeader>
             <CardContent>
               <p className="text-gray-700">
-                Passionate full-stack developer with 5+ years of experience
-                building scalable web applications. Committed to writing clean,
-                maintainable code and constantly learning new technologies.
-                Enjoy collaborating with cross-functional teams to deliver
-                high-quality software solutions.
+                {profileData.aboutMe || "No information provided yet."}
               </p>
             </CardContent>
           </Card>
-
-              {/* for clause.ai leave this  */}
-          {/* Projects */}
-          {/* <Card className="shadow-md">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold">Projects</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-4">
-                {[
-                  {
-                    name: "E-commerce Platform",
-                    desc: "Built a full-stack e-commerce solution using MERN stack",
-                  },
-                  {
-                    name: "Task Management App",
-                    desc: "Developed a React Native mobile app for task management",
-                  },
-                  {
-                    name: "Data Visualization Dashboard",
-                    desc: "Created an interactive dashboard using D3.js and React",
-                  },
-                ].map((project, index) => (
-                  <li
-                    key={index}
-                    className="border-b pb-4 last:border-b-0 last:pb-0"
-                  >
-                    <h3 className="font-semibold text-lg">{project.name}</h3>
-                    <p className="text-gray-600">{project.desc}</p>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card> */}
 
           {/* Edit Profile Form */}
           {isEditing && (
             <Card className="shadow-md">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold">
-                  Edit Profile
-                </CardTitle>
-                <CardDescription>
-                  Update your profile information
-                </CardDescription>
+                <CardTitle className="text-2xl font-bold">Edit Profile</CardTitle>
+                <CardDescription>Update your profile information</CardDescription>
               </CardHeader>
               <CardContent>
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" placeholder="John Doe" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="john.doe@example.com"
-                      />
-                    </div>
                     <div className="space-y-2">
                       <Label htmlFor="university">University</Label>
                       <Input
                         id="university"
+                        value={formData.university}
+                        onChange={handleInputChange}
                         placeholder="University of Technology"
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="company">Company</Label>
-                      <Input id="company" placeholder="Tech Co." />
+                      <Input
+                        id="company"
+                        value={formData.company}
+                        onChange={handleInputChange}
+                        placeholder="Tech Co."
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="githubLink">GitHub Profile</Label>
+                      <Input
+                        id="githubLink"
+                        value={formData.githubLink}
+                        onChange={handleInputChange}
+                        placeholder="https://github.com/username"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="linkedinLink">LinkedIn Profile</Label>
+                      <Input
+                        id="linkedinLink"
+                        value={formData.linkedinLink}
+                        onChange={handleInputChange}
+                        placeholder="https://linkedin.com/in/username"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="twitterLink">Twitter Profile</Label>
+                      <Input
+                        id="twitterLink"
+                        value={formData.twitterLink}
+                        onChange={handleInputChange}
+                        placeholder="https://twitter.com/username"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="skills">Skills (comma-separated)</Label>
+                      <Input
+                        id="skills"
+                        value={formData.skills.join(', ')}
+                        onChange={handleSkillsChange}
+                        placeholder="React, Node.js, Python"
+                      />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="about">About Me</Label>
+                    <Label htmlFor="aboutMe">About Me</Label>
                     <textarea
-                      id="about"
-                      className="w-full min-h-[100px] p-2 border rounded-md"
+                      id="aboutMe"
+                      className="flex w-full min-h-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+                      value={formData.aboutMe}
+                      onChange={handleInputChange}
                       placeholder="Tell us about yourself"
                     ></textarea>
                   </div>
-                  {/*take input for  ...skil and profiles... also */}
-
-
-
-                  {/* for clause.ai leave this  */}
-                  {/* <div className="space-y-2">
-                    <Label htmlFor="photo">Profile Photo</Label>
-                    <div className="flex items-center space-x-2">
-                      <Button type="button" variant="outline">
-                        <Camera className="mr-2 h-4 w-4" /> Upload Photo
-                      </Button>
-                      <span className="text-sm text-gray-500">
-                        No file chosen
-                      </span>
-                    </div>
-                  </div> */}
+                  <Button type="submit" className="w-full">Save Changes</Button>
                 </form>
               </CardContent>
-              <CardFooter>
-                <Button className="w-full">Save Changes</Button>
-              </CardFooter>
             </Card>
           )}
         </div>
