@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import CreatePortfolioForm from "./CreatePortfolioForm"; // Assuming this is the path to your form component
+import CreatePortfolioForm from "./CreatePortfolioForm";
 import { useState } from "react";
 
 const PortfolioPage = () => {

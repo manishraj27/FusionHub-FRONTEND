@@ -19,6 +19,9 @@ import AdminLogin from "./pages/admin/Auth/AdminLogin";
 import { jwtDecode } from "jwt-decode";
 import MainHome from "./pages/main/MainHome";
 import { ThemeProvider } from "./components/ThemeProvider";
+import Contact from "./pages/main/Contact";
+import About from "./pages/main/About";
+import NotFound from "./pages/main/NotFound";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -81,6 +84,8 @@ function App() {
               <Route path="/portfolio" element={<PortfolioPage />} />
               <Route path="/project/:id" element={<ProjectDetails />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path='/contact' element={<Contact />} /> 
+              <Route path="*" element={<NotFound /> } />
             </Routes>
           </div>
         ) : userRole === "ADMIN" ? (
@@ -91,6 +96,7 @@ function App() {
               <Route path="/viewall-students" element={<ViewAllStudents />} />
               <Route path="/delete-students" element={<DeleteStudents />} />
               <Route path="/update-students-status" element={<UpdateStudents />} />
+              <Route path="*" element={<NotFound /> } />
             </Routes>
           </div>
         ) : (
@@ -103,6 +109,9 @@ function App() {
             <Route path="/" element={<MainHome />} />
             <Route path="/student-auth" element={<Auth onLogin={handleLogin} />} />
             <Route path="/admin-login" element={<AdminLogin onLogin={handleLogin} />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+            <Route path="*" element={<NotFound /> } />
           </Routes>
         </div>
       )}

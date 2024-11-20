@@ -6,8 +6,11 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { LockKeyhole, Mail } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = ({ onLogin }) => {
+    const navigate = useNavigate();
+
     const [error, setError] = useState('');
     const form = useForm({
         defaultValues: {
@@ -30,6 +33,7 @@ const AdminLogin = ({ onLogin }) => {
 
             if (response.ok) {
                 onLogin(result.jwt);
+                navigate('/admin-dashboard');
             } else {
                 setError(result.message || 'Login failed');
             }

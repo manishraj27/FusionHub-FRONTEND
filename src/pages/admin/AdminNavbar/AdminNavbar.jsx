@@ -94,8 +94,8 @@ const AdminNavbar = ({ onLogout }) => {
               </DropdownMenuItem> */}
               <DropdownMenuItem
                 onClick={() => {
-                  onLogout(); // Calling the passed onLogout function here
-                  navigate("/admin-login"); // Redirect to login after logout
+                  onLogout(); 
+                  navigate("/admin-login");
                 }}
               >
                 Logout

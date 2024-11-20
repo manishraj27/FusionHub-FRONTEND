@@ -49,6 +49,9 @@ const MainNavbar = () => {
             Home
           </Button>
 
+          <Button variant="ghost" onClick={() => navigate("/about")}>
+            About
+          </Button>
 
           <Button variant="ghost" onClick={() => navigate("student-auth")}>
            Student Signup/Login
@@ -58,6 +61,10 @@ const MainNavbar = () => {
             Admin Login
           </Button>
 
+
+          <Button variant="ghost" onClick={() => navigate("contact")}>
+         Contact
+          </Button>
           
         </div>
 
@@ -89,11 +96,19 @@ const MainNavbar = () => {
         <div className="md:hidden fixed inset-0 bg-background z-40 flex flex-col pt-4">
           <div className="flex-grow overflow-y-auto pt-16 px-6">
             <div className="flex flex-col gap-10">
-              {/* Greeting Section */}
-              <div className="text-left">
-                <p className="text-3xl italic font-light">Hello!</p>
-                <p className="text-4xl font-semibold italic">Admin</p>
-              </div>
+
+
+            <Button
+                variant="ghost"
+                onClick={() => {
+                  navigate("about");
+                  toggleMenu();
+                }}
+                className="w-full text-lg font-medium tracking-wide"
+              >
+                About
+              </Button>
+
 
               {/* Navigation Links */}
               <Button
@@ -119,13 +134,13 @@ const MainNavbar = () => {
                 Admin Login
               </Button>
 
-              {/* <Button
+              <Button
                 variant="ghost"
                 onClick={() => navigate("/contact")}
                 className="w-full text-lg font-medium tracking-wide"
               >
                 Contact
-              </Button> */}
+              </Button>
 
               
             </div>

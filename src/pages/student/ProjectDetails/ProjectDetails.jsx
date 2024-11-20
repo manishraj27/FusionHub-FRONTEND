@@ -1,49 +1,89 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { PlusIcon } from "lucide-react";
-import InviteUserForm from "./InviteUserForm";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import IssueList from "./IssueList";
 import ChatBox from "./ChatBox";
+import InviteUserForm from "./InviteUserForm";
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
+import { PlusIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
 
 const ProjectDetails = () => {
   const handleProjectInvitation = () => {
     console.log("invite user");
   };
 
+  const { id } = useParams(); // Extract project ID from route
+  const [project, setProject] = useState(null); // State for project data
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:2000/api/projects/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch project details");
+        }
+
+        const data = await response.json();
+        setProject(data);
+      } catch (error) {
+        console.error("Error fetching project:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProject();
+  }, [id]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!project) {
+    return <p>Project not found</p>;
+  }
+
   return (
     <>
       <div className="mt-5 sm:px-8 md:px-8 lg:px-10">
         <div className="lg:flex gap-5 justify-between pb-4">
           <ScrollArea className="h-screen lg:w-[69%] pr-2">
-            <div className="text-gray-400 pb-10 w-full">
+            <div className=" pb-10 w-full">
               <h1 className="text-lg font-semibold pb-5">
-                Create Music Streaming App Using React
+                {project.name}
               </h1>
 
               <div className="space-y-5 pb-10 text-sm">
                 <p className="w-full md:max-w-lg lg:max-w-xl ">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  {project.description}
                 </p>
                 <div className="flex">
                   <p className="w-36">Project Lead :</p>
-                  <p>Manish Raj</p>
+                  <p>{project.owner.fullName}</p>
                 </div>
 
                 <div className="flex">
                   <p className="w-36">Members :</p>
                   <div className="flex items-center gap-2">
-                    {[1, 1, 1, 1].map((item) => (
-                      <Avatar key={item}>
-                        <AvatarFallback>MR</AvatarFallback>
+                    {project.team.map((member) => (
+                      <Avatar key={member.id}>
+                        <AvatarFallback>
+                          {member.fullName
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </AvatarFallback>
                       </Avatar>
                     ))}
                   </div>
@@ -71,7 +111,7 @@ const ProjectDetails = () => {
 
                 <div className="flex">
                   <p className="w-36">Category :</p>
-                  <p>fullstack</p>
+                  <p>{project.category}</p>
                 </div>
 
                 <div className="flex">

@@ -42,7 +42,6 @@ const Profile = () => {
         </Avatar>
         <div className="ml-6 mb-4">
           <h1 className="text-4xl font-bold ">Manish Raj</h1>
-          <p className="text-xl ">Full Stack Developer</p>
         </div>
       </div>
 
@@ -143,8 +142,9 @@ const Profile = () => {
             </CardContent>
           </Card>
 
+              {/* for clause.ai leave this  */}
           {/* Projects */}
-          <Card className="shadow-md">
+          {/* <Card className="shadow-md">
             <CardHeader>
               <CardTitle className="text-2xl font-bold">Projects</CardTitle>
             </CardHeader>
@@ -174,7 +174,7 @@ const Profile = () => {
                 ))}
               </ul>
             </CardContent>
-          </Card>
+          </Card> */}
 
           {/* Edit Profile Form */}
           {isEditing && (
@@ -222,7 +222,12 @@ const Profile = () => {
                       placeholder="Tell us about yourself"
                     ></textarea>
                   </div>
-                  <div className="space-y-2">
+                  {/*take input for  ...skil and profiles... also */}
+
+
+
+                  {/* for clause.ai leave this  */}
+                  {/* <div className="space-y-2">
                     <Label htmlFor="photo">Profile Photo</Label>
                     <div className="flex items-center space-x-2">
                       <Button type="button" variant="outline">
@@ -232,7 +237,7 @@ const Profile = () => {
                         No file chosen
                       </span>
                     </div>
-                  </div>
+                  </div> */}
                 </form>
               </CardContent>
               <CardFooter>

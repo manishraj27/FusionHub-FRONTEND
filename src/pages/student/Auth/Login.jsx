@@ -5,9 +5,10 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Mail, Lock } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import exp from "constants";
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onLogin }) => {
+    const navigate = useNavigate();
     const [error, setError] = useState('');
     const form = useForm({
         defaultValues: {
@@ -24,12 +25,14 @@ const Login = ({ onLogin }) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data)
+              
             });
 
             const result = await response.json();
 
             if (response.ok) {
                 onLogin(result.jwt);
+                navigate('/'); // Redirect to home page
             } else {
                 setError(result.message || 'Login failed');
             }

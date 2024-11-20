@@ -199,14 +199,13 @@ const CreateProjectForm = () => {
             <div className="text-red-500 text-sm">{error}</div>
           )}
 
-
-            <Button 
-              type="submit" 
-              className="w-full mt-5"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Creating..." : "Create Project"}
-            </Button>
+          <Button 
+            type="submit" 
+            className="w-full mt-5"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Creating..." : "Create Project"}
+          </Button>
         </form>
       </Form>
     </div>

@@ -41,7 +41,7 @@ const Signup = ({ onLogin }) => {
 
             if (response.data && response.data.jwt) {
                 localStorage.setItem('authToken', response.data.jwt);
-                navigate('/login');
+                navigate('/student-auth');
             }
         } catch (error) {
             if (error.response?.data?.message?.includes('email already exist')) {

@@ -48,7 +48,7 @@ const StudentNavbar = ({ onLogout }) => {
   return (
     <div className="sticky top-0 z-50 bg-background">
       <div className="border-b py-4 px-5 flex items-center justify-between">
-        <a href="/" aria-label="Logo" className="z-50">
+        <a href="/project-management" aria-label="Logo" className="z-50">
           <img src={navbarlogo} alt="Logo" />
         </a>
 

@@ -73,12 +73,9 @@ const ProjectCard = ({ project }) => {
           </div>
 
           <p className="text-gray-500 text-sm">{project.description}</p>
-          
-          <div className="flex items-center gap-2 text-sm text-gray-400">
-            <span>Owner: {project.owner.fullName}</span>
-            <DotFilledIcon />
+          {/* <div className="flex items-center gap-2 text-sm text-gray-400">
             <span>Team Size: {project.team.length}</span>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex flex-wrap gap-2 items-center">
