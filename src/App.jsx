@@ -22,6 +22,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import Contact from "./pages/main/Contact";
 import About from "./pages/main/About";
 import NotFound from "./pages/main/NotFound";
+import SharePortfolio from './pages/student/Portfolio/SharePortfolio';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -111,6 +112,7 @@ function App() {
             <Route path="/admin-login" element={<AdminLogin onLogin={handleLogin} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
+            <Route path="/share/:uniqueUsername" element={<SharePortfolio />} />
             <Route path="*" element={<NotFound /> } />
           </Routes>
         </div>

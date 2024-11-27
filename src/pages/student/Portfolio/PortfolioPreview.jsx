@@ -22,7 +22,7 @@ const PortfolioPreview = ({ portfolio }) => {
   };
 
   const currentTheme = themeStyles[portfolio.theme] || themeStyles.minimalist;
-
+  console.log(portfolio);
   return (
     <Card className={`h-full ${currentTheme.container}`}>
       <CardContent className="p-6">
@@ -90,11 +90,11 @@ const PortfolioPreview = ({ portfolio }) => {
           </div>
         )}
 
-        {portfolio.projects && portfolio.projects.filter(p => p.selected).length > 0 && (
+        {portfolio.projectDTOs && portfolio.projectDTOs.filter(p => p.selected).length > 0 && (
           <div className={`${currentTheme.section}`}>
             <h2 className="font-bold mb-2">Projects</h2>
             <div className="space-y-2">
-              {portfolio.projects
+              {portfolio.projectDTOs
                 .filter(project => project.selected)
                 .map((project) => (
                   <div key={project.id} className="bg-gray-100 p-2 rounded">
