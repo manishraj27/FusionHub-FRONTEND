@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,18 +5,15 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Trash2 } from 'lucide-react';
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import PortfolioPreview from "./PortfolioPreview";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-
-
-// Main Portfolio Creation Form
 function CreatePortfolioForm() {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ type: '', message: '' });
+  const [projects, setProjects] = useState([]);
   const [portfolio, setPortfolio] = useState({
     uniqueUsername: '',
     name: '',
@@ -28,28 +24,28 @@ function CreatePortfolioForm() {
     education: [''],
     githubLink: '',
     linkedinLink: '',
-    projects: [
-      { id: 1, name: 'Project 1', selected: false },
-      { id: 2, name: 'Project 2', selected: false },
-      { id: 3, name: 'Project 3', selected: false }
-    ],
+    projectIds: [],
     email: '',
   });
 
-  const handleUsernameChange = (e) => {
-    const username = e.target.value;
-    setPortfolio(prev => ({ ...prev, uniqueUsername: username }));
-  };
+  // Fetch projects from API
+  useEffect(() => {
+    fetchProjects();
+  }, []);
 
-  const toggleProject = (projectId) => {
-    setPortfolio(prev => ({
-      ...prev,
-      projects: prev.projects.map(project =>
-        project.id === projectId
-          ? { ...project, selected: !project.selected }
-          : project
-      )
-    }));
+  const fetchProjects = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:2000/api/projects', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch projects');
+      const data = await response.json();
+      setProjects(Array.isArray(data) ? data : [data]);
+    } catch (error) {
+      console.error('Error fetching projects:', error.message);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -72,6 +68,15 @@ function CreatePortfolioForm() {
     setPortfolio(prev => ({ ...prev, [field]: newArray }));
   };
 
+  const toggleProject = (projectId) => {
+    setPortfolio(prev => ({
+      ...prev,
+      projectIds: prev.projectIds.includes(projectId)
+        ? prev.projectIds.filter(id => id !== projectId)
+        : [...prev.projectIds, projectId]
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -79,16 +84,7 @@ function CreatePortfolioForm() {
 
     try {
       const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Authentication token not found. Please login again.');
-      }
-
-      const portfolioData = {
-        ...portfolio,
-        projects: portfolio.projects
-          .filter(project => project.selected)
-          .map(({ id, name }) => ({ id, name }))
-      };
+      if (!token) throw new Error('Authentication token not found. Please login again.');
 
       const response = await fetch('http://localhost:2000/api/portfolio', {
         method: 'POST',
@@ -96,7 +92,7 @@ function CreatePortfolioForm() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(portfolioData)
+        body: JSON.stringify(portfolio)
       });
 
       if (!response.ok) {
@@ -104,20 +100,14 @@ function CreatePortfolioForm() {
         throw new Error(errorData.message || 'Failed to create portfolio');
       }
 
-      await response.json();
-      setAlert({
-        type: 'success',
-        message: 'Portfolio created successfully!'
-      });
+      setAlert({ type: 'success', message: 'Portfolio created successfully!' });
     } catch (error) {
-      setAlert({
-        type: 'error',
-        message: error.message || 'Failed to create portfolio'
-      });
+      setAlert({ type: 'error', message: error.message || 'Failed to create portfolio' });
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="grid grid-cols-2 gap-6 p-6">
       {/* Form Column */}
@@ -128,24 +118,23 @@ function CreatePortfolioForm() {
         <CardContent>
           {alert.message && (
             <Alert className={`mb-4 ${alert.type === 'success' ? 'bg-green-50 text-green-700 border-green-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg' : 'bg-red-50 text-red-700 border-red-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg'}`}>
-              <AlertDescription>
-                {alert.message}
-              </AlertDescription>
+              <AlertDescription>{alert.message}</AlertDescription>
             </Alert>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Basic Details */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="mb-4">
+              <div>
                 <Label>Unique Username</Label>
                 <Input
+                  name="uniqueUsername"
                   value={portfolio.uniqueUsername}
-                  onChange={handleUsernameChange}
+                  onChange={handleInputChange}
                   placeholder="Enter your unique username"
                 />
                 <p className="text-sm text-muted-foreground mt-2">
-                  Your portfolio will be visible at: http://localhost:5173/{portfolio.uniqueUsername || '{username}'}
+                  Your portfolio will be visible at: http://localhost:5173/share/{portfolio.uniqueUsername || '{username}'}
                 </p>
               </div>
 
@@ -206,9 +195,7 @@ function CreatePortfolioForm() {
               <Label>Portfolio Theme</Label>
               <Select
                 value={portfolio.theme}
-                onValueChange={(value) =>
-                  setPortfolio(prev => ({ ...prev, theme: value }))
-                }
+                onValueChange={(value) => setPortfolio(prev => ({ ...prev, theme: value }))}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select Theme" />
@@ -221,17 +208,15 @@ function CreatePortfolioForm() {
               </Select>
             </div>
 
-            <div className="mb-4">
+            {/* Project Selection */}
+            <div>
               <Label>Select Projects</Label>
               <div className="space-y-2 mt-2">
-                {portfolio.projects.map((project) => (
-                  <div
-                    key={project.id}
-                    className="flex items-center justify-between border p-2 rounded"
-                  >
+                {projects.map((project) => (
+                  <div key={project.id} className="flex items-center justify-between border p-2 rounded">
                     <span>{project.name}</span>
                     <Switch
-                      checked={project.selected}
+                      checked={portfolio.projectIds.includes(project.id)}
                       onCheckedChange={() => toggleProject(project.id)}
                     />
                   </div>
@@ -270,11 +255,7 @@ function CreatePortfolioForm() {
               </div>
             ))}
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={loading}
-            >
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Creating..." : "Create Portfolio"}
             </Button>
           </form>

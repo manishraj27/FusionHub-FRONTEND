@@ -26,7 +26,7 @@ import SharePortfolio from './pages/student/Portfolio/SharePortfolio';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(null); 
+  const [userRole, setUserRole] = useState(null); // Track user role ('USER' or 'ADMIN')
 
  
   useEffect(() => {
@@ -74,51 +74,58 @@ function App() {
 
   return (
     <>
-     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      {/* Render the appropriate navbar based on user role */}
       {isAuthenticated ? (
         userRole === "USER" ? (
-          <div>
-            <StudentNavbar onLogout={handleLogout} />
-            <Routes>
+          <StudentNavbar onLogout={handleLogout} />
+        ) : userRole === "ADMIN" ? (
+          <AdminNavbar onLogout={handleLogout} />
+        ) : null
+      ) : (
+        <MainNavbar />
+      )}
+
+      {/* Main Routes */}
+      <Routes>
+        {/* Route visible globally */}
+        <Route path="/share/:uniqueUsername" element={<SharePortfolio />} />
+
+        {isAuthenticated ? (
+          userRole === "USER" ? (
+            <>
               <Route path="/" element={<Home />} />
               <Route path="/project-management" element={<Home />} />
               <Route path="/portfolio" element={<PortfolioPage />} />
               <Route path="/project/:id" element={<ProjectDetails />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path='/contact' element={<Contact />} /> 
-              <Route path="*" element={<NotFound /> } />
-            </Routes>
-          </div>
-        ) : userRole === "ADMIN" ? (
-          <div>
-            <AdminNavbar onLogout={handleLogout} />
-            <Routes>
+              <Route path="/contact" element={<Contact />} />
+              <Route path="*" element={<NotFound />} />
+            </>
+          ) : userRole === "ADMIN" ? (
+            <>
               <Route path="/admin-dashboard" element={<Dashboard />} />
               <Route path="/viewall-students" element={<ViewAllStudents />} />
               <Route path="/delete-students" element={<DeleteStudents />} />
               <Route path="/update-students-status" element={<UpdateStudents />} />
-              <Route path="*" element={<NotFound /> } />
-            </Routes>
-          </div>
+              <Route path="*" element={<NotFound />} />
+            </>
+          ) : (
+            <Route path="*" element={<NotFound />} />
+          )
         ) : (
-          <p>Invalid Role</p>
-        )
-      ) : (
-        <div>
-          <MainNavbar />
-          <Routes>
+          <>
             <Route path="/" element={<MainHome />} />
             <Route path="/student-auth" element={<Auth onLogin={handleLogin} />} />
             <Route path="/admin-login" element={<AdminLogin onLogin={handleLogin} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
-            <Route path="/share/:uniqueUsername" element={<SharePortfolio />} />
-            <Route path="*" element={<NotFound /> } />
-          </Routes>
-        </div>
-      )}
-      </ThemeProvider>
-    </>
+            <Route path="*" element={<NotFound />} />
+          </>
+        )}
+      </Routes>
+    </ThemeProvider>
+  </>
   );
 }
 
