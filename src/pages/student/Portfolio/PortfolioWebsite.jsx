@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Menu, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from '@/components/ui/card';
+
 
 const PortfolioWebsite = ({ portfolio }) => {
   const [activeSection, setActiveSection] = useState('about');

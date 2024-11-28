@@ -1,9 +1,6 @@
-// SharePortfolio.js
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import { Card, CardContent } from "@/components/ui/card";
-// import PortfolioPreview from "./PortfolioPreview"; // Reusing the PortfolioPreview component
-import PortfolioWebsite from "./PortfolioWebsite";
+import PortfolioPreview from "./PortfolioPreview";
 
 const SharePortfolio = () => {
   const { uniqueUsername } = useParams();
@@ -38,7 +35,8 @@ const SharePortfolio = () => {
   return (
     // <Card className="p-6">
     //   <CardContent>
-        <PortfolioWebsite portfolio={portfolio} />
+        // <PortfolioWebsite portfolio={portfolio} />
+        <PortfolioPreview portfolio={portfolio} />
     //   </CardContent>
     // </Card>
   );
