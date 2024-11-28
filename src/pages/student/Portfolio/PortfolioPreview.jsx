@@ -9,20 +9,24 @@ const PortfolioPreview = ({ portfolio }) => {
     minimalist: {
       container: "bg-gradient-to-br from-white to-gray-50",
       heading: "bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent text-4xl",
+      title: "text-gray-700",
       section: "backdrop-blur-sm bg-white/50 rounded-xl p-6 shadow-lg transition-all hover:shadow-xl"
     },
     modern: {
       container: "bg-gradient-to-br from-blue-50 to-indigo-50",
       heading: "bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent text-4xl",
+      title: "text-gray-700",
       section: "backdrop-blur-sm bg-white/60 rounded-xl p-6 shadow-lg transition-all hover:shadow-xl"
     },
     classic: {
       container: "bg-gradient-to-br from-amber-50 to-yellow-50",
-      heading: "bg-gradient-to-r from-amber-700 to-yellow-700 bg-clip-text text-transparent text-4xl",
+      heading: "radient-to-r text-gray-700 bg-clip-text text-transparentbg-g text-4xl",
+      title: "text-gray-700",
       section: "backdrop-blur-sm bg-white/60 rounded-xl p-6 shadow-lg transition-all hover:shadow-xl"
     }
   };
 
+  
   const currentTheme = themes[portfolio.theme] || themes.modern;
 
   return (
@@ -65,7 +69,7 @@ const PortfolioPreview = ({ portfolio }) => {
         {/* Skills Section */}
         {portfolio.skills && portfolio.skills.length > 0 && (
           <div className={`${currentTheme.section}`}>
-            <h2 className="text-2xl font-bold mb-6">Skills & Expertise</h2>
+            <h2 className={`${currentTheme.title} text-2xl font-bold mb-6 `}>Skills & Expertise</h2>
             <div className="flex flex-wrap gap-3">
               {portfolio.skills.map((skill, index) => (
                 <span
@@ -82,7 +86,7 @@ const PortfolioPreview = ({ portfolio }) => {
         {/* Experience Section */}
         {portfolio.experiences && portfolio.experiences.length > 0 && (
           <div className={`${currentTheme.section}`}>
-            <h2 className="text-2xl font-bold mb-6">Professional Journey</h2>
+            <h2 className={`${currentTheme.title} text-2xl font-bold mb-6 `}>Professional Journey</h2>
             <div className="space-y-6">
               {portfolio.experiences.map((exp, index) => (
                 <div key={index} className="relative pl-6 border-l-2 border-blue-500">
@@ -97,7 +101,7 @@ const PortfolioPreview = ({ portfolio }) => {
         {/* Projects Section */}
         {portfolio.projectDTOs && portfolio.projectDTOs.length > 0 && (
           <div className={`${currentTheme.section}`}>
-            <h2 className="text-2xl font-bold mb-6">Featured Projects</h2>
+            <h2 className={`${currentTheme.title} text-2xl font-bold mb-6 `}>Featured Projects</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {portfolio.projectDTOs.map((project) => (
                 <div
@@ -134,7 +138,7 @@ const PortfolioPreview = ({ portfolio }) => {
         {/* Education Section */}
         {portfolio.education && portfolio.education.length > 0 && (
           <div className={`${currentTheme.section}`}>
-            <h2 className="text-2xl font-bold mb-6">Education</h2>
+            <h2 className={`${currentTheme.title} text-2xl font-bold mb-6 `}>Education</h2>
             <div className="space-y-4">
               {portfolio.education.map((edu, index) => (
                 <div key={index} className="bg-white/50 rounded-lg p-4 hover:bg-white/80 transition-colors">

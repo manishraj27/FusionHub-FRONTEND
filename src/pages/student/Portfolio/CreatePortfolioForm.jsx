@@ -9,9 +9,8 @@ import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import PortfolioPreview from "./PortfolioPreview";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import PortfolioWebsite from "./PortfolioWebsite";
 
-function CreatePortfolioForm() {
+function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ type: '', message: '' });
   const [projects, setProjects] = useState([]);
@@ -33,6 +32,25 @@ function CreatePortfolioForm() {
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  // Pre-fill form with existing portfolio data
+  useEffect(() => {
+    if (initialPortfolio) {
+      setPortfolio({
+        uniqueUsername: initialPortfolio.uniqueUsername || '',
+        name: initialPortfolio.name || '',
+        about: initialPortfolio.about || '',
+        theme: initialPortfolio.theme || 'minimalist',
+        skills: initialPortfolio.skills && initialPortfolio.skills.length > 0 ? initialPortfolio.skills : [''],
+        experiences: initialPortfolio.experiences && initialPortfolio.experiences.length > 0 ? initialPortfolio.experiences : [''],
+        education: initialPortfolio.education && initialPortfolio.education.length > 0 ? initialPortfolio.education : [''],
+        githubLink: initialPortfolio.githubLink || '',
+        linkedinLink: initialPortfolio.linkedinLink || '',
+        projectIds: initialPortfolio.projectIds || [],
+        email: initialPortfolio.email || '',
+      });
+    }
+  }, [initialPortfolio]);
 
   const fetchProjects = async () => {
     try {
@@ -98,12 +116,17 @@ function CreatePortfolioForm() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create portfolio');
+        throw new Error(errorData.message || 'Failed to create/update portfolio');
       }
 
-      setAlert({ type: 'success', message: 'Portfolio created successfully!' });
+      setAlert({
+        type: 'success',
+        message: isUpdate
+          ? 'Portfolio updated successfully!'
+          : 'Portfolio created successfully!'
+      });
     } catch (error) {
-      setAlert({ type: 'error', message: error.message || 'Failed to create portfolio' });
+      setAlert({ type: 'error', message: error.message || 'Failed to create/update portfolio' });
     } finally {
       setLoading(false);
     }
@@ -114,7 +137,9 @@ function CreatePortfolioForm() {
       {/* Form Column */}
       <Card>
         <CardHeader>
-          <CardTitle>Create Your Portfolio</CardTitle>
+          <CardTitle>
+            {isUpdate ? 'Update Your Portfolio' : 'Create Your Portfolio'}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {alert.message && (
@@ -122,6 +147,10 @@ function CreatePortfolioForm() {
               <AlertDescription>{alert.message}</AlertDescription>
             </Alert>
           )}
+
+          {alert.message && setTimeout(() => {
+            setAlert({ ...alert, message: '' });
+          }, 2000)}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Basic Details */}
@@ -212,17 +241,28 @@ function CreatePortfolioForm() {
             {/* Project Selection */}
             <div>
               <Label>Select Projects</Label>
-              <div className="space-y-2 mt-2">
+              <div className="space-y-4 mt-4">
                 {projects.map((project) => (
-                  <div key={project.id} className="flex items-center justify-between border p-2 rounded">
-                    <span>{project.name}</span>
+                  <div
+                    key={project.id}
+                    className="flex items-center justify-between border p-4 rounded-lg"
+                  >
+                    <div className="flex items-start space-x-4">
+
+                      <div>
+                        <h4 className="text-lg font-medium">{project.name}</h4>
+                        <p className="text-sm text-gray-400">{project.description}</p>
+                      </div>
+                    </div>
                     <Switch
                       checked={portfolio.projectIds.includes(project.id)}
                       onCheckedChange={() => toggleProject(project.id)}
+                      className="transition-transform transform hover:scale-105"
                     />
                   </div>
                 ))}
               </div>
+
             </div>
 
             {/* Dynamic Sections */}
@@ -257,7 +297,10 @@ function CreatePortfolioForm() {
             ))}
 
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Creating..." : "Create Portfolio"}
+              {loading
+                ? (isUpdate ? "Updating..." : "Creating...")
+                : (isUpdate ? "Update Portfolio" : "Create Portfolio")
+              }
             </Button>
           </form>
         </CardContent>
@@ -265,7 +308,6 @@ function CreatePortfolioForm() {
 
       {/* Preview Column */}
       <PortfolioPreview portfolio={portfolio} />
-      {/* <PortfolioWebsite portfolio={portfolio} /> */}
     </div>
   );
 }

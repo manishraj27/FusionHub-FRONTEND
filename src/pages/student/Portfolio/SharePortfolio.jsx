@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PortfolioPreview from "./PortfolioPreview";
+import PortfolioWebsite from "./PortfolioWebsite";
 
 const SharePortfolio = () => {
   const { uniqueUsername } = useParams();
@@ -35,8 +36,8 @@ const SharePortfolio = () => {
   return (
     // <Card className="p-6">
     //   <CardContent>
-        // <PortfolioWebsite portfolio={portfolio} />
-        <PortfolioPreview portfolio={portfolio} />
+        <PortfolioWebsite portfolio={portfolio} />
+        // <PortfolioPreview portfolio={portfolio} />
     //   </CardContent>
     // </Card>
   );

@@ -1,21 +1,47 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Edit, Share2, User } from 'lucide-react';
 import CreatePortfolioForm from './CreatePortfolioForm';
 import SharePortfolio from './SharePortfolio';
+import ShareWithin from './ShareWithin';
 
 const PortfolioPage = () => {
   const [activeView, setActiveView] = useState('create');
-  
+  const [existingPortfolio, setExistingPortfolio] = useState(null);
+
+  useEffect(() => {
+    fetchExistingPortfolio();
+  }, []);
+
+  const fetchExistingPortfolio = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:2000/api/portfolio', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        const portfolioData = await response.json();
+        setExistingPortfolio(portfolioData);
+        // Automatically switch to update view if portfolio exists
+        setActiveView('update');
+      }
+    } catch (error) {
+      console.error('Error fetching portfolio:', error);
+    }
+  };
+
   const renderContent = () => {
     switch (activeView) {
       case 'create':
         return <CreatePortfolioForm />;
       case 'update':
-        return <CreatePortfolioForm isUpdate={true} />;
+        return <CreatePortfolioForm initialPortfolio={existingPortfolio} isUpdate={true} />;
       case 'share':
-        return <SharePortfolio />;
+        return <ShareWithin 
+          shareLink={existingPortfolio ? `http://localhost:5173/share/${existingPortfolio.uniqueUsername}` : null} 
+        />;
       default:
         return <CreatePortfolioForm />;
     }
@@ -46,6 +72,8 @@ const PortfolioPage = () => {
                 variant={activeView === 'update' ? 'default' : 'outline'}
                 className="flex items-center space-x-2"
                 onClick={() => setActiveView('update')}
+                // Disable update button if no existing portfolio
+                disabled={!existingPortfolio}
               >
                 <Edit className="h-4 w-4" />
                 <span>Update Portfolio</span>
@@ -54,6 +82,8 @@ const PortfolioPage = () => {
                 variant={activeView === 'share' ? 'default' : 'outline'}
                 className="flex items-center space-x-2"
                 onClick={() => setActiveView('share')}
+                // Disable share button if no existing portfolio
+                disabled={!existingPortfolio}
               >
                 <Share2 className="h-4 w-4" />
                 <span>Share Portfolio</span>
