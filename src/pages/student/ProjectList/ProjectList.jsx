@@ -47,6 +47,7 @@ const ProjectList = () => {
       }
       
       const data = await response.json();
+      console.log(data);
       setProjects(Array.isArray(data) ? data : [data]);
       setLoading(false);
     } catch (err) {

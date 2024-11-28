@@ -10,11 +10,14 @@ import { Plus, Trash2 } from 'lucide-react';
 import { useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import PortfolioPreview from "./PortfolioPreview";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 
 
 // Main Portfolio Creation Form
 function CreatePortfolioForm() {
+  const [loading, setLoading] = useState(false);
+  const [alert, setAlert] = useState({ type: '', message: '' });
   const [portfolio, setPortfolio] = useState({
     uniqueUsername: '',
     name: '',
@@ -41,8 +44,8 @@ function CreatePortfolioForm() {
   const toggleProject = (projectId) => {
     setPortfolio(prev => ({
       ...prev,
-      projects: prev.projects.map(project => 
-        project.id === projectId 
+      projects: prev.projects.map(project =>
+        project.id === projectId
           ? { ...project, selected: !project.selected }
           : project
       )
@@ -69,11 +72,52 @@ function CreatePortfolioForm() {
     setPortfolio(prev => ({ ...prev, [field]: newArray }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Portfolio submitted:', portfolio);
-  };
+    setLoading(true);
+    setAlert({ type: '', message: '' });
 
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Authentication token not found. Please login again.');
+      }
+
+      const portfolioData = {
+        ...portfolio,
+        projects: portfolio.projects
+          .filter(project => project.selected)
+          .map(({ id, name }) => ({ id, name }))
+      };
+
+      const response = await fetch('http://localhost:2000/api/portfolio', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(portfolioData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to create portfolio');
+      }
+
+      await response.json();
+      setAlert({
+        type: 'success',
+        message: 'Portfolio created successfully!'
+      });
+    } catch (error) {
+      setAlert({
+        type: 'error',
+        message: error.message || 'Failed to create portfolio'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="grid grid-cols-2 gap-6 p-6">
       {/* Form Column */}
@@ -82,24 +126,32 @@ function CreatePortfolioForm() {
           <CardTitle>Create Your Portfolio</CardTitle>
         </CardHeader>
         <CardContent>
+          {alert.message && (
+            <Alert className={`mb-4 ${alert.type === 'success' ? 'bg-green-50 text-green-700 border-green-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg' : 'bg-red-50 text-red-700 border-red-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg'}`}>
+              <AlertDescription>
+                {alert.message}
+              </AlertDescription>
+            </Alert>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Basic Details */}
             <div className="grid grid-cols-2 gap-4">
-            <div className="mb-4">
-            <Label>Unique Username</Label>
-            <Input 
-              value={portfolio.uniqueUsername}
-              onChange={handleUsernameChange}
-              placeholder="Enter your unique username"
-            />
-            <p className="text-sm text-muted-foreground mt-2">
-              Your portfolio will be visible at: http://localhost:5173/{portfolio.uniqueUsername || '{username}'}
-            </p>
-          </div>
+              <div className="mb-4">
+                <Label>Unique Username</Label>
+                <Input
+                  value={portfolio.uniqueUsername}
+                  onChange={handleUsernameChange}
+                  placeholder="Enter your unique username"
+                />
+                <p className="text-sm text-muted-foreground mt-2">
+                  Your portfolio will be visible at: http://localhost:5173/{portfolio.uniqueUsername || '{username}'}
+                </p>
+              </div>
 
               <div>
                 <Label>Name</Label>
-                <Input 
+                <Input
                   name="name"
                   value={portfolio.name}
                   onChange={handleInputChange}
@@ -108,7 +160,7 @@ function CreatePortfolioForm() {
               </div>
               <div>
                 <Label>Email</Label>
-                <Input 
+                <Input
                   name="email"
                   value={portfolio.email}
                   onChange={handleInputChange}
@@ -119,7 +171,7 @@ function CreatePortfolioForm() {
 
             <div>
               <Label>About</Label>
-              <Textarea 
+              <Textarea
                 name="about"
                 value={portfolio.about}
                 onChange={handleInputChange}
@@ -131,7 +183,7 @@ function CreatePortfolioForm() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label>GitHub Link</Label>
-                <Input 
+                <Input
                   name="githubLink"
                   value={portfolio.githubLink}
                   onChange={handleInputChange}
@@ -140,7 +192,7 @@ function CreatePortfolioForm() {
               </div>
               <div>
                 <Label>LinkedIn Link</Label>
-                <Input 
+                <Input
                   name="linkedinLink"
                   value={portfolio.linkedinLink}
                   onChange={handleInputChange}
@@ -152,9 +204,9 @@ function CreatePortfolioForm() {
             {/* Theme Selection */}
             <div>
               <Label>Portfolio Theme</Label>
-              <Select 
+              <Select
                 value={portfolio.theme}
-                onValueChange={(value) => 
+                onValueChange={(value) =>
                   setPortfolio(prev => ({ ...prev, theme: value }))
                 }
               >
@@ -170,22 +222,22 @@ function CreatePortfolioForm() {
             </div>
 
             <div className="mb-4">
-            <Label>Select Projects</Label>
-            <div className="space-y-2 mt-2">
-              {portfolio.projects.map((project) => (
-                <div 
-                  key={project.id} 
-                  className="flex items-center justify-between border p-2 rounded"
-                >
-                  <span>{project.name}</span>
-                  <Switch
-                    checked={project.selected}
-                    onCheckedChange={() => toggleProject(project.id)}
-                  />
-                </div>
-              ))}
+              <Label>Select Projects</Label>
+              <div className="space-y-2 mt-2">
+                {portfolio.projects.map((project) => (
+                  <div
+                    key={project.id}
+                    className="flex items-center justify-between border p-2 rounded"
+                  >
+                    <span>{project.name}</span>
+                    <Switch
+                      checked={project.selected}
+                      onCheckedChange={() => toggleProject(project.id)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
 
             {/* Dynamic Sections */}
             {['skills', 'experiences', 'education'].map((field) => (
@@ -193,14 +245,14 @@ function CreatePortfolioForm() {
                 <Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
                 {portfolio[field].map((item, index) => (
                   <div key={index} className="flex items-center space-x-2 mb-2">
-                    <Input 
+                    <Input
                       value={item}
                       onChange={(e) => updateArrayField(field, index, e.target.value)}
                       placeholder={`Enter ${field.slice(0, -1)}`}
                     />
-                    <Button 
-                      type="button" 
-                      variant="destructive" 
+                    <Button
+                      type="button"
+                      variant="destructive"
                       size="icon"
                       onClick={() => removeArrayField(field, index)}
                     >
@@ -208,9 +260,9 @@ function CreatePortfolioForm() {
                     </Button>
                   </div>
                 ))}
-                <Button 
-                  type="button" 
-                  onClick={() => addArrayField(field)} 
+                <Button
+                  type="button"
+                  onClick={() => addArrayField(field)}
                   variant="outline"
                 >
                   <Plus className="mr-2 h-4 w-4" /> Add {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -218,7 +270,13 @@ function CreatePortfolioForm() {
               </div>
             ))}
 
-            <Button type="submit" className="w-full">Create Portfolio</Button>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? "Creating..." : "Create Portfolio"}
+            </Button>
           </form>
         </CardContent>
       </Card>

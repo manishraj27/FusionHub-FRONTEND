@@ -26,7 +26,7 @@ import SharePortfolio from './pages/student/Portfolio/SharePortfolio';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(null); // Track user role ('USER' or 'ADMIN')
+  const [userRole, setUserRole] = useState(null); 
 
  
   useEffect(() => {
