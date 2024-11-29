@@ -45,6 +45,42 @@ const StudentNavbar = ({ onLogout }) => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+
+  const getAuthHeader = () => {
+    const token = localStorage.getItem('token');
+    return token ? `Bearer ${token}` : '';
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  const [studentName, setStuedentName] = useState(null);
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await fetch('http://localhost:2000/api/self/profile', {
+        method: 'GET',
+        headers: {
+          'Authorization': getAuthHeader(),
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      
+      const data = await response.json();
+      setStuedentName(data.fullName);
+
+    } catch (error) {
+      console.error('Failed to fetch profile:', error);
+    
+    }
+  };
+
   return (
     <div className="sticky top-0 z-50 bg-background">
       <div className="border-b py-4 px-5 flex items-center justify-between">
@@ -116,7 +152,7 @@ const StudentNavbar = ({ onLogout }) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <p>Manish Raj</p>
+          <p>{studentName}</p>
         </div>
 
         {/* Mobile Hamburger Menu */}

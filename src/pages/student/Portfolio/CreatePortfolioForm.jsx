@@ -7,8 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus, Trash2 } from 'lucide-react';
 import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
-import PortfolioPreview from "./PortfolioPreview";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import PortfolioPreviewDialog from "./PortfolioPreviewDialog";
 
 function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
   const [loading, setLoading] = useState(false);
@@ -133,14 +133,16 @@ function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-6 p-6">
+    <div className="container mx-auto px-4 py-6">
       {/* Form Column */}
+      <div>
       <Card>
-        <CardHeader>
-          <CardTitle>
-            {isUpdate ? 'Update Your Portfolio' : 'Create Your Portfolio'}
-          </CardTitle>
-        </CardHeader>
+      <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>
+              {isUpdate ? 'Update Your Portfolio' : 'Create Your Portfolio'}
+            </CardTitle>
+            <PortfolioPreviewDialog portfolio={portfolio} />
+          </CardHeader>
         <CardContent>
           {alert.message && (
             <Alert className={`mb-4 ${alert.type === 'success' ? 'bg-green-50 text-green-700 border-green-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg' : 'bg-red-50 text-red-700 border-red-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg'}`}>
@@ -234,6 +236,9 @@ function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
                   <SelectItem value="minimalist">Minimalist</SelectItem>
                   <SelectItem value="modern">Modern</SelectItem>
                   <SelectItem value="classic">Classic</SelectItem>
+                  <SelectItem value="cyberpunk">Cyberpunk</SelectItem>
+                  <SelectItem value="pastel">Pastel</SelectItem>
+                
                 </SelectContent>
               </Select>
             </div>
@@ -306,8 +311,9 @@ function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
         </CardContent>
       </Card>
 
-      {/* Preview Column */}
-      <PortfolioPreview portfolio={portfolio} />
+
+      {/*different components showacasing style items like themes and different animations  */}
+      </div>
     </div>
   );
 }

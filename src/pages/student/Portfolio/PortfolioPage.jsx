@@ -3,8 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, Edit, Share2, User } from 'lucide-react';
 import CreatePortfolioForm from './CreatePortfolioForm';
-import SharePortfolio from './SharePortfolio';
 import ShareWithin from './ShareWithin';
+import PortfolioPreviewDialog from './PortfolioPreviewDialog';
 
 const PortfolioPage = () => {
   const [activeView, setActiveView] = useState('create');
@@ -41,6 +41,7 @@ const PortfolioPage = () => {
       case 'share':
         return <ShareWithin 
           shareLink={existingPortfolio ? `http://localhost:5173/share/${existingPortfolio.uniqueUsername}` : null} 
+          portfolio={existingPortfolio || {}} 
         />;
       default:
         return <CreatePortfolioForm />;
@@ -88,6 +89,8 @@ const PortfolioPage = () => {
                 <Share2 className="h-4 w-4" />
                 <span>Share Portfolio</span>
               </Button>
+              
+              <PortfolioPreviewDialog portfolio={existingPortfolio} />
             </div>
           </nav>
         </Card>
