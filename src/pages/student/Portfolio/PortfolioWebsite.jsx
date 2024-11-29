@@ -175,17 +175,17 @@ const PortfolioWebsite = ({ portfolio }) => {
   return (
     <div className={`min-h-screen bg-gradient-to-br ${currentTheme.bgGradient}`}>
       {/* Navigation */}
-      {/* <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? `${currentTheme.navBg} shadow-md` : 'bg-transparent'}`}>
+      <nav className={`w-full z-50 transition-all duration-300 ${isScrolled ? `${currentTheme.navBg} shadow-md` : 'bg-transparent'}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex-shrink-0">
               <h1 className={`text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent`}>
                 {portfolio.name}
               </h1>
-            </div> */}
+            </div>
 
             {/* Desktop Navigation */}
-            {/* <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex space-x-8">
               {navItems.map((item) => (
                 <button
                   key={item.id}
@@ -197,10 +197,10 @@ const PortfolioWebsite = ({ portfolio }) => {
                   {item.label}
                 </button>
               ))}
-            </div> */}
+            </div>
 
             {/* Mobile Menu Button */}
-            {/* <div className="md:hidden">
+            <div className="md:hidden">
               <Button
                 variant="ghost"
                 size="icon"
@@ -210,10 +210,10 @@ const PortfolioWebsite = ({ portfolio }) => {
               </Button>
             </div>
           </div>
-        </div> */}
+        </div>
 
         {/* Mobile Navigation */}
-        {/* {isMenuOpen && (
+        {isMenuOpen && (
           <div className="md:hidden bg-white/95 backdrop-blur-md">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
@@ -228,7 +228,7 @@ const PortfolioWebsite = ({ portfolio }) => {
             </div>
           </div>
         )}
-      </nav> */}
+      </nav>
 
       {/* Hero Section */}
       <section id="about" className="pt-32 pb-20 px-4">
