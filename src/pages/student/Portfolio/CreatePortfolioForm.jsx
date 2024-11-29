@@ -240,7 +240,10 @@ function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
                       <SelectItem value="classic">Classic</SelectItem>
                       <SelectItem value="cyberpunk">Cyberpunk</SelectItem>
                       <SelectItem value="pastel">Pastel</SelectItem>
-
+                      <SelectItem value="futuristic">Futuristic</SelectItem>
+                      <SelectItem value="vintage">Vintage</SelectItem>
+                      <SelectItem value="darkElegance">Dark Elegance</SelectItem>
+                      <SelectItem value="neon">Neon</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

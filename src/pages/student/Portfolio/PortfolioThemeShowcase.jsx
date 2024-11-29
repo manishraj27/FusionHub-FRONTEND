@@ -36,6 +36,34 @@ const ThemePreview = ({ theme, isActive }) => {
       accent: 'bg-pink-200',
       title: 'text-pink-900 font-rounded',
       border: isActive ? 'border-4 border-pink-500' : 'border border-transparent'
+    },
+    futuristic: {
+      background: 'bg-gradient-to-r from-black to-gray-700',
+      text: 'text-teal-400',
+      accent: 'bg-teal-600',
+      title: 'text-teal-300 font-extrabold',
+      border: isActive ? 'border-4 border-teal-500' : 'border border-transparent'
+    },
+    vintage: {
+      background: 'bg-yellow-50',
+      text: 'text-gray-800',
+      accent: 'bg-yellow-300',
+      title: 'text-gray-800 font-serif italic',
+      border: isActive ? 'border-4 border-yellow-600' : 'border border-transparent'
+    },
+    darkElegance: {
+      background: 'bg-gray-800',
+      text: 'text-white',
+      accent: 'bg-indigo-900',
+      title: 'text-indigo-400 font-light',
+      border: isActive ? 'border-4 border-indigo-600' : 'border border-transparent'
+    },
+    neon: {
+      background: 'bg-black',
+      text: 'text-pink-400',
+      accent: 'bg-yellow-500',
+      title: 'text-lime-400 font-mono',
+      border: isActive ? 'border-4 border-pink-600' : 'border border-transparent'
     }
   };
 
@@ -85,7 +113,8 @@ const ThemePreview = ({ theme, isActive }) => {
 };
 
 const PortfolioThemeShowcase = ({ currentTheme }) => {
-  const themes = ['minimalist', 'modern', 'classic', 'cyberpunk', 'pastel'];
+  const themes = ['minimalist', 'modern', 'classic', 'cyberpunk', 'pastel', 'futuristic', 'vintage', 'darkElegance', 'neon'];
+
 
   return (
     <div className="hidden lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
