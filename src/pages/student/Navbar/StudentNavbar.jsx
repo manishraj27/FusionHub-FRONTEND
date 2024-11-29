@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { PersonIcon } from "@radix-ui/react-icons";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import navbarlogo from "/src/assets/navbarlogo.svg";
 import { ModeToggle } from "@/components/ui/ModeToggle";
@@ -81,15 +81,23 @@ const StudentNavbar = ({ onLogout }) => {
     }
   };
 
+  const location = useLocation();
+  const isProjectManagementPage = location.pathname.includes('/project-management');
+
   return (
     <div className="sticky top-0 z-50 bg-background">
       <div className="border-b py-4 px-5 flex items-center justify-between">
-        <a href="/project-management" aria-label="Logo" className="z-50">
+        <a href="/portfolio" aria-label="Logo" className="z-50">
           <img src={navbarlogo} alt="Logo" />
         </a>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-4 justify-center">
+          <Button variant="ghost" onClick={() => navigate("portfolio")}>
+            Portfolio
+          </Button>
+
+
           <Button
             variant="ghost"
             onClick={() => navigate("project-management")}
@@ -97,7 +105,7 @@ const StudentNavbar = ({ onLogout }) => {
             Project Management
           </Button>
 
-        
+          {isProjectManagementPage && (
             <Dialog>
               <DialogTrigger>
                 <Button variant="ghost">New Project</Button>
@@ -108,11 +116,8 @@ const StudentNavbar = ({ onLogout }) => {
                 <CreateProjectForm />
               </DialogContent>
             </Dialog>
-          
+          )}
 
-          <Button variant="ghost" onClick={() => navigate("portfolio")}>
-            Portfolio
-          </Button>
 
           <Button variant="ghost" onClick={() => navigate("contact")}>
             Contact

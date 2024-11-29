@@ -94,7 +94,7 @@ function App() {
         {isAuthenticated ? (
           userRole === "USER" ? (
             <>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<PortfolioPage />} />
               <Route path="/project-management" element={<Home />} />
               <Route path="/portfolio" element={<PortfolioPage />} />
               <Route path="/project/:id" element={<ProjectDetails />} />

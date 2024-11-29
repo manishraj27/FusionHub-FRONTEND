@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import PortfolioPreviewDialog from "./PortfolioPreviewDialog";
+import PortfolioThemeShowcase from "./PortfolioThemeShowcase";
 
 function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
   const [loading, setLoading] = useState(false);
@@ -135,184 +136,188 @@ function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
   return (
     <div className="container mx-auto px-4 py-6">
       {/* Form Column */}
-      <div>
-      <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>
-              {isUpdate ? 'Update Your Portfolio' : 'Create Your Portfolio'}
-            </CardTitle>
-            <PortfolioPreviewDialog portfolio={portfolio} />
-          </CardHeader>
-        <CardContent>
-          {alert.message && (
-            <Alert className={`mb-4 ${alert.type === 'success' ? 'bg-green-50 text-green-700 border-green-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg' : 'bg-red-50 text-red-700 border-red-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg'}`}>
-              <AlertDescription>{alert.message}</AlertDescription>
-            </Alert>
-          )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle>
+                {isUpdate ? 'Update Your Portfolio' : 'Create Your Portfolio'}
+              </CardTitle>
+              <PortfolioPreviewDialog portfolio={portfolio} />
+            </CardHeader>
+            <CardContent>
+              {alert.message && (
+                <Alert className={`mb-4 ${alert.type === 'success' ? 'bg-green-50 text-green-700 border-green-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg' : 'bg-red-50 text-red-700 border-red-200 mb-4 fixed top-4 right-4 w-96 z-50 shadow-lg'}`}>
+                  <AlertDescription>{alert.message}</AlertDescription>
+                </Alert>
+              )}
 
-          {alert.message && setTimeout(() => {
-            setAlert({ ...alert, message: '' });
-          }, 2000)}
+              {alert.message && setTimeout(() => {
+                setAlert({ ...alert, message: '' });
+              }, 2000)}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Basic Details */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label>Unique Username</Label>
-                <Input
-                  name="uniqueUsername"
-                  value={portfolio.uniqueUsername}
-                  onChange={handleInputChange}
-                  placeholder="Enter your unique username"
-                />
-                <p className="text-sm text-muted-foreground mt-2">
-                  Your portfolio will be visible at: http://localhost:5173/share/{portfolio.uniqueUsername || '{username}'}
-                </p>
-              </div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Basic Details */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Unique Username</Label>
+                    <Input
+                      name="uniqueUsername"
+                      value={portfolio.uniqueUsername}
+                      onChange={handleInputChange}
+                      placeholder="Enter your unique username"
+                    />
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Your portfolio will be visible at: http://localhost:5173/share/{portfolio.uniqueUsername || '{username}'}
+                    </p>
+                  </div>
 
-              <div>
-                <Label>Name</Label>
-                <Input
-                  name="name"
-                  value={portfolio.name}
-                  onChange={handleInputChange}
-                  placeholder="Your Full Name"
-                />
-              </div>
-              <div>
-                <Label>Email</Label>
-                <Input
-                  name="email"
-                  value={portfolio.email}
-                  onChange={handleInputChange}
-                  placeholder="Your Email"
-                />
-              </div>
-            </div>
-
-            <div>
-              <Label>About</Label>
-              <Textarea
-                name="about"
-                value={portfolio.about}
-                onChange={handleInputChange}
-                placeholder="Tell us about yourself"
-              />
-            </div>
-
-            {/* Social Links */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label>GitHub Link</Label>
-                <Input
-                  name="githubLink"
-                  value={portfolio.githubLink}
-                  onChange={handleInputChange}
-                  placeholder="GitHub Profile URL"
-                />
-              </div>
-              <div>
-                <Label>LinkedIn Link</Label>
-                <Input
-                  name="linkedinLink"
-                  value={portfolio.linkedinLink}
-                  onChange={handleInputChange}
-                  placeholder="LinkedIn Profile URL"
-                />
-              </div>
-            </div>
-
-            {/* Theme Selection */}
-            <div>
-              <Label>Portfolio Theme</Label>
-              <Select
-                value={portfolio.theme}
-                onValueChange={(value) => setPortfolio(prev => ({ ...prev, theme: value }))}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Theme" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="minimalist">Minimalist</SelectItem>
-                  <SelectItem value="modern">Modern</SelectItem>
-                  <SelectItem value="classic">Classic</SelectItem>
-                  <SelectItem value="cyberpunk">Cyberpunk</SelectItem>
-                  <SelectItem value="pastel">Pastel</SelectItem>
-                
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Project Selection */}
-            <div>
-              <Label>Select Projects</Label>
-              <div className="space-y-4 mt-4">
-                {projects.map((project) => (
-                  <div
-                    key={project.id}
-                    className="flex items-center justify-between border p-4 rounded-lg"
-                  >
-                    <div className="flex items-start space-x-4">
-
-                      <div>
-                        <h4 className="text-lg font-medium">{project.name}</h4>
-                        <p className="text-sm text-gray-400">{project.description}</p>
-                      </div>
-                    </div>
-                    <Switch
-                      checked={portfolio.projectIds.includes(project.id)}
-                      onCheckedChange={() => toggleProject(project.id)}
-                      className="transition-transform transform hover:scale-105"
+                  <div>
+                    <Label>Name</Label>
+                    <Input
+                      name="name"
+                      value={portfolio.name}
+                      onChange={handleInputChange}
+                      placeholder="Your Full Name"
                     />
                   </div>
-                ))}
-              </div>
-
-            </div>
-
-            {/* Dynamic Sections */}
-            {['skills', 'experiences', 'education'].map((field) => (
-              <div key={field}>
-                <Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
-                {portfolio[field].map((item, index) => (
-                  <div key={index} className="flex items-center space-x-2 mb-2">
+                  <div>
+                    <Label>Email</Label>
                     <Input
-                      value={item}
-                      onChange={(e) => updateArrayField(field, index, e.target.value)}
-                      placeholder={`Enter ${field.slice(0, -1)}`}
+                      name="email"
+                      value={portfolio.email}
+                      onChange={handleInputChange}
+                      placeholder="Your Email"
                     />
+                  </div>
+                </div>
+
+                <div>
+                  <Label>About</Label>
+                  <Textarea
+                    name="about"
+                    value={portfolio.about}
+                    onChange={handleInputChange}
+                    placeholder="Tell us about yourself"
+                  />
+                </div>
+
+                {/* Social Links */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>GitHub Link</Label>
+                    <Input
+                      name="githubLink"
+                      value={portfolio.githubLink}
+                      onChange={handleInputChange}
+                      placeholder="GitHub Profile URL"
+                    />
+                  </div>
+                  <div>
+                    <Label>LinkedIn Link</Label>
+                    <Input
+                      name="linkedinLink"
+                      value={portfolio.linkedinLink}
+                      onChange={handleInputChange}
+                      placeholder="LinkedIn Profile URL"
+                    />
+                  </div>
+                </div>
+
+                {/* Theme Selection */}
+                <div>
+                  <Label>Portfolio Theme</Label>
+                  <Select
+                    value={portfolio.theme}
+                    onValueChange={(value) => setPortfolio(prev => ({ ...prev, theme: value }))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Theme" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="minimalist">Minimalist</SelectItem>
+                      <SelectItem value="modern">Modern</SelectItem>
+                      <SelectItem value="classic">Classic</SelectItem>
+                      <SelectItem value="cyberpunk">Cyberpunk</SelectItem>
+                      <SelectItem value="pastel">Pastel</SelectItem>
+
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Project Selection */}
+                <div>
+                  <Label>Select Projects</Label>
+                  <div className="space-y-4 mt-4">
+                    {projects.map((project) => (
+                      <div
+                        key={project.id}
+                        className="flex items-center justify-between border p-4 rounded-lg"
+                      >
+                        <div className="flex items-start space-x-4">
+
+                          <div>
+                            <h4 className="text-lg font-medium">{project.name}</h4>
+                            <p className="text-sm text-gray-400">{project.description}</p>
+                          </div>
+                        </div>
+                        <Switch
+                          checked={portfolio.projectIds.includes(project.id)}
+                          onCheckedChange={() => toggleProject(project.id)}
+                          className="transition-transform transform hover:scale-105"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                </div>
+
+                {/* Dynamic Sections */}
+                {['skills', 'experiences', 'education'].map((field) => (
+                  <div key={field}>
+                    <Label>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
+                    {portfolio[field].map((item, index) => (
+                      <div key={index} className="flex items-center space-x-2 mb-2">
+                        <Input
+                          value={item}
+                          onChange={(e) => updateArrayField(field, index, e.target.value)}
+                          placeholder={`Enter ${field.slice(0, -1)}`}
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="icon"
+                          onClick={() => removeArrayField(field, index)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    ))}
                     <Button
                       type="button"
-                      variant="destructive"
-                      size="icon"
-                      onClick={() => removeArrayField(field, index)}
+                      onClick={() => addArrayField(field)}
+                      variant="outline"
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Plus className="mr-2 h-4 w-4" /> Add {field.charAt(0).toUpperCase() + field.slice(1)}
                     </Button>
                   </div>
                 ))}
-                <Button
-                  type="button"
-                  onClick={() => addArrayField(field)}
-                  variant="outline"
-                >
-                  <Plus className="mr-2 h-4 w-4" /> Add {field.charAt(0).toUpperCase() + field.slice(1)}
+
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading
+                    ? (isUpdate ? "Updating..." : "Creating...")
+                    : (isUpdate ? "Update Portfolio" : "Create Portfolio")
+                  }
                 </Button>
-              </div>
-            ))}
+              </form>
+            </CardContent>
+          </Card>
 
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading
-                ? (isUpdate ? "Updating..." : "Creating...")
-                : (isUpdate ? "Update Portfolio" : "Create Portfolio")
-              }
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+        </div>
 
-
-      {/*different components showacasing style items like themes and different animations  */}
+        <div className="hidden lg:block">
+          <PortfolioThemeShowcase currentTheme={portfolio.theme} />
+        </div>
       </div>
     </div>
   );
