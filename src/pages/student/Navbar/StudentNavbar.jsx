@@ -254,7 +254,7 @@ const StudentNavbar = ({ onLogout }) => {
               variant="ghost"
               onClick={() => {
                 onLogout(); // Calling the passed onLogout function here
-                navigate("/admin-login"); // Redirect to login after logout
+                navigate("/student-auth"); // Redirect to login after logout
               }}
               className="w-full text-lg font-medium tracking-wide hover:bg-red-100 hover:text-red-600 rounded-lg transition-all duration-300"
             >
