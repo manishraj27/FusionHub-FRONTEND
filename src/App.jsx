@@ -23,6 +23,8 @@ import Contact from "./pages/main/Contact";
 import About from "./pages/main/About";
 import NotFound from "./pages/main/NotFound";
 import SharePortfolio from './pages/student/Portfolio/SharePortfolio';
+import { path } from 'path';
+import IssueDetails from "./pages/student/IssueDetails/IssueDetails";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -98,6 +100,7 @@ function App() {
               <Route path="/project-management" element={<Home />} />
               <Route path="/portfolio" element={<PortfolioPage />} />
               <Route path="/project/:id" element={<ProjectDetails />} />
+              <Route path="/project/:projectId/issue/:issueId" element={<IssueDetails />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="*" element={<NotFound />} />
