@@ -7,6 +7,8 @@ import ProjectDetails from "./pages/student/ProjectDetails/ProjectDetails";
 import Profile from "./pages/student/Profile/Profile";
 import Auth from "./pages/student/Auth/Auth";
 import Home from "./pages/student/Home/Home";
+import SharePortfolio from './pages/student/Portfolio/SharePortfolio';
+import IssueDetails from "./pages/student/IssueDetails/IssueDetails";
 
 import AdminNavbar from "./pages/admin/AdminNavbar/AdminNavbar";
 import Dashboard from "./pages/admin/Dashboard/Dashboard";
@@ -22,9 +24,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 import Contact from "./pages/main/Contact";
 import About from "./pages/main/About";
 import NotFound from "./pages/main/NotFound";
-import SharePortfolio from './pages/student/Portfolio/SharePortfolio';
-import { path } from 'path';
-import IssueDetails from "./pages/student/IssueDetails/IssueDetails";
+import Footer from "./pages/main/Footer";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -92,10 +92,11 @@ function App() {
       <Routes>
         {/* Route visible globally */}
         <Route path="/share/:uniqueUsername" element={<SharePortfolio />} />
-
+        </Routes>
         {isAuthenticated ? (
           userRole === "USER" ? (
             <>
+            <Routes>
               <Route path="/" element={<PortfolioPage />} />
               <Route path="/project-management" element={<Home />} />
               <Route path="/portfolio" element={<PortfolioPage />} />
@@ -104,29 +105,39 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="*" element={<NotFound />} />
+
+            </Routes>
             </>
           ) : userRole === "ADMIN" ? (
             <>
+            <Routes>
+
               <Route path="/admin-dashboard" element={<Dashboard />} />
               <Route path="/viewall-students" element={<ViewAllStudents />} />
               <Route path="/delete-students" element={<DeleteStudents />} />
               <Route path="/update-students-status" element={<UpdateStudents />} />
               <Route path="*" element={<NotFound />} />
+            </Routes>
             </>
           ) : (
-            <Route path="*" element={<NotFound />} />
+            <Routes>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
           )
         ) : (
           <>
+          <Routes>
             <Route path="/" element={<MainHome />} />
             <Route path="/student-auth" element={<Auth onLogin={handleLogin} />} />
             <Route path="/admin-login" element={<AdminLogin onLogin={handleLogin} />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
           </>
         )}
-      </Routes>
+      
     </ThemeProvider>
   </>
   );
