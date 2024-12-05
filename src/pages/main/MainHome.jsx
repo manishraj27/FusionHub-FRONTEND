@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, GitPullRequest, Users, Folder, MessageCircle, Calendar, FileImage, Award } from "lucide-react";
+import { ArrowRight, Sparkles, GitPullRequest, Users,  MessageCircle, Calendar, FileImage, Award } from "lucide-react";
 
 const MainHome = () => {
   const fadeIn = {

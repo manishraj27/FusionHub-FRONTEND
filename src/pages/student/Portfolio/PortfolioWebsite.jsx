@@ -6,88 +6,94 @@ const PortfolioWebsite = ({ portfolio }) => {
   const [activeSection, setActiveSection] = useState('about');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  console.log(portfolio);
+  //console.log(portfolio);
   // Default to modern theme if not specified
   const theme = portfolio.theme || 'modern';
 
   // Theme-specific color and style configurations
   const themeStyles = {
     minimalist: {
-      bgGradient: 'from-gray-50 to-gray-100',
-      textPrimary: 'text-gray-900',
-      textSecondary: 'text-gray-700',
-      accentColor: 'text-gray-800',
-      navBg: 'bg-white/90',
+      bgGradient: 'from-white to-gray-50',
+      textPrimary: 'text-black',
+      textSecondary: 'text-gray-600',
+      accentColor: 'text-gray-500',
+      navBg: 'bg-white/80 shadow-sm',
       sectionBg: 'bg-gray-50',
-      buttonHover: 'hover:text-gray-900',
-      shadowStyle: 'shadow-sm hover:shadow-md',
+      buttonHover: 'hover:text-black hover:bg-gray-100',
+      shadowStyle: 'shadow hover:shadow-md',
+      title: 'text-black font-thin uppercase',
+      //border: isActive ? 'border-2 border-gray-300' : 'border border-transparent',
       palette: {
-        background: ['bg-gray-50', 'bg-white', 'bg-gray-100'],
+        background: ['bg-white', 'bg-gray-50', 'bg-gray-100'],
         text: {
-          primary: 'text-gray-900',
+          primary: 'text-black',
           secondary: 'text-gray-600',
-          muted: 'text-gray-500'
+          muted: 'text-gray-400',
         },
         accent: {
-          base: 'bg-gray-800',
-          hover: 'hover:bg-gray-700',
-          text: 'text-gray-800'
-        }
-      }
+          base: 'bg-gray-200',
+          hover: 'hover:bg-gray-300',
+          text: 'text-gray-500',
+        },
+      },
     },
     modern: {
-      bgGradient: 'from-sky-50 to-blue-100',
-      textPrimary: 'text-blue-900',
-      textSecondary: 'text-blue-700',
-      accentColor: 'text-blue-600',
-      navBg: 'bg-white/80 backdrop-blur-md',
-      sectionBg: 'bg-white/50',
-      buttonHover: 'hover:text-blue-600',
-      shadowStyle: 'shadow-md hover:shadow-xl',
+      bgGradient: 'from-gray-50 via-blue-50 to-purple-50',
+      textPrimary: 'text-blue-800',
+      textSecondary: 'text-gray-600',
+      accentColor: 'text-purple-600',
+      navBg: 'bg-blue-50/80 backdrop-blur',
+      sectionBg: 'bg-white',
+      buttonHover: 'hover:text-purple-600 hover:bg-blue-100',
+      shadowStyle: 'shadow-lg hover:shadow-xl',
+      title: 'text-blue-800 font-bold',
+      //border: isActive ? 'border-4 border-purple-500' : 'border border-transparent',
       palette: {
-        background: ['bg-sky-50', 'bg-blue-50', 'bg-indigo-50'],
+        background: ['bg-blue-50', 'bg-white', 'bg-purple-50'],
         text: {
-          primary: 'text-blue-900',
-          secondary: 'text-blue-700',
-          muted: 'text-blue-600'
+          primary: 'text-blue-800',
+          secondary: 'text-gray-600',
+          muted: 'text-blue-500',
         },
         accent: {
-          base: 'bg-blue-500',
-          hover: 'hover:bg-blue-600',
-          text: 'text-blue-600'
+          base: 'bg-purple-400',
+          hover: 'hover:bg-purple-500',
+          text: 'text-purple-600',
         },
         gradient: {
-          from: 'from-cyan-400',
-          to: 'to-blue-500'
-        }
-      }
+          from: 'from-blue-400',
+          to: 'to-purple-600',
+        },
+      },
     },
     classic: {
-      bgGradient: 'from-stone-100 to-neutral-200',
+      bgGradient: 'from-beige-100 to-white',
       textPrimary: 'text-gray-900',
-      textSecondary: 'text-gray-700',
-      accentColor: 'text-indigo-700',
-      navBg: 'bg-white/95',
-      sectionBg: 'bg-neutral-50',
-      buttonHover: 'hover:text-indigo-600',
-      shadowStyle: 'shadow-lg hover:shadow-2xl',
+      textSecondary: 'text-brown-600',
+      accentColor: 'text-brown-700',
+      navBg: 'bg-white shadow-md',
+      sectionBg: 'bg-beige-50',
+      buttonHover: 'hover:text-brown-700 hover:bg-brown-100',
+      shadowStyle: 'shadow-md hover:shadow-lg',
+      title: 'text-brown-700 font-serif italic',
+      //border: isActive ? 'border-4 border-brown-500' : 'border border-transparent',
       palette: {
-        background: ['bg-stone-50', 'bg-neutral-100', 'bg-amber-50'],
+        background: ['bg-beige-50', 'bg-white', 'bg-brown-50'],
         text: {
           primary: 'text-gray-900',
-          secondary: 'text-gray-700',
-          muted: 'text-gray-600'
+          secondary: 'text-brown-600',
+          muted: 'text-brown-400',
         },
         accent: {
-          base: 'bg-indigo-600',
-          hover: 'hover:bg-indigo-700',
-          text: 'text-indigo-700'
+          base: 'bg-brown-600',
+          hover: 'hover:bg-brown-700',
+          text: 'text-brown-700',
         },
         gradient: {
-          from: 'from-amber-500',
-          to: 'to-orange-600'
-        }
-      }
+          from: 'from-brown-400',
+          to: 'to-beige-600',
+        },
+      },
     },
     cyberpunk: {
       bgGradient: 'from-gray-900 to-purple-900',
@@ -98,23 +104,21 @@ const PortfolioWebsite = ({ portfolio }) => {
       sectionBg: 'bg-gray-800/50',
       buttonHover: 'hover:text-pink-500',
       shadowStyle: 'shadow-2xl hover:shadow-neon',
+      title: 'text-cyan-300 font-mono',
+      //border: isActive ? 'border-4 border-green-500' : 'border border-transparent',
       palette: {
         background: ['bg-gray-900', 'bg-purple-900', 'bg-black'],
         text: {
           primary: 'text-green-400',
           secondary: 'text-cyan-300',
-          muted: 'text-purple-300'
+          muted: 'text-purple-300',
         },
         accent: {
           base: 'bg-pink-600',
           hover: 'hover:bg-pink-500',
-          text: 'text-pink-500'
+          text: 'text-pink-500',
         },
-        gradient: {
-          from: 'from-green-400',
-          to: 'to-pink-500'
-        }
-      }
+      },
     },
     pastel: {
       bgGradient: 'from-pink-50 to-lavender-100',
@@ -125,24 +129,138 @@ const PortfolioWebsite = ({ portfolio }) => {
       sectionBg: 'bg-pink-50/50',
       buttonHover: 'hover:text-teal-700',
       shadowStyle: 'shadow-md hover:shadow-lg',
+      title: 'text-pink-900 font-rounded',
+      //border: isActive ? 'border-4 border-pink-500' : 'border border-transparent',
       palette: {
         background: ['bg-pink-50', 'bg-lavender-100', 'bg-mint-50'],
         text: {
           primary: 'text-purple-800',
           secondary: 'text-pink-700',
-          muted: 'text-teal-600'
+          muted: 'text-teal-600',
         },
         accent: {
           base: 'bg-teal-500',
           hover: 'hover:bg-teal-600',
-          text: 'text-teal-600'
+          text: 'text-teal-600',
+        },
+      },
+    },
+    futuristic: {
+      bgGradient: 'from-black to-gray-700',
+      textPrimary: 'text-teal-400',
+      textSecondary: 'text-gray-300',
+      accentColor: 'text-teal-300',
+      navBg: 'bg-gray-900/90',
+      sectionBg: 'bg-gray-800',
+      buttonHover: 'hover:text-teal-500',
+      shadowStyle: 'shadow-lg hover:shadow-teal',
+      title: 'text-teal-300 font-extrabold',
+      //border: isActive ? 'border-4 border-teal-500' : 'border border-transparent',
+      palette: {
+        background: ['bg-black', 'bg-gray-800', 'bg-gray-700'],
+        text: {
+          primary: 'text-teal-400',
+          secondary: 'text-gray-300',
+          muted: 'text-gray-500',
+        },
+        accent: {
+          base: 'bg-teal-600',
+          hover: 'hover:bg-teal-500',
+          text: 'text-teal-300',
         },
         gradient: {
-          from: 'from-pink-300',
-          to: 'to-purple-400'
-        }
-      }
-    }
+          from: 'from-teal-400',
+          to: 'to-gray-700',
+        },
+      },
+    },
+    vintage: {
+      bgGradient: 'from-yellow-50 to-orange-50',
+      textPrimary: 'text-gray-800',
+      textSecondary: 'text-gray-600',
+      accentColor: 'text-yellow-600',
+      navBg: 'bg-yellow-100/90',
+      sectionBg: 'bg-yellow-50',
+      buttonHover: 'hover:text-yellow-700',
+      shadowStyle: 'shadow-sm hover:shadow-lg',
+      title: 'text-gray-800 font-serif italic',
+      //border: isActive ? 'border-4 border-yellow-600' : 'border border-transparent',
+      palette: {
+        background: ['bg-yellow-50', 'bg-orange-100', 'bg-yellow-200'],
+        text: {
+          primary: 'text-gray-800',
+          secondary: 'text-gray-600',
+          muted: 'text-yellow-500',
+        },
+        accent: {
+          base: 'bg-yellow-300',
+          hover: 'hover:bg-yellow-400',
+          text: 'text-yellow-600',
+        },
+        gradient: {
+          from: 'from-yellow-300',
+          to: 'to-orange-400',
+        },
+      },
+    },
+    darkElegance: {
+      bgGradient: 'from-gray-800 to-black',
+      textPrimary: 'text-white',
+      textSecondary: 'text-gray-400',
+      accentColor: 'text-indigo-400',
+      navBg: 'bg-black/80',
+      sectionBg: 'bg-gray-900',
+      buttonHover: 'hover:text-indigo-500',
+      shadowStyle: 'shadow-md hover:shadow-xl',
+      title: 'text-indigo-400 font-light',
+      //border: isActive ? 'border-4 border-indigo-600' : 'border border-transparent',
+      palette: {
+        background: ['bg-gray-800', 'bg-black', 'bg-gray-900'],
+        text: {
+          primary: 'text-white',
+          secondary: 'text-gray-400',
+          muted: 'text-gray-600',
+        },
+        accent: {
+          base: 'bg-indigo-900',
+          hover: 'hover:bg-indigo-800',
+          text: 'text-indigo-400',
+        },
+        gradient: {
+          from: 'from-indigo-600',
+          to: 'to-gray-900',
+        },
+      },
+    },
+    neon: {
+      bgGradient: 'from-black to-purple-700',
+      textPrimary: 'text-pink-400',
+      textSecondary: 'text-yellow-300',
+      accentColor: 'text-lime-400',
+      navBg: 'bg-black/90',
+      sectionBg: 'bg-purple-800',
+      buttonHover: 'hover:text-lime-500',
+      shadowStyle: 'shadow-neon hover:shadow-xl',
+      title: 'text-lime-400 font-mono',
+      //border: isActive ? 'border-4 border-pink-600' : 'border border-transparent',
+      palette: {
+        background: ['bg-black', 'bg-purple-700', 'bg-pink-800'],
+        text: {
+          primary: 'text-pink-400',
+          secondary: 'text-yellow-300',
+          muted: 'text-lime-300',
+        },
+        accent: {
+          base: 'bg-yellow-500',
+          hover: 'hover:bg-pink-500',
+          text: 'text-lime-400',
+        },
+        gradient: {
+          from: 'from-pink-500',
+          to: 'to-purple-700',
+        },
+      },
+    },
   };
 
   const currentTheme = themeStyles[theme] || themeStyles.modern;

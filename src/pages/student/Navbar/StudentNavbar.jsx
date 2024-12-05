@@ -16,7 +16,7 @@ import {
 import { PersonIcon } from "@radix-ui/react-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
-import navbarlogo from "/src/assets/navbarlogo.svg";
+import navbarlogo from "/src/assets/fnavbar.svg";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 
 const StudentNavbar = ({ onLogout }) => {

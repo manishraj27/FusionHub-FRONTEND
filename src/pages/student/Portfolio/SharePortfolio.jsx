@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import PortfolioPreview from "./PortfolioPreview";
+// import PortfolioPreview from "./PortfolioPreview";
 import PortfolioWebsite from "./PortfolioWebsite";
 
 const SharePortfolio = () => {
