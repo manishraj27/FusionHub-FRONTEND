@@ -18,6 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import navbarlogo from "/src/assets/fnavbar.svg";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import { Sparkles } from "lucide-react";
 
 const StudentNavbar = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -71,13 +72,13 @@ const StudentNavbar = ({ onLogout }) => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      
+
       const data = await response.json();
       setStuedentName(data.fullName);
 
     } catch (error) {
       console.error('Failed to fetch profile:', error);
-    
+
     }
   };
 
@@ -87,9 +88,18 @@ const StudentNavbar = ({ onLogout }) => {
   return (
     <div className="sticky top-0 z-50 bg-background">
       <div className="border-b py-4 px-5 flex items-center justify-between">
-        <a href="/portfolio" aria-label="Logo" className="z-50">
+        {/* <a href="/portfolio" aria-label="Logo" className="z-50">
           <img src={navbarlogo} alt="Logo" />
+        </a> */}
+
+
+        <a href="/portfolio" aria-label="logo" className="flex items-center gap-2">
+          <Sparkles className="h-6 w-6 text-primary" />
+          <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
+            FusionHub
+          </span>
         </a>
+
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-4 justify-center">

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import navbarlogo from "/src/assets/navbarlogo.svg";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import { Sparkles } from "lucide-react";
 
 const MainNavbar = () => {
   const navigate = useNavigate();
@@ -32,13 +33,21 @@ const MainNavbar = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  
+
   return (
     <div className="sticky top-0 z-50 bg-background">
       <div className="border-b py-4 px-5 flex items-center justify-between">
-        <a href="/" aria-label="Logo" className="z-50">
+        {/* <a href="/" aria-label="Logo" className="z-50">
           <img src={navbarlogo} alt="Logo" />
+        </a> */}
+
+        <a href="/" aria-label="logo" className="flex items-center gap-2">
+          <Sparkles className="h-6 w-6 text-primary" />
+          <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
+            FusionHub
+          </span>
         </a>
+
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-4 justify-center">
@@ -54,7 +63,7 @@ const MainNavbar = () => {
           </Button>
 
           <Button variant="ghost" onClick={() => navigate("student-auth")}>
-           Student Signup/Login
+            Student Signup/Login
           </Button>
 
           <Button variant="ghost" onClick={() => navigate("admin-login")}>
@@ -63,9 +72,9 @@ const MainNavbar = () => {
 
 
           <Button variant="ghost" onClick={() => navigate("contact")}>
-         Contact
+            Contact
           </Button>
-          
+
         </div>
 
         {/* Desktop User Menu */}
@@ -98,7 +107,7 @@ const MainNavbar = () => {
             <div className="flex flex-col gap-10">
 
 
-            <Button
+              <Button
                 variant="ghost"
                 onClick={() => {
                   navigate("about");
@@ -122,7 +131,7 @@ const MainNavbar = () => {
                 Student Signup/Login
               </Button>
 
-  
+
               <Button
                 variant="ghost"
                 onClick={() => {
@@ -142,7 +151,7 @@ const MainNavbar = () => {
                 Contact
               </Button>
 
-              
+
             </div>
           </div>
 

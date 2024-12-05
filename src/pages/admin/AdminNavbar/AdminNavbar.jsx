@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
 import navbarlogo from "/src/assets/navbarlogo.svg";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import { Sparkles } from "lucide-react";
 
 const AdminNavbar = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -38,12 +39,19 @@ const AdminNavbar = ({ onLogout }) => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  
+
   return (
     <div className="sticky top-0 z-50 bg-background">
       <div className="border-b py-4 px-5 flex items-center justify-between">
-        <a href="/admin-dashboard" aria-label="Logo" className="z-50">
+        {/* <a href="/admin-dashboard" aria-label="Logo" className="z-50">
           <img src={navbarlogo} alt="Logo" />
+        </a> */}
+
+        <a href="/admin-dashboard" aria-label="logo" className="flex items-center gap-2">
+          <Sparkles className="h-6 w-6 text-primary" />
+          <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400">
+            FusionHub
+          </span>
         </a>
 
         {/* Desktop Menu */}
@@ -57,7 +65,7 @@ const AdminNavbar = ({ onLogout }) => {
 
 
           <Button variant="ghost" onClick={() => navigate("viewall-students")}>
-           View All Students
+            View All Students
           </Button>
 
           <Button variant="ghost" onClick={() => navigate("delete-students")}>
@@ -94,7 +102,7 @@ const AdminNavbar = ({ onLogout }) => {
               </DropdownMenuItem> */}
               <DropdownMenuItem
                 onClick={() => {
-                  onLogout(); 
+                  onLogout();
                   navigate("/admin-login");
                 }}
               >
@@ -145,7 +153,7 @@ const AdminNavbar = ({ onLogout }) => {
                 Dashboard
               </Button>
 
-  
+
               <Button
                 variant="ghost"
                 onClick={() => {

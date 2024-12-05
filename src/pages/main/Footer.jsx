@@ -55,7 +55,7 @@ const Footer = () => {
           </div>
 
           {/* Navigation */}
-          <div>
+          {/* <div>
             <h3 className="text-sm font-semibold mb-4">Product</h3>
             <ul className="space-y-3">
               {navigation.product.map((item) => (
@@ -92,26 +92,28 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
 
+        {/* Bottom Section */}
         {/* Bottom Section */}
         <div className="mt-12 pt-8 border-t">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} FusionHub. All rights reserved.
             </p>
-            <div className="flex gap-4">
-              <Button variant="link" className="text-sm text-muted-foreground">
-                Privacy Policy
-              </Button>
-              <Button variant="link" className="text-sm text-muted-foreground">
-                Terms of Service
-              </Button>
-              <Button variant="link" className="text-sm text-muted-foreground">
-                Cookie Policy
-              </Button>
-            </div>
+            <p className="text-sm text-muted-foreground">
+              Created with passion by{" "}
+              <a
+                href="https://manishraj.me"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                Manish Raj
+              </a>
+              .
+            </p>
           </div>
         </div>
       </div>
