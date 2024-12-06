@@ -185,6 +185,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+         
           <Route
             path="/project/:projectId/issue/:issueId"
             element={

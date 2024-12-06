@@ -127,7 +127,7 @@ const StudentNavbar = ({ onLogout }) => {
               </DialogContent>
             </Dialog>
           )}
-
+  
 
           <Button variant="ghost" onClick={() => navigate("contact")}>
             Contact

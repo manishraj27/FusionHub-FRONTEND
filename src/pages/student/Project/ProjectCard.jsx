@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenuContent,
   DropdownMenuItem,
@@ -11,13 +12,10 @@ import {
 } from "@radix-ui/react-dropdown-menu";
 import { DotFilledIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
+import CreateProjectForm from "./CreateProjectForm";
 
 const ProjectCard = ({ project }) => {
   const navigate = useNavigate();
-
-  const handleUpdate = () => {
-    navigate(`/project/edit/${project.id}`);
-  };
 
   const handleDelete = async () => {
     try {
@@ -32,8 +30,6 @@ const ProjectCard = ({ project }) => {
       if (!response.ok) {
         throw new Error('Failed to delete project');
       }
-
-      // Refresh the page or update the project list
       window.location.reload();
     } catch (error) {
       console.error('Error deleting project:', error);
@@ -56,16 +52,26 @@ const ProjectCard = ({ project }) => {
               <p className="text-sm text-gray-400">{project.category}</p>
             </div>
 
-            <div>
+            <div className="flex gap-2">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    Edit
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>Update Project</DialogHeader>
+                  <CreateProjectForm project={project} />
+                </DialogContent>
+              </Dialog>
+
               <DropdownMenu>
                 <DropdownMenuTrigger>
                   <Button className="rounded-full" variant="ghost" size="icon">
                     <DotsVerticalIcon />
                   </Button>
                 </DropdownMenuTrigger>
-
                 <DropdownMenuContent>
-                  <DropdownMenuItem onClick={handleUpdate}>Update</DropdownMenuItem>
                   <DropdownMenuItem onClick={handleDelete}>Delete</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -73,9 +79,9 @@ const ProjectCard = ({ project }) => {
           </div>
 
           <p className="text-gray-500 text-sm">{project.description}</p>
-          {/* <div className="flex items-center gap-2 text-sm text-gray-400">
+          <div className="flex items-center gap-2 text-sm text-gray-400">
             <span>Team Size: {project.team.length}</span>
-          </div> */}
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2 items-center">

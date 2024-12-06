@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { DialogClose } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -22,24 +21,35 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-const projectSchema = z.object({
-  name: z.string().min(1, "Project name is required"),
-  description: z.string().min(1, "Project description is required"),
-  category: z.string().min(1, "Category is required"),
-  tags: z.array(z.string()).min(1, "At least one tag is required"),
-});
+const projectSchema = (isUpdate) =>
+  z.object({
+    name: isUpdate
+      ? z.string().optional()
+      : z.string().min(1, "Project name is required"),
+    description: isUpdate
+      ? z.string().optional()
+      : z.string().min(1, "Project description is required"),
+    category: isUpdate
+      ? z.string().optional()
+      : z.string().min(1, "Category is required"),
+    tags: isUpdate
+      ? z.array(z.string()).optional()
+      : z.array(z.string()).min(1, "At least one tag is required"),
+  });
 
-const CreateProjectForm = () => {
+  
+const CreateProjectForm = ({ project }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const isUpdate = !!project; // Check if project exists
 
   const form = useForm({
-    resolver: zodResolver(projectSchema),
+    resolver: zodResolver(projectSchema(isUpdate)),
     defaultValues: {
-      name: "",
-      description: "",
-      category: "",
-      tags: [],
+      name: project?.name || "",
+      description: project?.description || "",
+      category: project?.category || "",
+      tags: project?.tags || [],
     },
   });
 
@@ -48,26 +58,31 @@ const CreateProjectForm = () => {
       setIsSubmitting(true);
       setError(null);
 
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:2000/api/projects', {
-        method: 'POST',
+      const token = localStorage.getItem("token");
+      const url = project
+        ? `http://localhost:2000/api/projects/${project.id}` // PATCH for Update
+        : "http://localhost:2000/api/projects"; // POST for Create
+
+      const method = project ? "PATCH" : "POST"; // Determine method
+      const response = await fetch(url, {
+        method,
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create project');
+        throw new Error(
+          errorData.message ||
+            `Failed to ${method === "PATCH" ? "update" : "create"} project`
+        );
       }
 
-      // Reset form and close dialog
       form.reset();
-      // You might want to refresh the projects list or navigate somewhere
-      window.location.reload();
-      
+      window.location.reload(); // Refresh the project list
     } catch (err) {
       setError(err.message);
     } finally {
@@ -88,6 +103,7 @@ const CreateProjectForm = () => {
     <div>
       <Form {...form}>
         <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
+          {/* Name Field */}
           <FormField
             control={form.control}
             name="name"
@@ -107,6 +123,7 @@ const CreateProjectForm = () => {
             )}
           />
 
+          {/* Description Field */}
           <FormField
             control={form.control}
             name="description"
@@ -126,6 +143,7 @@ const CreateProjectForm = () => {
             )}
           />
 
+          {/* Category Field */}
           <FormField
             control={form.control}
             name="category"
@@ -154,6 +172,7 @@ const CreateProjectForm = () => {
             )}
           />
 
+          {/* Tags Field */}
           <FormField
             control={form.control}
             name="tags"
@@ -195,16 +214,20 @@ const CreateProjectForm = () => {
             )}
           />
 
-          {error && (
-            <div className="text-red-500 text-sm">{error}</div>
-          )}
+          {error && <div className="text-red-500 text-sm">{error}</div>}
 
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full mt-5"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Creating..." : "Create Project"}
+            {isSubmitting
+              ? isUpdate
+                ? "Updating..."
+                : "Creating..."
+              : isUpdate
+              ? "Update Project"
+              : "Create Project"}
           </Button>
         </form>
       </Form>
