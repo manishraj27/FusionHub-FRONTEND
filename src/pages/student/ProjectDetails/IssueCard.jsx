@@ -19,7 +19,7 @@ const IssueCard = () => {
         <div className="flex justify-between items-center">
           <CardTitle 
           className="cursor-pointer"
-          onClick={()=>navigate("/project/3/issue/10")}>Create Navbar</CardTitle>
+          onClick={()=>navigate("/project/3/issue/10")}>issue title</CardTitle>
 
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -39,7 +39,7 @@ const IssueCard = () => {
       </CardHeader>
       <CardContent className="py-0">
         <div className="flex items-center justify-between">
-          <p>FBP - {1}</p>
+          <p>Fissue description</p>
           <DropdownMenu className="W-[30rem] border border-red-400">
             <DropdownMenuTrigger>
               <Button

@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import IssueList from "./IssueList";
@@ -115,19 +115,28 @@ const ProjectDetails = () => {
                 </div>
 
                 <div className="flex">
-                  <p className="w-36">Status :</p>
+                  <p className="w-36">Project Status :</p>
                   <Badge>In Progress</Badge>
                 </div>
               </div>
 
               <section>
-                <p className="py-5 border-b text-lg -tracking-wider">Tasks</p>
-                <div className="lg:flex md:flex gap-3 justify-between py-5">
-                  <IssueList status="pending" title="Todo List" />
-                  <IssueList status="in_progress" title="In Progress" />
-                  <IssueList status="done" title="Done" />
-                </div>
-              </section>
+                 <p className="py-5 border-b text-lg -tracking-wider">Tasks</p>
+                 <ScrollArea className="w-full" type="scroll">
+                   <div className="flex gap-4 py-5 min-w-max">
+                     <div className="w-80">
+                       <IssueList status="pending" title="Todo List" />
+                     </div>
+                     <div className="w-80">
+                       <IssueList status="in_progress" title="In Progress" />
+                     </div>
+                     <div className="w-80">
+                       <IssueList status="done" title="Done" />
+                     </div>
+                   </div>
+                   <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+               </section>
             </div>
           </ScrollArea>
           <div className="lg:w-[30%] rounded-md sticky right-5 top-10">
@@ -141,157 +150,6 @@ const ProjectDetails = () => {
 
 export default ProjectDetails;
 
-// 4th version---nice
-// import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-// import { Badge } from "@/components/ui/badge";
-// import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-// import { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import IssueList from "./IssueList";
-// import ChatBox from "./ChatBox";
-// import InviteUserForm from "./InviteUserForm";
-// import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
-// import { PlusIcon } from "lucide-react";
-// import { Button } from "@/components/ui/button";
-
-// const ProjectDetails = () => {
-//   const handleProjectInvitation = () => {
-//     console.log("invite user");
-//   };
-
-//   const { id } = useParams();
-//   const [project, setProject] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     const fetchProject = async () => {
-//       try {
-//         const token = localStorage.getItem("token");
-//         const response = await fetch(`http://localhost:2000/api/projects/${id}`, {
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         });
-
-//         if (!response.ok) {
-//           throw new Error("Failed to fetch project details");
-//         }
-
-//         const data = await response.json();
-//         setProject(data);
-//       } catch (error) {
-//         console.error("Error fetching project:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchProject();
-//   }, [id]);
-
-//   if (loading) {
-//     return <p>Loading...</p>;
-//   }
-
-//   if (!project) {
-//     return <p>Project not found</p>;
-//   }
-
-//   return (
-//     <>
-//       <div className="mt-5 sm:px-8 md:px-8 lg:px-10">
-//         <div className="lg:flex gap-5 justify-between pb-4">
-//           <ScrollArea className="h-screen lg:w-[69%] pr-2">
-//             <div className="pb-10 w-full">
-//               <h1 className="text-lg font-semibold pb-5">
-//                 {project.name}
-//               </h1>
-
-//               <div className="space-y-5 pb-10 text-sm">
-//                 <p className="w-full md:max-w-lg lg:max-w-xl ">
-//                   {project.description}
-//                 </p>
-//                 <div className="flex">
-//                   <p className="w-36">Project Lead :</p>
-//                   <p>{project.owner.fullName}</p>
-//                 </div>
-
-//                 <div className="flex">
-//                   <p className="w-36">Members :</p>
-//                   <div className="flex items-center gap-2">
-//                     {project.team.map((member) => (
-//                       <Avatar key={member.id}>
-//                         <AvatarFallback>
-//                           {member.fullName
-//                             .split(" ")
-//                             .map((n) => n[0])
-//                             .join("")}
-//                         </AvatarFallback>
-//                       </Avatar>
-//                     ))}
-//                   </div>
-
-//                   <Dialog>
-//                     <DialogTrigger>
-//                       <DialogClose>
-//                         <Button
-//                           size="sm"
-//                           variant="outline"
-//                           onClick={handleProjectInvitation}
-//                           className="ml-2"
-//                         >
-//                           <span>invite</span>
-//                           <PlusIcon className="w-3 h-3" />
-//                         </Button>
-//                       </DialogClose>
-//                     </DialogTrigger>
-//                     <DialogContent>
-//                       <DialogHeader>Invite User</DialogHeader>
-//                       <InviteUserForm />
-//                     </DialogContent>
-//                   </Dialog>
-//                 </div>
-
-//                 <div className="flex">
-//                   <p className="w-36">Category :</p>
-//                   <p>{project.category}</p>
-//                 </div>
-
-//                 <div className="flex">
-//                   <p className="w-36">Status :</p>
-//                   <Badge>In Progress</Badge>
-//                 </div>
-//               </div>
-
-//               <section>
-//                 <p className="py-5 border-b text-lg -tracking-wider">Tasks</p>
-//                 <ScrollArea className="w-full" type="scroll">
-//                   <div className="flex gap-4 py-5 min-w-max">
-//                     <div className="w-80">
-//                       <IssueList status="pending" title="Todo List" />
-//                     </div>
-//                     <div className="w-80">
-//                       <IssueList status="in_progress" title="In Progress" />
-//                     </div>
-//                     <div className="w-80">
-//                       <IssueList status="done" title="Done" />
-//                     </div>
-//                   </div>
-//                   <ScrollBar orientation="horizontal" />
-//                 </ScrollArea>
-//               </section>
-//             </div>
-//           </ScrollArea>
-//           <div className="lg:w-[30%] rounded-md sticky right-5 top-10">
-//             <ChatBox />
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default ProjectDetails;
 
 
 //2nd version--for mobile view good
