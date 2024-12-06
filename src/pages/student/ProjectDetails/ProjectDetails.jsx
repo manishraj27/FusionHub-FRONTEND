@@ -12,9 +12,9 @@ import { Button } from "@/components/ui/button";
 
 
 const ProjectDetails = () => {
-  const handleProjectInvitation = () => {
-    console.log("invite user");
-  };
+
+
+
 
   const { id } = useParams(); // Extract project ID from route
   const [project, setProject] = useState(null); // State for project data
@@ -94,7 +94,7 @@ const ProjectDetails = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={handleProjectInvitation}
+                          
                           className="ml-2"
                         >
                           <span>invite</span>
@@ -104,7 +104,7 @@ const ProjectDetails = () => {
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>Invite User</DialogHeader>
-                      <InviteUserForm />
+                      <InviteUserForm projectId={project.id} />
                     </DialogContent>
                   </Dialog>
                 </div>

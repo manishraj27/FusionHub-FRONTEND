@@ -32,6 +32,7 @@ import { ResetPassword } from "./pages/student/Auth/ResetPassword";
 import ForgotPassword from "./pages/student/Auth/ForgotPassword";
 import OAuth2RedirectHandler from "./pages/student/Auth/OAuth2RedirectHandler";
 import AllPortfolios from "./pages/admin/Dashboard/AllPortfolios";
+import AcceptInvitation from './pages/student/ProjectDetails/AcceptInvitation';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // null = unresolved
@@ -186,6 +187,18 @@ function App() {
             }
           />
 
+          <Route
+            path="/accept_invitation"
+            element={
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                role={userRole}
+                requiredRole="USER"
+              >
+                <AcceptInvitation />
+              </ProtectedRoute>
+            }
+          />
          
           <Route
             path="/project/:projectId/issue/:issueId"
