@@ -98,6 +98,7 @@ const UpdateStudents = () => {
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
+          <TableHead className="w-[100px]">Serial No.</TableHead>
             <SelectItem value="ALL">All</SelectItem>
             <SelectItem value="PENDING">Pending</SelectItem>
             <SelectItem value="ACCEPTED">Accepted</SelectItem>
@@ -122,8 +123,9 @@ const UpdateStudents = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredStudents.map((student) => (
+          {filteredStudents.map((student,index) => (
             <TableRow key={student.id}>
+               <TableCell className="font-medium">{index + 1}</TableCell>
               <TableCell className="font-medium">{student.id}</TableCell>
               <TableCell>{student.fullName}</TableCell> {/* Fixed field name */}
               <TableCell>{student.email}</TableCell>

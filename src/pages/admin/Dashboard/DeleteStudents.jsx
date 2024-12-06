@@ -81,6 +81,7 @@ const DeleteStudents = () => {
         <TableCaption>A list of all registered students.</TableCaption>
         <TableHeader>
           <TableRow>
+          <TableHead className="w-[100px]">Serial No.</TableHead>
             <TableHead>ID</TableHead>
             <TableHead>Full Name</TableHead>
             <TableHead>Email</TableHead>
@@ -88,8 +89,9 @@ const DeleteStudents = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {students.map((student) => (
+          {students.map((student, index) => (
             <TableRow key={student.id}>
+               <TableCell className="font-medium">{index + 1}</TableCell>
               <TableCell className="font-medium">{student.id}</TableCell>
               <TableCell>{student.fullName}</TableCell>
               <TableCell>{student.email}</TableCell>

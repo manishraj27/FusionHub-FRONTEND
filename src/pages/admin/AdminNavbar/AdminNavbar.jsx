@@ -68,6 +68,9 @@ const AdminNavbar = ({ onLogout }) => {
             View All Students
           </Button>
 
+          <Button variant="ghost" onClick={() => navigate("/viewall-portfolios")}>
+            View All Portfolios
+          </Button>
           <Button variant="ghost" onClick={() => navigate("delete-students")}>
             Delete Student
           </Button>

@@ -1,4 +1,4 @@
-import { Sparkles, Github, Twitter, Linkedin } from "lucide-react";
+import { Sparkles, Github, Twitter, Linkedin, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Footer = () => {
@@ -42,15 +42,43 @@ const Footer = () => {
               Empowering students and educators with advanced project management and portfolio showcase capabilities.
             </p>
             <div className="mt-6 flex gap-4">
-              <Button variant="ghost" size="icon">
-                <Github className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon">
-                <Twitter className="h-5 w-5" />
-              </Button>
-              <Button variant="ghost" size="icon">
-                <Linkedin className="h-5 w-5" />
-              </Button>
+            <a 
+                href="https://github.com/manishraj27" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <Button variant="ghost" size="icon">
+                  <Github className="h-5 w-5" />
+                </Button>
+              </a>
+              <a 
+                href="https://x.com/manish_rraaj" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <Button variant="ghost" size="icon">
+                  <Twitter className="h-5 w-5" />
+                </Button>
+              </a>
+              <a 
+                href="https://www.linkedin.com/in/manishraj27" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <Button variant="ghost" size="icon">
+                  <Linkedin className="h-5 w-5" />
+                </Button>
+              </a>
+              <a
+                href="https://manishraj.me"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button variant="ghost" size="icon">
+                  <User className="h-5 w-5" />
+                </Button>
+              </a>
+
             </div>
           </div>
 

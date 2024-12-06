@@ -48,8 +48,12 @@ const Login = ({ onLogin }) => {
     };
 
     const handleGoogleLogin = () => {
+        setError('');
         window.location.href = 'http://localhost:2000/api/auth/oauth2/authorize/google';
     };
+
+    const errorAlertClass = "mb-4 transition-all duration-300 ease-in-out " + 
+                          (error ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2");
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -64,11 +68,16 @@ const Login = ({ onLogin }) => {
     return (
         <div className="space-y-4">
             
-                    {error && (
-                        <Alert variant="destructive" className="mb-4 animate-shake">
-                            <AlertDescription>{error}</AlertDescription>
-                        </Alert>
-                    )}
+            {error && (
+                <Alert 
+                    variant="destructive" 
+                    className={errorAlertClass}
+                >
+                    <AlertDescription className="text-sm font-medium">
+                        {error}
+                    </AlertDescription>
+                </Alert>
+            )}
                     <Form {...form}>
                         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
                             <FormField

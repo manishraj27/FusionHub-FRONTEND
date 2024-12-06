@@ -31,6 +31,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import { ResetPassword } from "./pages/student/Auth/ResetPassword";
 import ForgotPassword from "./pages/student/Auth/ForgotPassword";
 import OAuth2RedirectHandler from "./pages/student/Auth/OAuth2RedirectHandler";
+import AllPortfolios from "./pages/admin/Dashboard/AllPortfolios";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(null); // null = unresolved
@@ -255,6 +256,18 @@ function App() {
                 requiredRole="ADMIN"
               >
                 <UpdateStudents />
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path="/viewall-portfolios"
+            element={
+              <ProtectedRoute
+                isAuthenticated={isAuthenticated}
+                role={userRole}
+                requiredRole="ADMIN"
+              >
+                <AllPortfolios />
               </ProtectedRoute>
             }
           />
