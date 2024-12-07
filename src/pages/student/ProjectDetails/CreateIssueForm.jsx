@@ -9,6 +9,7 @@ import * as z from "zod";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
+import apiconfig from './../../../configurations/APIConfig';
 
 // Validation schema
 const issueSchema = z.object({
@@ -38,7 +39,7 @@ const CreateIssueForm = ({ onIssueCreated }) => {
     setIsSubmitting(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:2000/api/issues", {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/issues`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

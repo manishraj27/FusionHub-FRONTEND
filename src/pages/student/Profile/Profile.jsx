@@ -67,7 +67,7 @@ const Profile = () => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await fetch('http://localhost:2000/api/self/profile', {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/self/profile`, {
         method: 'GET',
         headers: {
           'Authorization': getAuthHeader(),

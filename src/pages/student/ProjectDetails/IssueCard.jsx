@@ -11,6 +11,7 @@ import { DotsVerticalIcon, PersonIcon } from "@radix-ui/react-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
+import apiconfig from './../../../configurations/APIConfig';
 
 const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate, onDelete }) => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate, onDelete }) => {
   const handleStatusChange = async (newStatus) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:2000/api/issues/${issue.id}/status/${newStatus}`, {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/issues/${issue.id}/status/${newStatus}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -49,7 +50,7 @@ const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate, onDelete }) => {
   const handleDeleteIssue = async () => {
     try {
       const token = localStorage.getItem("token");
-      await fetch(`http://localhost:2000/api/issues/${issue.id}`, {
+      await fetch(`${apiconfig.fusionhub_api}/api/issues/${issue.id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

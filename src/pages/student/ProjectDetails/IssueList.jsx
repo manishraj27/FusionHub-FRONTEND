@@ -18,6 +18,7 @@ import { PlusIcon } from "@radix-ui/react-icons";
 import CreateIssueForm from "./CreateIssueForm";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import apiconfig from './../../../configurations/APIConfig';
 
 const IssueList = ({ title, status }) => {
   const { id: projectId } = useParams();
@@ -28,7 +29,7 @@ const IssueList = ({ title, status }) => {
     const fetchIssues = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:2000/api/issues/project/${projectId}`, {
+        const response = await fetch(`${apiconfig.fusionhub_api}/api/issues/project/${projectId}`, {
           headers: {
             "Authorization": `Bearer ${token}`
           }

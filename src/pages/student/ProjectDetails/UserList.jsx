@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useState, useEffect } from "react";
 import { PersonIcon } from "@radix-ui/react-icons";
+import apiconfig from './../../../configurations/APIConfig';
 
 const UserList = ({ projectId, issueId, onAssigneeUpdate, currentAssignee }) => {
   const [team, setTeam] = useState([]);
@@ -11,7 +12,7 @@ const UserList = ({ projectId, issueId, onAssigneeUpdate, currentAssignee }) => 
     const fetchTeam = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:2000/api/projects/${projectId}`, {
+        const response = await fetch(`${apiconfig.fusionhub_api}/api/projects/${projectId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -35,7 +36,7 @@ const UserList = ({ projectId, issueId, onAssigneeUpdate, currentAssignee }) => 
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:2000/api/issues/${issueId}/assignee/${userId}`, {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/issues/${issueId}/assignee/${userId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

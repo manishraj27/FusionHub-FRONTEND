@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 import { useEffect, useState, useRef } from "react";
+import apiconfig from './../../../configurations/APIConfig';
 
 const ChatBox = ({ projectId }) => {
   const [message, setMessage] = useState("");
@@ -24,7 +25,7 @@ const ChatBox = ({ projectId }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:2000/api/messages/chat/${projectId}`,
+        `${apiconfig.fusionhub_api}/api/messages/chat/${projectId}`,
         {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -44,7 +45,7 @@ const ChatBox = ({ projectId }) => {
   const fetchUserProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:2000/api/self/profile", {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/self/profile`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -60,7 +61,7 @@ const ChatBox = ({ projectId }) => {
     try {
       if (!message.trim()) return;
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:2000/api/messages/send", {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/messages/send`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

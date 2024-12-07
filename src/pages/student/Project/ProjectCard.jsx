@@ -13,6 +13,7 @@ import {
 import { DotFilledIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
 import CreateProjectForm from "./CreateProjectForm";
+import apiconfig from './../../../configurations/APIConfig';
 
 const ProjectCard = ({ project }) => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const ProjectCard = ({ project }) => {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:2000/api/projects/${project.id}`, {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/projects/${project.id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

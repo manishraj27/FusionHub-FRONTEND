@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import apiconfig from './../../../configurations/APIConfig';
 
 const AcceptInvitation = () => {
   const [isAccepting, setIsAccepting] = useState(false);
@@ -15,7 +16,7 @@ const AcceptInvitation = () => {
 
       const jwtToken = localStorage.getItem("token");
 
-      const response = await fetch(`http://localhost:2000/api/projects/accept_invitation?token=${token}`, {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/projects/accept_invitation?token=${token}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${jwtToken}`,

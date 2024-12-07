@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { MagnifyingGlassIcon, MixerHorizontalIcon } from "@radix-ui/react-icons";
 import { useState, useEffect } from "react";
 import ProjectCard from "../Project/ProjectCard";
+import apiconfig from './../../../configurations/APIConfig';
 
 export const tags = [
   "all",
@@ -36,7 +37,7 @@ const ProjectList = () => {
   const fetchProjects = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:2000/api/projects', {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/projects`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

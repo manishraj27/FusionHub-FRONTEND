@@ -20,6 +20,7 @@ import { Cross1Icon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import apiconfig from './../../../configurations/APIConfig';
 
 const projectSchema = (isUpdate) =>
   z.object({
@@ -60,8 +61,8 @@ const CreateProjectForm = ({ project }) => {
 
       const token = localStorage.getItem("token");
       const url = project
-        ? `http://localhost:2000/api/projects/${project.id}` // PATCH for Update
-        : "http://localhost:2000/api/projects"; // POST for Create
+        ? `${apiconfig.fusionhub_api}/api/projects/${project.id}` // PATCH for Update
+        : `${apiconfig.fusionhub_api}/api/projects`; // POST for Create
 
       const method = project ? "PATCH" : "POST"; // Determine method
       const response = await fetch(url, {

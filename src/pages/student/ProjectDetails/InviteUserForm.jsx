@@ -4,6 +4,7 @@ import { DialogClose } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import apiconfig from './../../../configurations/APIConfig';
 
 const InviteUserForm = ({ projectId }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,7 +25,7 @@ const InviteUserForm = ({ projectId }) => {
 
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:2000/api/projects/invite", {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/projects/invite`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

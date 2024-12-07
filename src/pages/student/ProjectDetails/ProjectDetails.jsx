@@ -12,10 +12,6 @@ import { Button } from "@/components/ui/button";
 
 
 const ProjectDetails = () => {
-
-
-
-
   const { id } = useParams(); // Extract project ID from route
   const [project, setProject] = useState(null); // State for project data
   const [loading, setLoading] = useState(true);
@@ -24,7 +20,7 @@ const ProjectDetails = () => {
     const fetchProject = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:2000/api/projects/${id}`, {
+        const response = await fetch(`${apiconfig.fusionhub_api}/api/projects/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -345,6 +341,7 @@ export default ProjectDetails;
 // import { MessageCircle, PlusIcon, X } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 // import { Card, CardContent } from "@/components/ui/card";
+import apiconfig from './../../../configurations/APIConfig';
 
 // const ProjectDetails = () => {
 //   const { id } = useParams();
