@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import apiconfig from './../../../configurations/APIConfig';
+import LoadingScreen from "@/components/LoadingScreen";
 
 
 const UpdateStudents = () => {
@@ -17,6 +18,7 @@ const UpdateStudents = () => {
   const [filter, setFilter] = useState("ALL");
   const [message, setMessage] = useState("");
   const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (message) {
@@ -84,6 +86,10 @@ const UpdateStudents = () => {
       setMessage("Error updating status.");
     }
   };
+
+  if(!students.length) {
+    return <LoadingScreen/>
+  }
 
   const filteredStudents =
     filter === "ALL"

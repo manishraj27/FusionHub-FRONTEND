@@ -11,10 +11,12 @@ import {
 } from "@/components/ui/table";
 
 import apiconfig from './../../../configurations/APIConfig';
+import LoadingScreen from "@/components/LoadingScreen";
 
 const AllPortfolios = () => {
   const [portfolios, setPortfolios] = useState([]);
   const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchPortfolios = async () => {
@@ -44,6 +46,10 @@ const AllPortfolios = () => {
     }
   }, [token]);
 
+  if(!portfolios.length) {
+    return <LoadingScreen/> 
+  }
+   
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">All Portfolios</h1>

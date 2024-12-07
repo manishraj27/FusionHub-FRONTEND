@@ -10,11 +10,13 @@ import {
 } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import apiconfig from './../../../configurations/APIConfig';
+import LoadingScreen from "@/components/LoadingScreen";
 
 const ViewAllStudents = () => {
   const [students, setStudents] = useState([]);
   const [filter, setFilter] = useState("ALL");
   const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -49,6 +51,10 @@ const ViewAllStudents = () => {
     if (filter === "ALL") return true;
     return student.provider === filter;
   });
+
+  if(!students.length) {
+    return <LoadingScreen/> 
+  }
 
   return (
     <div className="p-6">

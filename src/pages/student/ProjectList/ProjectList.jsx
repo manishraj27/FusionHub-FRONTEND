@@ -8,6 +8,7 @@ import { MagnifyingGlassIcon, MixerHorizontalIcon } from "@radix-ui/react-icons"
 import { useState, useEffect } from "react";
 import ProjectCard from "../Project/ProjectCard";
 import apiconfig from './../../../configurations/APIConfig';
+import LoadingScreen from "@/components/LoadingScreen";
 
 export const tags = [
   "all",
@@ -85,7 +86,7 @@ const ProjectList = () => {
   };
 
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return <LoadingScreen />;
   }
 
   if (error) {

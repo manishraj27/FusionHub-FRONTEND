@@ -9,10 +9,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import apiconfig from "./../../../configurations/APIConfig";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const DeleteStudents = () => {
   const [students, setStudents] = useState([]);
   const [message, setMessage] = useState("");
+  const [loding , setLoading] = useState(false);
+
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -47,6 +50,7 @@ const DeleteStudents = () => {
 
   const handleDelete = async (studentId) => {
     try {
+      loding(true);
       const response = await fetch(
         `http://localhost:2000/admin/students/${studentId}`,
         {
@@ -79,6 +83,10 @@ const DeleteStudents = () => {
       setMessage("Error deleting student.");
     }
   };
+
+  if(!students.length) {
+    return <LoadingScreen/>
+  }
 
   return (
     <div className="p-6">

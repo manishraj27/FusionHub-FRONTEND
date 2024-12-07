@@ -24,6 +24,7 @@ import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { GitHubLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
 import apiconfig from './../../../configurations/APIConfig';
+import LoadingScreen from "@/components/LoadingScreen";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -151,7 +152,7 @@ const Profile = () => {
     }
   };
 
-  if (!profileData) return <div>Loading...</div>;
+  if (!profileData) return <LoadingScreen />;
 
   return (
     <div className="container mx-auto p-8 max-w-7xl">
