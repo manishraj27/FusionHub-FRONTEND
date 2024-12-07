@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
+import apiconfig from './../../../configurations/APIConfig';
 
 // Validation schema for forgot password email
 const forgotPasswordSchema = z.object({
@@ -28,7 +29,7 @@ const ForgotPassword = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:2000/api/auth/forgot-password', {
+            const response = await fetch(`${apiconfig.samaa_api}/api/auth/forgot-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

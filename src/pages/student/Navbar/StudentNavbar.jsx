@@ -19,6 +19,7 @@ import { gsap } from "gsap";
 import navbarlogo from "/src/assets/fnavbar.svg";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 import { Sparkles } from "lucide-react";
+import apiconfig from './../../../configurations/APIConfig';
 
 const StudentNavbar = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const StudentNavbar = ({ onLogout }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await fetch('http://localhost:2000/api/self/profile', {
+      const response = await fetch(`${apiconfig.samaa_api}/api/self/profile`, {
         method: 'GET',
         headers: {
           'Authorization': getAuthHeader(),

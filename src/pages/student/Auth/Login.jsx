@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import apiconfig from './../../../configurations/APIConfig';
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
@@ -35,7 +36,7 @@ const Login = ({ onLogin }) => {
     const onSubmit = async (data) => {
         setIsLoading(true);
         try {
-            const response = await fetch('http://localhost:2000/api/auth/signin', {
+            const response = await fetch(`${apiconfig.samaa_api}/api/auth/signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ const Login = ({ onLogin }) => {
 
     const handleGoogleLogin = () => {
         setError('');
-        window.location.href = 'http://localhost:2000/api/auth/oauth2/authorize/google';
+        window.location.href = `${apiconfig.samaa_api}/api/auth/oauth2/authorize/google`;
     };
 
     const errorAlertClass = "mb-4 transition-all duration-300 ease-in-out " + 

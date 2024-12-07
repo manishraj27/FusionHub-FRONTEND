@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import apiconfig from './../../../configurations/APIConfig';
 
 
 const Signup = ({ onLogin }) => {
@@ -56,7 +57,7 @@ const Signup = ({ onLogin }) => {
 
       //console.log(data); // Debugging
       const response = await axios.post(
-        "http://localhost:2000/api/auth/signup",
+        `${apiconfig.samaa_api}/api/auth/signup`,
         {
           email: data.email,
           password: data.password, // Ensure this value is not empty or null
