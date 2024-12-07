@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserList from "./UserList";
 
-const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate }) => {
+const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate, onDelete }) => {
   const navigate = useNavigate();
   const [assignedUser, setAssignedUser] = useState(null);
 
@@ -38,7 +38,6 @@ const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate }) => {
       onStatusUpdate(updatedIssue);
     } catch (error) {
       console.error("Error updating issue status:", error);
-      alert("Unable to update status. Please try again.");
     }
   };
 
@@ -47,12 +46,27 @@ const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate }) => {
     onAssigneeUpdate?.(updatedIssue);
   };
 
+  const handleDeleteIssue = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await fetch(`http://localhost:2000/api/issues/${issue.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      onDelete(issue.id); // Notify parent component to remove the issue
+    } catch (error) {
+      console.error("Error deleting issue:", error);
+    }
+  };
 
   return (
     <Card className="rounded-md py-1 pb-2">
       <CardHeader className="py-0 pb-1">
         <div className="flex justify-between items-center">
-          <CardTitle 
+          <CardTitle
             className="cursor-pointer"
             onClick={() => navigate(`/project/${issue.projectID}/issue/${issue.id}`)}
           >
@@ -71,7 +85,7 @@ const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate }) => {
               <DropdownMenuItem onClick={() => handleStatusChange("in_progress")}>In Progress</DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleStatusChange("done")}>Done</DropdownMenuItem>
               <DropdownMenuItem>Edit</DropdownMenuItem>
-              <DropdownMenuItem>Delete</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleDeleteIssue}>Delete</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -93,10 +107,10 @@ const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <UserList 
-                projectId={issue.projectID} 
+              <UserList
+                projectId={issue.projectID}
                 issueId={issue.id}
-                currentAssignee={issue.assignee} 
+                currentAssignee={issue.assignee}
                 onAssigneeUpdate={handleAssigneeUpdate}
               />
             </DropdownMenuContent>

@@ -76,6 +76,13 @@ const IssueList = ({ title, status }) => {
     );
   };
    
+  const handleIssueDelete = (deletedIssueId) => {
+    setIssues((prevIssues) =>
+      prevIssues.filter((issue) => issue.id !== deletedIssueId)
+    );
+  };
+
+
   return (
     <div>
       <Dialog>
@@ -95,7 +102,8 @@ const IssueList = ({ title, status }) => {
                   key={issue.id} 
                   issue={issue} 
                   onStatusUpdate={handleIssueStatusUpdate}
-                  onAssigneeUpdate={handleAssigneeUpdate}  // Add this line
+                  onAssigneeUpdate={handleAssigneeUpdate} 
+                  onDelete={handleIssueDelete}
                 />
                 ))}
               </div>
