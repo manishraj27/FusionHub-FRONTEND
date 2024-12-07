@@ -140,7 +140,7 @@ const ProjectDetails = () => {
             </div>
           </ScrollArea>
           <div className="lg:w-[30%] rounded-md sticky right-5 top-10">
-            <ChatBox />
+          <ChatBox projectId={id} />
           </div>
         </div>
       </div>
