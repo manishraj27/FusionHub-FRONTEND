@@ -60,11 +60,14 @@ const IssueList = ({ title, status }) => {
     }
   };
 
-  const handleIssueStatusUpdate = (updatedIssue) => {
-    setIssues(prevIssues =>
-      prevIssues.filter(issue => issue.id !== updatedIssue.id) 
-    );
-  };
+   const handleIssueStatusUpdate = (updatedIssue) => {
+     setIssues(prevIssues =>
+       prevIssues.filter(issue => issue.id !== updatedIssue.id) 
+     );
+  window.location.reload();
+   };
+  
+
 
   return (
     <div>

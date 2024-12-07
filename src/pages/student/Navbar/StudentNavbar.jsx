@@ -160,7 +160,7 @@ const StudentNavbar = ({ onLogout }) => {
               <DropdownMenuItem
                 onClick={() => {
                   onLogout(); // Calling the passed onLogout function here
-                  navigate("/admin-login"); // Redirect to login after logout
+                  navigate("/student-auth"); // Redirect to login after logout
                 }}
               >
                 Logout
