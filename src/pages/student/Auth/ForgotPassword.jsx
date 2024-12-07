@@ -29,7 +29,7 @@ const ForgotPassword = () => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch(`${apiconfig.samaa_api}/api/auth/forgot-password`, {
+            const response = await fetch(`${apiconfig.fusionhub_api}/api/auth/forgot-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

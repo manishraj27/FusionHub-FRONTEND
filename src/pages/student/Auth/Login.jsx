@@ -36,7 +36,7 @@ const Login = ({ onLogin }) => {
     const onSubmit = async (data) => {
         setIsLoading(true);
         try {
-            const response = await fetch(`${apiconfig.samaa_api}/api/auth/signin`, {
+            const response = await fetch(`${apiconfig.fusionhub_api}/api/auth/signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const Login = ({ onLogin }) => {
 
     const handleGoogleLogin = () => {
         setError('');
-        window.location.href = `${apiconfig.samaa_api}/api/auth/oauth2/authorize/google`;
+        window.location.href = `${apiconfig.fusionhub_api}/api/auth/oauth2/authorize/google`;
     };
 
     const errorAlertClass = "mb-4 transition-all duration-300 ease-in-out " + 

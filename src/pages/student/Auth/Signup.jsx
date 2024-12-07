@@ -57,7 +57,7 @@ const Signup = ({ onLogin }) => {
 
       //console.log(data); // Debugging
       const response = await axios.post(
-        `${apiconfig.samaa_api}/api/auth/signup`,
+        `${apiconfig.fusionhub_api}/api/auth/signup`,
         {
           email: data.email,
           password: data.password, // Ensure this value is not empty or null

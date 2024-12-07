@@ -45,7 +45,7 @@ export const ResetPassword = () => {
                 return;
             }
 
-            const response = await fetch(`${apiconfig.samaa_api}/api/auth/reset-password`, {
+            const response = await fetch(`${apiconfig.fusionhub_api}/api/auth/reset-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
