@@ -3,12 +3,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const ChatBox = ({ projectId }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [userProfile, setUserProfile] = useState(null);
+  const scrollRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      const scrollElement = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]');
+      if (scrollElement) {
+        scrollElement.scrollTop = scrollElement.scrollHeight;
+      }
+    }
+  };
 
   const fetchMessages = async () => {
     try {
@@ -24,7 +34,8 @@ const ChatBox = ({ projectId }) => {
       const data = await response.json();
       
       setMessages(data);
-      console.log(message);
+      // Scroll to bottom after messages are updated
+      setTimeout(scrollToBottom, 100);
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
@@ -65,15 +76,16 @@ const ChatBox = ({ projectId }) => {
       const newMessage = {
         sender: userProfile,
         content: message,
-        id: Date.now(), // Temporary unique ID for rendering
+        id: Date.now(),
       };
-      setMessages((prevMessages) => [...prevMessages, newMessage]); // Append new message to state
-      setMessage(""); // Clear the input field
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+      setMessage("");
+      // Scroll to bottom after sending a new message
+      setTimeout(scrollToBottom, 100);
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
-  
 
   useEffect(() => {
     fetchMessages();
@@ -85,18 +97,25 @@ const ChatBox = ({ projectId }) => {
     fetchUserProfile();
   
     const interval = setInterval(() => {
-      fetchMessages(); // Fetch messages periodically
-    }, 3000); // Fetch every 3 seconds
+      fetchMessages();
+    }, 3000);
   
-    return () => clearInterval(interval); // Cleanup on component unmount
+    return () => clearInterval(interval);
   }, [projectId]);
 
+  // Handle Enter key press
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
   
   return (
     <div className="sticky">
       <div className="border rounded-lg">
         <h1 className="border-b p-5">Chat Box</h1>
-        <ScrollArea className="h-[32rem] w-full p-5 flex gap-3 flex-col">
+        <ScrollArea ref={scrollRef} className="h-[32rem] w-full p-5 flex gap-3 flex-col">
           {messages.map((msg) => (
             <div
               className={`flex gap-2 mb-2 ${
@@ -137,6 +156,7 @@ const ChatBox = ({ projectId }) => {
             className="py-7 border-t outline-none focus:outline-none focus:ring-0 rounded-none border-b-0 border-x-0"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={handleKeyPress}
           />
           <Button
             onClick={handleSendMessage}
