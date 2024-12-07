@@ -8,11 +8,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DotsVerticalIcon, PersonIcon } from "@radix-ui/react-icons";
-import UserList from "./UserList";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import UserList from "./UserList";
 
-const IssueCard = ({ issue, onStatusUpdate }) => {
+const IssueCard = ({ issue, onStatusUpdate, onAssigneeUpdate }) => {
   const navigate = useNavigate();
+  const [assignedUser, setAssignedUser] = useState(null);
+
+  useEffect(() => {
+    setAssignedUser(issue.assignee);
+  }, [issue.assignee]);
 
   const handleStatusChange = async (newStatus) => {
     try {
@@ -20,7 +26,7 @@ const IssueCard = ({ issue, onStatusUpdate }) => {
       const response = await fetch(`http://localhost:2000/api/issues/${issue.id}/status/${newStatus}`, {
         method: "PUT",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -29,19 +35,29 @@ const IssueCard = ({ issue, onStatusUpdate }) => {
       }
 
       const updatedIssue = await response.json();
-      onStatusUpdate(updatedIssue); // Notify parent component to handle updated issue
+      onStatusUpdate(updatedIssue);
     } catch (error) {
       console.error("Error updating issue status:", error);
       alert("Unable to update status. Please try again.");
     }
   };
+
+  const handleAssigneeUpdate = (updatedIssue) => {
+    setAssignedUser(updatedIssue.assignee);
+    onAssigneeUpdate?.(updatedIssue);
+  };
+
+
   return (
     <Card className="rounded-md py-1 pb-2">
       <CardHeader className="py-0 pb-1">
         <div className="flex justify-between items-center">
           <CardTitle 
-          className="cursor-pointer"
-          onClick={()=>navigate(`/project/${issue.projectID}/issue/${issue.id}`)}>{issue.title}</CardTitle>
+            className="cursor-pointer"
+            onClick={() => navigate(`/project/${issue.projectID}/issue/${issue.id}`)}
+          >
+            {issue.title}
+          </CardTitle>
 
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -63,24 +79,28 @@ const IssueCard = ({ issue, onStatusUpdate }) => {
       <CardContent className="py-0">
         <div className="flex items-center justify-between">
           <p>{issue.description}</p>
-          <DropdownMenu className="W-[30rem] border border-red-400">
+          <DropdownMenu>
             <DropdownMenuTrigger>
               <Button
-              size="icon"
-              className="bg-gray-900 hover:text-black text-white rounded-full">
+                size="icon"
+                className="bg-gray-900 hover:text-black text-white rounded-full"
+              >
                 <Avatar>
-                <AvatarFallback>
-                  <PersonIcon />
-                </AvatarFallback>
-
+                  <AvatarFallback>
+                    {assignedUser ? assignedUser.fullName?.charAt(0) : <PersonIcon />}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <UserList projectId={issue.projectID}/>
+              <UserList 
+                projectId={issue.projectID} 
+                issueId={issue.id}
+                currentAssignee={issue.assignee} 
+                onAssigneeUpdate={handleAssigneeUpdate}
+              />
             </DropdownMenuContent>
           </DropdownMenu>
-
         </div>
       </CardContent>
     </Card>

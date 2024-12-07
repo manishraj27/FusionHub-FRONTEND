@@ -68,7 +68,14 @@ const IssueList = ({ title, status }) => {
    };
   
 
-
+   const handleAssigneeUpdate = (updatedIssue) => {
+    setIssues(prevIssues => 
+      prevIssues.map(issue => 
+        issue.id === updatedIssue.id ? updatedIssue : issue
+      )
+    );
+  };
+   
   return (
     <div>
       <Dialog>
@@ -85,10 +92,11 @@ const IssueList = ({ title, status }) => {
               <div className="space-y-2">
                 {issues.map((issue) => (
                   <IssueCard 
-                    key={issue.id} 
-                    issue={issue} 
-                    onStatusUpdate={handleIssueStatusUpdate}
-                  />
+                  key={issue.id} 
+                  issue={issue} 
+                  onStatusUpdate={handleIssueStatusUpdate}
+                  onAssigneeUpdate={handleAssigneeUpdate}  // Add this line
+                />
                 ))}
               </div>
             )}
