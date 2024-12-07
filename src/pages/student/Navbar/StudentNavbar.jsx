@@ -61,7 +61,7 @@ const StudentNavbar = ({ onLogout }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await fetch(`${apiconfig.samaa_api}/api/self/profile`, {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/self/profile`, {
         method: 'GET',
         headers: {
           'Authorization': getAuthHeader(),

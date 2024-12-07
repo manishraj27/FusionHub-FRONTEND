@@ -5,6 +5,7 @@ import { PlusCircle, Edit, Share2, User } from 'lucide-react';
 import CreatePortfolioForm from './CreatePortfolioForm';
 import ShareWithin from './ShareWithin';
 import PortfolioPreviewDialog from './PortfolioPreviewDialog';
+import apiconfig from './../../../configurations/APIConfig';
 
 const PortfolioPage = () => {
   const [activeView, setActiveView] = useState('create');
@@ -17,7 +18,7 @@ const PortfolioPage = () => {
   const fetchExistingPortfolio = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:2000/api/portfolio', {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/portfolio`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -40,7 +41,7 @@ const PortfolioPage = () => {
         return <CreatePortfolioForm initialPortfolio={existingPortfolio} isUpdate={true} />;
       case 'share':
         return <ShareWithin 
-          shareLink={existingPortfolio ? `http://localhost:5173/share/${existingPortfolio.uniqueUsername}` : null} 
+          shareLink={existingPortfolio ? `https://fusionhub.netlify.app/share/${existingPortfolio.uniqueUsername}` : null} 
           portfolio={existingPortfolio || {}} 
         />;
       default:

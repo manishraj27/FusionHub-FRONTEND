@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // import PortfolioPreview from "./PortfolioPreview";
 import PortfolioWebsite from "./PortfolioWebsite";
+import apiconfig from './../../../configurations/APIConfig';
 
 const SharePortfolio = () => {
   const { uniqueUsername } = useParams();
@@ -12,7 +13,7 @@ const SharePortfolio = () => {
   useEffect(() => {
     const fetchPortfolio = async () => {
       try {
-        const response = await fetch(`http://localhost:2000/api/portfolio/public/${uniqueUsername}`);
+        const response = await fetch(`${apiconfig.fusionhub_api}/api/portfolio/public/${uniqueUsername}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch portfolio');

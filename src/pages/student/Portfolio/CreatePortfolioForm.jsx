@@ -10,6 +10,7 @@ import { Switch } from "@/components/ui/switch";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import PortfolioPreviewDialog from "./PortfolioPreviewDialog";
 import PortfolioThemeShowcase from "./PortfolioThemeShowcase";
+import apiconfig from './../../../configurations/APIConfig';
 
 function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
   const [loading, setLoading] = useState(false);
@@ -56,7 +57,7 @@ function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
   const fetchProjects = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:2000/api/projects', {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/projects`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -106,7 +107,7 @@ function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Authentication token not found. Please login again.');
 
-      const response = await fetch('http://localhost:2000/api/portfolio', {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/portfolio`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

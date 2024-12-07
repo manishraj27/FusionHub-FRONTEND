@@ -23,6 +23,7 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { GitHubLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons";
+import apiconfig from './../../../configurations/APIConfig';
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -118,7 +119,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:2000/api/self/profile', {
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/self/profile`, {
         method: 'PUT',
         headers: {
           'Authorization': getAuthHeader(),
