@@ -9,8 +9,8 @@ import InviteUserForm from "./InviteUserForm";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 import { PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-
+import apiconfig from './../../../configurations/APIConfig';
+import LoadingScreen from "@/components/LoadingScreen";
 const ProjectDetails = () => {
   const { id } = useParams(); // Extract project ID from route
   const [project, setProject] = useState(null); // State for project data
@@ -43,7 +43,7 @@ const ProjectDetails = () => {
   }, [id]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingScreen/>;
   }
 
   if (!project) {
@@ -341,7 +341,7 @@ export default ProjectDetails;
 // import { MessageCircle, PlusIcon, X } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 // import { Card, CardContent } from "@/components/ui/card";
-import apiconfig from './../../../configurations/APIConfig';
+
 
 // const ProjectDetails = () => {
 //   const { id } = useParams();

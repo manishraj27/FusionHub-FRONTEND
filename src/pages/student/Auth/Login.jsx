@@ -52,7 +52,7 @@ const Login = ({ onLogin }) => {
                 onLogin(result.jwt);
                 navigate('/');
             } else {
-                setError('Login failed');
+                setError(result.message ||'Login failed');
                 setIsLoading(false);
             }
         } catch (err) {
