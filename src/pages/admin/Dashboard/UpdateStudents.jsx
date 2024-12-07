@@ -18,7 +18,6 @@ const UpdateStudents = () => {
   const [filter, setFilter] = useState("ALL");
   const [message, setMessage] = useState("");
   const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (message) {

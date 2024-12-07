@@ -16,7 +16,6 @@ const ViewAllStudents = () => {
   const [students, setStudents] = useState([]);
   const [filter, setFilter] = useState("ALL");
   const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchStudents = async () => {
