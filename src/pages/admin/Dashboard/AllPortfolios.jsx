@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import {
+
   Table,
   TableBody,
   TableCaption,
@@ -9,6 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import apiconfig from './../../../configurations/APIConfig';
+
 const AllPortfolios = () => {
   const [portfolios, setPortfolios] = useState([]);
   const token = localStorage.getItem("token");
@@ -16,7 +19,7 @@ const AllPortfolios = () => {
   useEffect(() => {
     const fetchPortfolios = async () => {
       try {
-        const response = await fetch("http://localhost:2000/admin/portfolios/urls", {
+        const response = await fetch(`${apiconfig.fusionhub_api}/admin/portfolios/urls`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

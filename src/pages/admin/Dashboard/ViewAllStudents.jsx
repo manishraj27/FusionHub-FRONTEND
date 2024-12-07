@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import apiconfig from './../../../configurations/APIConfig';
 
 const ViewAllStudents = () => {
   const [students, setStudents] = useState([]);
@@ -18,7 +19,7 @@ const ViewAllStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("http://localhost:2000/admin/students", {
+        const response = await fetch(`${apiconfig.fusionhub_api}/admin/students`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

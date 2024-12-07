@@ -7,6 +7,7 @@ import { LockKeyhole, Mail } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import apiconfig from './../../../configurations/APIConfig';
 
 const AdminLogin = ({ onLogin }) => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const AdminLogin = ({ onLogin }) => {
 
     const onSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:2000/admin/auth/signin', {
+            const response = await fetch(`${apiconfig.fusionhub_api}/admin/auth/signin`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

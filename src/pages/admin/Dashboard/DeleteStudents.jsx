@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import apiconfig from "./../../../configurations/APIConfig";
 
 const DeleteStudents = () => {
   const [students, setStudents] = useState([]);
@@ -17,13 +18,16 @@ const DeleteStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("http://localhost:2000/admin/students", {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+        const response = await fetch(
+          `${apiconfig.fusionhub_api}/admin/students`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -40,29 +44,32 @@ const DeleteStudents = () => {
       fetchStudents();
     }
   }, [token]);
-  
+
   const handleDelete = async (studentId) => {
     try {
-      const response = await fetch(`http://localhost:2000/admin/students/${studentId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-  
+      const response = await fetch(
+        `http://localhost:2000/admin/students/${studentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       // If response is successful (either 200 OK or 204 No Content)
       if (response.ok) {
         // If 204 No Content is returned, we don't need to parse the response
         if (response.status === 204) {
           setMessage("Student deleted successfully.");
         } else {
-          const data = await response.json();  // 200 OK with message
+          const data = await response.json(); // 200 OK with message
           setMessage(data.message || "Student deleted successfully.");
         }
-        
+
         // Remove student from the list
-        setStudents(students.filter(student => student.id !== studentId));
+        setStudents(students.filter((student) => student.id !== studentId));
       } else {
         const errorData = await response.json();
         setMessage(errorData.message || "Error deleting student.");
@@ -72,7 +79,6 @@ const DeleteStudents = () => {
       setMessage("Error deleting student.");
     }
   };
-  
 
   return (
     <div className="p-6">
@@ -81,7 +87,7 @@ const DeleteStudents = () => {
         <TableCaption>A list of all registered students.</TableCaption>
         <TableHeader>
           <TableRow>
-          <TableHead className="w-[100px]">Serial No.</TableHead>
+            <TableHead className="w-[100px]">Serial No.</TableHead>
             <TableHead>ID</TableHead>
             <TableHead>Full Name</TableHead>
             <TableHead>Email</TableHead>
@@ -91,7 +97,7 @@ const DeleteStudents = () => {
         <TableBody>
           {students.map((student, index) => (
             <TableRow key={student.id}>
-               <TableCell className="font-medium">{index + 1}</TableCell>
+              <TableCell className="font-medium">{index + 1}</TableCell>
               <TableCell className="font-medium">{student.id}</TableCell>
               <TableCell>{student.fullName}</TableCell>
               <TableCell>{student.email}</TableCell>
