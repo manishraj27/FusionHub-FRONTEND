@@ -6,19 +6,32 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Mail, Lock, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     
-    const form = useForm({
-        defaultValues: {
-            email: '',
-            password: ''
-        },
+    // Define the Zod validation schema
+    const loginSchema = z.object({
+        email: z.string()
+            .nonempty('Email is required')
+            .email('Enter a valid email'),
+        password: z.string()
+            .nonempty('Password is required')
+            .min(8, 'Password must be at least 8 characters long'),
     });
 
+    // Integrate zod schema with react-hook-form
+    const form = useForm({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+    });
     const onSubmit = async (data) => {
         setIsLoading(true);
         try {
@@ -38,11 +51,11 @@ const Login = ({ onLogin }) => {
                 onLogin(result.jwt);
                 navigate('/');
             } else {
-                setError(result.message || 'Login failed');
+                setError('Login failed');
                 setIsLoading(false);
             }
         } catch (err) {
-            setError('An error occurred during login');
+            setError('Please try logging in again');
             setIsLoading(false);
         }
     };

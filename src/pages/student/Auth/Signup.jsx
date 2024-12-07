@@ -14,17 +14,36 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 
 const Signup = ({ onLogin }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const navigate = useNavigate();
+
+  // Define the Zod schema for validation
+  const signupSchema = z.object({
+    fullName: z.string().nonempty("Full name is required").min(3, "Full name must be at least 3 characters"),
+    email: z.string().nonempty("Email is required").email("Enter a valid email address"),
+    password: z
+      .string()
+      .nonempty("Password is required")
+      .min(8, "Password must be at least 8 characters long")
+      .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+      .regex(/[0-9]/, "Password must contain at least one number"),
+  });
+
   const form = useForm({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       email: "",
       password: "",
       fullName: "",
     },
   });
+
 
   const onSubmit = async (data) => {
     try {
@@ -52,7 +71,7 @@ const Signup = ({ onLogin }) => {
         setAlertMessage("Account created");
         form.reset();
         setTimeout(() => {
-            setAlertMessage('');
+          setAlertMessage('');
         }, 2000);
 
       }
@@ -66,7 +85,6 @@ const Signup = ({ onLogin }) => {
         form.setError("root", {
           type: "manual",
           message:
-            error.response?.data?.message ||
             "Registration failed. Please try again.",
         });
       }
@@ -85,11 +103,11 @@ const Signup = ({ onLogin }) => {
 
 
       <Form {...form}>
-      {alertMessage && (
-        <Alert className="mb-4 bg-green-50 text-green-700 border-green-200 shadow-lg">
-          <AlertDescription>{alertMessage}</AlertDescription>
-        </Alert>
-      )}
+        {alertMessage && (
+          <Alert className="mb-4 bg-green-50 text-green-700 border-green-200 shadow-lg">
+            <AlertDescription>{alertMessage}</AlertDescription>
+          </Alert>
+        )}
         <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
