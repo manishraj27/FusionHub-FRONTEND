@@ -203,7 +203,7 @@ const StudentNavbar = ({ onLogout }) => {
               <Button
                 variant="ghost"
                 onClick={() => {
-                  navigate("/project-mangement");
+                  navigate("/project-mangaement");
                   toggleMenu();
                 }}
                 className="w-full text-lg font-medium tracking-wide"
