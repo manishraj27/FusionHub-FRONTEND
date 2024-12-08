@@ -32,7 +32,6 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ScrollBar } from "@/components/ui/scroll-area";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -84,7 +83,6 @@ const ProjectDetails = () => {
     const completedTasks = 65;
     return Math.round((completedTasks / totalTasks) * 100);
   };
-
 
   if (loading) {
     return <LoadingScreen />;
@@ -240,7 +238,6 @@ const ProjectDetails = () => {
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <span>Team ({project.team.length})</span>
-
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {project.team.map((member) => (
@@ -358,7 +355,9 @@ const ProjectDetails = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Users className="h-5 w-5 text-muted-foreground" />
-                      <span className="font-semibold">Team Members ({project.team.length})</span>
+                      <span className="font-semibold">
+                        Team Members ({project.team.length})
+                      </span>
                     </div>
                     <AlertDialog
                       open={isInviteDialogOpen}
@@ -366,10 +365,7 @@ const ProjectDetails = () => {
                     >
                       <Dialog>
                         <DialogTrigger asChild>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                          >
+                          <Button size="sm" variant="outline">
                             <UserPlus className="mr-2 h-4 w-4" /> Invite Member
                             <PlusIcon className="ml-2 w-3 h-3" />
                           </Button>
@@ -401,8 +397,12 @@ const ProjectDetails = () => {
                           </AvatarFallback>
                         </Avatar>
                         <div>
-                          <CardTitle className="text-lg">{project.owner.fullName}</CardTitle>
-                          <p className="text-xs text-muted-foreground">Project Lead</p>
+                          <CardTitle className="text-lg">
+                            {project.owner.fullName}
+                          </CardTitle>
+                          <p className="text-xs text-muted-foreground">
+                            Project Lead
+                          </p>
                         </div>
                         <Crown className="ml-auto h-5 w-5 text-yellow-500" />
                       </CardHeader>
@@ -418,8 +418,11 @@ const ProjectDetails = () => {
                     </Card>
 
                     {/* Other Team Members */}
-                    {project.team.map((member) => (
-                      <Card key={member.id} className="hover:border-primary/30 transition-all">
+                    {project.team.slice(1).map((member) => (
+                      <Card
+                        key={member.id}
+                        className="hover:border-primary/30 transition-all"
+                      >
                         <CardHeader className="flex flex-row items-center space-x-4 pb-2">
                           <Avatar className="w-10 h-10">
                             <AvatarFallback>
@@ -430,7 +433,9 @@ const ProjectDetails = () => {
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <CardTitle className="text-base">{member.fullName}</CardTitle>
+                            <CardTitle className="text-base">
+                              {member.fullName}
+                            </CardTitle>
                           </div>
                         </CardHeader>
                         <CardContent>
@@ -439,7 +444,6 @@ const ProjectDetails = () => {
                               <Mail className="h-4 w-4 text-muted-foreground" />
                               <span>{member.email}</span>
                             </div>
-
                           </div>
                         </CardContent>
                       </Card>
@@ -447,7 +451,6 @@ const ProjectDetails = () => {
                   </div>
                 </div>
               </TabsContent>
-
             </Tabs>
           </CardContent>
         </Card>
