@@ -31,7 +31,13 @@ import ChatBox from "./ChatBox";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ScrollBar } from "@/components/ui/scroll-area";
-import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { PlusIcon } from "@radix-ui/react-icons";
 import InviteUserForm from "./InviteUserForm";
 
@@ -193,10 +199,12 @@ const ProjectDetails = () => {
                         <IssueList status="done" title="Done" />
                       </div>
                     </div>
-                  </div>
                   <ScrollBar orientation="horizontal" />
+                  </div>
                 </ScrollArea>
               </TabsContent>
+
+  
 
               <TabsContent value="members">
                 <div className="space-y-4">
@@ -209,17 +217,16 @@ const ProjectDetails = () => {
                       open={isInviteDialogOpen}
                       onOpenChange={setIsInviteDialogOpen}
                     >
-
                       <Dialog>
                         <DialogTrigger>
                           <DialogClose>
                             <Button
                               size="sm"
                               variant="outline"
-
                               className="ml-2"
                             >
-                              <UserPlus className="mr-2 h-4 w-4" /> Invite Member
+                              <UserPlus className="mr-2 h-4 w-4" /> Invite
+                              Member
                               <PlusIcon className="w-3 h-3" />
                             </Button>
                           </DialogClose>
@@ -278,7 +285,6 @@ const ProjectDetails = () => {
 };
 
 export default ProjectDetails;
-
 
 // import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 // import { Badge } from "@/components/ui/badge";
@@ -372,7 +378,7 @@ export default ProjectDetails;
 //                         <Button
 //                           size="sm"
 //                           variant="outline"
-                          
+
 //                           className="ml-2"
 //                         >
 //                           <span>invite</span>
@@ -427,8 +433,6 @@ export default ProjectDetails;
 // };
 
 // export default ProjectDetails;
-
-
 
 //2nd version--for mobile view good
 // import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -485,11 +489,11 @@ export default ProjectDetails;
 //   const ProjectInfo = () => (
 //     <div className="space-y-5 pb-6 text-sm">
 //       <p className="w-full md:max-w-2xl">{project.description}</p>
-      
+
 //       {[
 //         { label: "Project Lead", content: project.owner.fullName },
-//         { 
-//           label: "Members", 
+//         {
+//           label: "Members",
 //           content: (
 //             <div className="flex items-center gap-2">
 //               <div className="flex -space-x-2">
@@ -607,9 +611,6 @@ export default ProjectDetails;
 
 // export default ProjectDetails;
 
-
-
-
 //5th version-too much because chat feels like a chat bot
 // import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 // import { Badge } from "@/components/ui/badge";
@@ -623,7 +624,6 @@ export default ProjectDetails;
 // import { MessageCircle, PlusIcon, X } from "lucide-react";
 // import { Button } from "@/components/ui/button";
 // import { Card, CardContent } from "@/components/ui/card";
-
 
 // const ProjectDetails = () => {
 //   const { id } = useParams();
@@ -680,22 +680,22 @@ export default ProjectDetails;
 //               In Progress
 //             </Badge>
 //           </div>
-          
+
 //           <p className="text-sm text-gray-600 mb-6">{project.description}</p>
-          
+
 //           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 //             <div className="space-y-2">
 //               <div className="flex items-center gap-2">
 //                 <span className="font-medium">Project Lead:</span>
 //                 <span>{project.owner.fullName}</span>
 //               </div>
-              
+
 //               <div className="flex items-center gap-2">
 //                 <span className="font-medium">Category:</span>
 //                 <span>{project.category}</span>
 //               </div>
 //             </div>
-            
+
 //             <div className="flex items-center justify-between">
 //               <div className="flex items-center gap-2">
 //                 <span className="font-medium">Team:</span>
@@ -709,7 +709,7 @@ export default ProjectDetails;
 //                   ))}
 //                 </div>
 //               </div>
-              
+
 //               <Dialog>
 //                 <DialogTrigger>
 //                   <Button size="sm" variant="outline">
