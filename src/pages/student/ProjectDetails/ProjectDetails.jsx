@@ -21,6 +21,7 @@ import {
   Layers,
   CheckCircle,
   Mail,
+  MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -40,6 +41,7 @@ import {
 } from "@/components/ui/dialog";
 import { PlusIcon } from "@radix-ui/react-icons";
 import InviteUserForm from "./InviteUserForm";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 const ProjectDetails = () => {
   const { id } = useParams();
@@ -289,66 +291,7 @@ const ProjectDetails = () => {
                 </ScrollArea>
               </TabsContent>
 
-              {/* <TabsContent value="members">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Users className="h-5 w-5 text-muted-foreground" />
-                      <span>Team Members ({project.team.length})</span>
-                    </div>
-                    <AlertDialog
-                      open={isInviteDialogOpen}
-                      onOpenChange={setIsInviteDialogOpen}
-                    >
-                      <Dialog>
-                        <DialogTrigger>
-                          <DialogClose>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="ml-2"
-                            >
-                              <UserPlus className="mr-2 h-4 w-4" /> Invite
-                              Member
-                              <PlusIcon className="w-3 h-3" />
-                            </Button>
-                          </DialogClose>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>Invite User</DialogHeader>
-                          <InviteUserForm projectId={project.id} />
-                        </DialogContent>
-                      </Dialog>
-                    </AlertDialog>
-                  </div>
-                  <div className="flex flex-wrap gap-3">
-                    {project.team.map((member) => (
-                      <TooltipProvider key={member.id}>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <Avatar>
-                              <AvatarFallback>
-                                {member.fullName
-                                  .split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
-                              </AvatarFallback>
-                            </Avatar>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div>
-                              <p className="font-semibold">{member.fullName}</p>
-                              <p className="text-xs text-muted-foreground">
-                                {member.email}
-                              </p>
-                            </div>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    ))}
-                  </div>
-                </div>
-              </TabsContent> */}
+              
 
               <TabsContent value="members">
                 <div className="space-y-6">
@@ -465,6 +408,21 @@ const ProjectDetails = () => {
           </CardContent>
         </Card>
       </div>
+
+
+      <Sheet>
+          <SheetTrigger asChild className="lg:hidden fixed bottom-4 right-4 z-50">
+            <Button size="icon" variant="outline">
+              <MoreHorizontal />
+            </Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Project Chat</SheetTitle>
+            </SheetHeader>
+            <ChatBox projectId={id} />
+          </SheetContent>
+        </Sheet>
     </div>
   );
 };
