@@ -196,14 +196,14 @@ const StudentNavbar = ({ onLogout }) => {
               {/* Greeting Section */}
               <div className="text-left">
                 <p className="text-3xl italic font-light">Hello!</p>
-                <p className="text-4xl font-semibold italic">Manish</p>
+                <p className="text-4xl font-semibold italic">{studentName}</p>
               </div>
 
               {/* Navigation Links */}
               <Button
                 variant="ghost"
                 onClick={() => {
-                  navigate("/project-mangaement");
+                  navigate("/project-management");
                   toggleMenu();
                 }}
                 className="w-full text-lg font-medium tracking-wide"
