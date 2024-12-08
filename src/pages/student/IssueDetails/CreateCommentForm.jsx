@@ -9,16 +9,40 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import apiconfig from './../../../configurations/APIConfig';
 
-export const CreateCommentForm = ({ issueId }) => {
+export const CreateCommentForm = ({ issueId, onCommentCreated, currentUser }) => {
   const form = useForm({
     defaultValues: {
       content: "",
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("invite user: ", data);
+  const onSubmit = async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/comments`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          content: data.content,
+          issueId: issueId
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create comment');
+      }
+
+      const newComment = await response.json();
+      onCommentCreated(newComment);
+      form.reset();
+    } catch (error) {
+      console.error("Error creating comment:", error);
+    }
   };
 
   return (
@@ -29,19 +53,21 @@ export const CreateCommentForm = ({ issueId }) => {
             control={form.control}
             name="content"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="flex-1">
                 <div className="flex gap-2">
                   <div>
                     <Avatar>
-                      <AvatarFallback>M</AvatarFallback>
+                      <AvatarFallback>
+                        {currentUser?.fullName?.charAt(0) || 'U'}
+                      </AvatarFallback>
                     </Avatar>
                   </div>
                   <FormControl>
                     <Input
                       {...field}
                       type="text"
-                      className="w-[20-rem]"
-                      placeholder="add a comment..."
+                      className="flex-1"
+                      placeholder="Add a comment..."
                     />
                   </FormControl>
                   <FormMessage />

@@ -6,65 +6,163 @@ import CommentCard from "./CommentCard";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useState, useEffect } from "react";
+import apiconfig from './../../../configurations/APIConfig';
+import { format } from 'date-fns';
 
 const IssueDetails = () => {
   const { projectId, issueId } = useParams();
+  const [issue, setIssue] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleUpdateIssueStatus = (status) => {
-    console.log("status: ", status);
-  }
+  useEffect(() => {
+    const fetchIssueDetails = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${apiconfig.fusionhub_api}/api/issues/${issueId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch issue details');
+        const data = await response.json();
+        setIssue(data);
+      } catch (error) {
+        console.error("Error fetching issue:", error);
+        setError("Failed to load issue details");
+      }
+    };
+
+    const fetchComments = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${apiconfig.fusionhub_api}/api/comments/${issueId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        if (!response.ok) throw new Error('Failed to fetch comments');
+        const data = await response.json();
+        setComments(data);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchIssueDetails();
+    fetchComments();
+  }, [issueId]);
+
+  const handleUpdateIssueStatus = async (newStatus) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${apiconfig.fusionhub_api}/api/issues/${issueId}/status/${newStatus}`, 
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error('Failed to update status');
+      const updatedIssue = await response.json();
+      setIssue(updatedIssue);
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
+  const handleCommentCreate = (newComment) => {
+    setComments(prev => [...prev, newComment]);
+  };
+
+  const handleCommentDelete = async (commentId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${apiconfig.fusionhub_api}/api/comments/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error('Failed to delete comment');
+      setComments(prev => prev.filter(comment => comment.id !== commentId));
+    } catch (error) {
+      console.error("Error deleting comment:", error);
+    }
+  };
+
+  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
+  if (!issue) return null;
 
   return (
-    <div className="px-20 py-8 text-gray-400">
-      <div className="flex justify-between border p-10 rounded-lg">
-        <ScrollArea className="h-[80vh] w-[60%]">
+    <div className="px-4 md:px-20 py-8 text-gray-400">
+      <div className="flex flex-col lg:flex-row justify-between border p-4 md:p-10 rounded-lg gap-8">
+        <ScrollArea className="h-[80vh] w-full lg:w-[60%]">
           <div>
-            <h1 className="text-lg font-semibold text-gary-400">
-              Create Navbar
+            <h1 className="text-lg font-semibold text-gray-400">
+              {issue.title}
             </h1>
 
             <div className="py-5">
               <h2 className="font-semibold">Description</h2>
               <p className="text-gray-400 text-sm mt-3">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                {issue.description}
               </p>
             </div>
 
             <div className="mt-5">
               <h1 className="pb-3">Activity</h1>
-              <Tabs defaultValue="comments" className="w-[400px]">
+              <Tabs defaultValue="comments" className="w-full">
                 <TabsList className="mb-5">
-                  <TabsTrigger value="all">All</TabsTrigger>
                   <TabsTrigger value="comments">Comments</TabsTrigger>
                   <TabsTrigger value="history">History</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="all">
-                  all Make Changes to your account here
-                </TabsContent>
-
                 <TabsContent value="comments">
-                  <CreateCommentForm issueId={issueId} />
+                  <CreateCommentForm 
+                    issueId={issueId} 
+                    onCommentCreated={handleCommentCreate} 
+                  />
 
                   <div className="mt-8 space-y-6">
-                    {[1, 1, 1].map((item) => (
-                      <CommentCard key={item} />
+                    {comments.map((comment) => (
+                      <CommentCard 
+                        key={comment.id} 
+                        comment={comment}
+                        onDelete={handleCommentDelete}
+                      />
                     ))}
                   </div>
                 </TabsContent>
 
                 <TabsContent value="history">
-                  history Make Changes to your account here
+                  <div className="text-sm text-gray-500">
+                    Issue activity history will appear here
+                  </div>
                 </TabsContent>
               </Tabs>
             </div>
           </div>
         </ScrollArea>
 
-        <div className="w-full lg:w-[30%] space-y-2">
-          <Select onValueChange={handleUpdateIssueStatus}>
+        <div className="w-full lg:w-[30%] space-y-4">
+          <Select 
+            onValueChange={handleUpdateIssueStatus}
+            defaultValue={issue.status}
+          >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="To Do" />
+              <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="pending">To Do</SelectItem>
@@ -73,52 +171,50 @@ const IssueDetails = () => {
             </SelectContent>
           </Select>
 
-
           <div className="border rounded-lg">
-            <p className="border-b py-3 px-5">
-              Details
-            </p>
+            <p className="border-b py-3 px-5">Details</p>
             <div className="p-5">
               <div className="space-y-5">
                 <div className="flex items-center">
                   <p className="w-32 font-medium">Assignee</p>
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8 text-xs">
-                      <AvatarFallback>A</AvatarFallback>
+                      <AvatarFallback>
+                        {issue.assignee?.fullName?.charAt(0) || 'U'}
+                      </AvatarFallback>
                     </Avatar>
-                    <p>Annanya</p>
+                    <p>{issue.assignee?.fullName || 'Unassigned'}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center">
-                  <p className="w-32 font-medium">Labels</p>
-                  <p>None</p>
+                  <p className="w-32 font-medium">Priority</p>
+                  <Badge variant="secondary">{issue.priority}</Badge>
                 </div>
 
                 <div className="flex items-center">
                   <p className="w-32 font-medium">Status</p>
-                  <Badge>in_progress</Badge>
+                  <Badge>{issue.status}</Badge>
                 </div>
 
                 <div className="flex items-center">
-                  <p className="w-32 font-medium">Release</p>
-                  <p>19-12-2024</p>
+                  <p className="w-32 font-medium">Due Date</p>
+                  <p>{issue.dueDate ? format(new Date(issue.dueDate), 'MMM d, yyyy') : 'Not set'}</p>
                 </div>
 
-                <div className="flex items-center">
-                  <p className="w-32 font-medium">Reporter</p>
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-8 w-8 text-xs">
-                      <AvatarFallback>M</AvatarFallback>
-                    </Avatar>
-                    <p>Manish Raj</p>
+                {issue.tags && issue.tags.length > 0 && (
+                  <div className="flex items-center">
+                    <p className="w-32 font-medium">Tags</p>
+                    <div className="flex gap-2">
+                      {issue.tags.map((tag, index) => (
+                        <Badge key={index} variant="outline">{tag}</Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
-
-
         </div>
       </div>
     </div>
