@@ -1,5 +1,4 @@
 # FusionHub
-Main Repo
 - https://github.com/manishraj27/FusionHub 
 
 ### FRONTEND
