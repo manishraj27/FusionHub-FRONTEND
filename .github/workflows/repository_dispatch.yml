@@ -1,0 +1,19 @@
+name: Trigger Submodule Update in Main Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger-main-repo-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Submodule Update in Main Repo
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+            --data '{"event_type": "submodule-update"}' \
+            https://api.github.com/repos/manishraj27/FusionHub/dispatches
