@@ -1,5 +1,6 @@
 # FusionHub
-- https://github.com/manishraj27/FusionHub
+Main Repo
+- https://github.com/manishraj27/FusionHub 
 
 ### FRONTEND
 - https://github.com/manishraj27/FusionHub-FRONTEND
