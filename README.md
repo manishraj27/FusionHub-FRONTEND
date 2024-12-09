@@ -1,5 +1,5 @@
 # FusionHub
-Main Repo that refrence to all submodule
+Main Repo
 - https://github.com/manishraj27/FusionHub 
 
 ### FRONTEND

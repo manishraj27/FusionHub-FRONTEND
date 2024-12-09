@@ -17,3 +17,5 @@ jobs:
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
             --data '{"event_type": "submodule-update"}' \
             https://api.github.com/repos/manishraj27/FusionHub/dispatches
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
