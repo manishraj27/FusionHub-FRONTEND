@@ -3,7 +3,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { LockKeyhole, Mail } from 'lucide-react';
+import { Loader2, LockKeyhole, Mail } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ import apiconfig from './../../../configurations/APIConfig';
 
 const AdminLogin = ({ onLogin }) => {
     const navigate = useNavigate();
-
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const form = useForm({
         defaultValues: {
@@ -21,6 +21,7 @@ const AdminLogin = ({ onLogin }) => {
     });
 
     const onSubmit = async (data) => {
+        setIsLoading(true);
         try {
             const response = await fetch(`${apiconfig.fusionhub_api}/admin/auth/signin`, {
                 method: 'POST',
@@ -33,13 +34,16 @@ const AdminLogin = ({ onLogin }) => {
             const result = await response.json();
 
             if (response.ok) {
+                setIsLoading(false);
                 onLogin(result.jwt);
                 navigate('/admin-dashboard');
             } else {
                 setError(result.message || 'Login failed');
+                setIsLoading(false);
             }
         } catch (err) {
             setError('An error occurred during login');
+            setIsLoading(false);
         }
     };
 
@@ -76,8 +80,8 @@ const AdminLogin = ({ onLogin }) => {
                                                 <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                                                 <Input
                                                     {...field}
-                                                    type="email"
-                                                    placeholder="admin@example.com"
+                                                    type="text"
+                                                    placeholder="admin"
                                                     className="pl-10"
                                                 />
                                             </div>
@@ -111,8 +115,16 @@ const AdminLogin = ({ onLogin }) => {
                             <Button
                                 type="submit"
                                 className="w-full bg-blue-600 hover:bg-blue-700"
+                                disabled={isLoading}
                             >
-                                Sign In
+                                {isLoading ? (
+                                    <div className="flex items-center justify-center">
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Signing in...
+                                    </div>
+                                ) : (
+                                    "Sign in"
+                                )}
                             </Button>
                         </form>
                     </Form>

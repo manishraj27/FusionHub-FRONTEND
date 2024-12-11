@@ -9,7 +9,6 @@ import {
 import { PersonIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
-import navbarlogo from "/src/assets/navbarlogo.svg";
 import { ModeToggle } from "@/components/ui/ModeToggle";
 import { Sparkles } from "lucide-react";
 
@@ -71,9 +70,9 @@ const AdminNavbar = ({ onLogout }) => {
           <Button variant="ghost" onClick={() => navigate("/viewall-portfolios")}>
             View All Portfolios
           </Button>
-          <Button variant="ghost" onClick={() => navigate("delete-students")}>
+          {/* <Button variant="ghost" onClick={() => navigate("delete-students")}>
             Delete Student
-          </Button>
+          </Button> */}
 
           <Button variant="ghost" onClick={() => navigate("update-students-status")}>
             Update Status
@@ -176,7 +175,7 @@ const AdminNavbar = ({ onLogout }) => {
                 Contact
               </Button>
 
-              <Button
+              {/* <Button
                 variant="ghost"
                 onClick={() => {
                   navigate("delete-students");
@@ -185,7 +184,7 @@ const AdminNavbar = ({ onLogout }) => {
                 className="w-full text-lg font-medium tracking-wide"
               >
                 Delete Student
-              </Button>
+              </Button> */}
             </div>
           </div>
 
