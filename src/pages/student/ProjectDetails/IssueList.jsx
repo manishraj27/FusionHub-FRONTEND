@@ -40,7 +40,7 @@ const IssueList = ({ title, status }) => {
         }
 
         const data = await response.json();
-        
+        //console.log(data);
         // Filter issues by status
         const filteredIssues = data.filter(issue => issue.status === status);
         
