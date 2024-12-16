@@ -93,11 +93,13 @@ const IssueDetails = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      if (!response.ok) throw new Error('Failed to delete comment');
+  
+      if (!response.ok) {
+        throw new Error('Permission denied to delete this comment');
+      }
       setComments(prev => prev.filter(comment => comment.id !== commentId));
     } catch (error) {
-      console.error("Error deleting comment:", error);
+      return { error: error.message };
     }
   };
 
