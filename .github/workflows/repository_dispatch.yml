@@ -16,6 +16,6 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
             --data '{"event_type": "submodule-update"}' \
-            https://api.github.com/repos/manishraj27/FusionHub/dispatches
+            https://api.github.com/repos/manishraj27/FusionHub-PortfolioAndProjectManagementSystem/dispatches
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
