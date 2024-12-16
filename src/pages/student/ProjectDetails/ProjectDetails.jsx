@@ -219,6 +219,7 @@ useEffect(() => {
                         <Clock className="mr-2 h-5 w-5 text-muted-foreground" />
                         Progress Tracking
                       </h3>
+                      <h1 className="text-muted-foreground">Keep moving forward—progress your tasks from pending / to-do to done!</h1>
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span>Project Progress</span>
