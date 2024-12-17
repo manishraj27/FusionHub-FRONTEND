@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 // import PortfolioPreview from "./PortfolioPreview";
 import PortfolioWebsite from "./PortfolioWebsite";
 import apiconfig from './../../../configurations/APIConfig';
+import LoadingScreen from "@/components/LoadingScreen";
 
 const SharePortfolio = () => {
   const { uniqueUsername } = useParams();
@@ -31,7 +32,7 @@ const SharePortfolio = () => {
     fetchPortfolio();
   }, [uniqueUsername]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingScreen />;
   if (error) return <div>Error: {error}</div>;
 
   return (

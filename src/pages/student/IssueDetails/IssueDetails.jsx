@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
 import apiconfig from './../../../configurations/APIConfig';
 import { format } from 'date-fns';
+import LoadingScreen from "@/components/LoadingScreen";
 
 const IssueDetails = () => {
   const { projectId, issueId } = useParams();
@@ -103,7 +104,7 @@ const IssueDetails = () => {
     }
   };
 
-  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (loading) return <LoadingScreen />;
   if (error) return <div className="flex justify-center items-center h-screen text-red-500">{error}</div>;
   if (!issue) return null;
 
