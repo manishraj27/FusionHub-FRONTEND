@@ -76,7 +76,7 @@ const MainHome = () => {
           </Button>
         </motion.div>
 
-        {/* Stats Section */}
+        {/* Stats Sectio*/}
         {/* <motion.div 
           className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20"
           initial={{ opacity: 0, y: 20 }}
