@@ -1,24 +1,30 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, GitPullRequest, Users,  MessageCircle, Calendar, FileImage, Award } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Sparkles, GitPullRequest, Users, MessageCircle, Calendar, FileImage, Award, Info, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const MainHome = () => {
   const navigate = useNavigate();
+  const [showNotification, setShowNotification] = useState(false);
+  
+  useEffect(() => {
+    // Show notification after a short delay
+    const timer = setTimeout(() => {
+      setShowNotification(true);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     transition: { duration: 0.6 }
   };
-
-  // const stats = [
-  //   { label: "Active Projects", value: "1000+" },
-  //   { label: "Team Members", value: "5000+" },
-  //   { label: "Universities", value: "50+" },
-  //   { label: "Success Rate", value: "95%" },
-  // ];
 
   return (
     <section className="relative min-h-screen w-full bg-gradient-to-b from-background to-background/50 overflow-hidden">
@@ -27,6 +33,34 @@ const MainHome = () => {
         <div className="absolute top-0 left-1/4 w-72 h-72 bg-purple-500/10 rounded-full filter blur-3xl animate-pulse" />
         <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-blue-500/10 rounded-full filter blur-3xl animate-pulse" />
       </div>
+
+      {/* Popup Notification */}
+      <AnimatePresence>
+        {showNotification && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, x: 20 }}
+            animate={{ opacity: 1, y: 0, x: 0 }}
+            exit={{ opacity: 0, y: 20, x: 20 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-6 right-6 z-50 max-w-md"
+          >
+            <Alert className="bg-background/95 backdrop-blur-sm border-blue-200 dark:border-blue-800 shadow-lg">
+              <Info className="h-4 w-4 text-blue-500 flex-shrink-0" />
+              <AlertDescription className="text-sm text-muted-foreground flex-grow pr-8">
+                This platform uses multiple microservices hosted on a free deployment platform. Initial requests may take up to 50 seconds as services wake from idle state.
+              </AlertDescription>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="absolute right-2 top-2 p-0 h-4 w-4 hover:bg-transparent"
+                onClick={() => setShowNotification(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </Alert>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-32">
         {/* Top Badge */}
@@ -75,23 +109,6 @@ const MainHome = () => {
             <Sparkles className="h-4 w-4" />
           </Button>
         </motion.div>
-
-        {/* Stats Sectio*/}
-        {/* <motion.div 
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-        >
-          {stats.map((stat, index) => (
-            <Card key={index} className="bg-background/50 backdrop-blur-sm border-neutral-200 dark:border-neutral-800">
-              <CardContent className="p-6 text-center">
-                <p className="text-3xl font-bold text-primary">{stat.value}</p>
-                <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </motion.div> */}
 
         {/* Feature Cards */}
         <motion.div 
