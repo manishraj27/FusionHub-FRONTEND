@@ -48,6 +48,8 @@ const MainHome = () => {
               <Info className="h-4 w-4 text-blue-500 flex-shrink-0" />
               <AlertDescription className="text-sm text-muted-foreground flex-grow pr-8">
                 This platform uses multiple microservices hosted on a free deployment platform. Initial requests may take up to 50 seconds as services wake from idle state.
+                <br />
+                <span className="block mt-2 text-xs text-muted-foreground/80">Please be patient and avoid refreshing the page.</span>
               </AlertDescription>
               <Button
                 variant="ghost"
