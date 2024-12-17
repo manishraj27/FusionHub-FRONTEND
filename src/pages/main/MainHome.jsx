@@ -3,8 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, GitPullRequest, Users,  MessageCircle, Calendar, FileImage, Award } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const MainHome = () => {
+  const navigate = useNavigate();
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -64,11 +66,11 @@ const MainHome = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <Button size="lg" className="gap-2">
+          <Button size="lg" className="gap-2" onClick={() => navigate("/student-auth")}>
             Start Your Project
             <ArrowRight className="h-4 w-4" />
           </Button>
-          <Button size="lg" variant="outline" className="gap-2">
+          <Button size="lg" variant="outline" className="gap-2" onClick={() => navigate("/about")}>
             Explore Features
             <Sparkles className="h-4 w-4" />
           </Button>
