@@ -169,7 +169,7 @@ function CreatePortfolioForm({ initialPortfolio, isUpdate = false }) {
                       placeholder="Enter your unique username"
                     />
                     <p className="text-sm text-muted-foreground mt-2">
-                      Your portfolio will be visible at: http://localhost:5173/share/{portfolio.uniqueUsername || '{username}'}
+                      Your portfolio will be visible at: http://fusionhub.netlify.app/share/{portfolio.uniqueUsername || '{username}'}
                     </p>
                   </div>
 
