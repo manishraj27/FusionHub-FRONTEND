@@ -159,7 +159,7 @@ const AdminNavbar = ({ onLogout }) => {
               <Button
                 variant="ghost"
                 onClick={() => {
-                  navigate("viewall-student");
+                  navigate("viewall-students");
                   toggleMenu();
                 }}
                 className="w-full text-lg font-medium tracking-wide"
@@ -167,14 +167,31 @@ const AdminNavbar = ({ onLogout }) => {
                 View All Students
               </Button>
 
+
               <Button
                 variant="ghost"
-                onClick={() => navigate("/contact")}
+                onClick={() => {
+                  navigate("viewall-portfolios");
+                  toggleMenu();
+                }}
                 className="w-full text-lg font-medium tracking-wide"
               >
-                Contact
+                View All Portfolio
               </Button>
 
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  navigate("update-students-status");
+                  toggleMenu();
+                }}
+                className="w-full text-lg font-medium tracking-wide"
+              >
+               Update Student Status
+              </Button>
+
+
+              
               {/* <Button
                 variant="ghost"
                 onClick={() => {
